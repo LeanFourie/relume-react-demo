@@ -1,0 +1,82 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l7-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l7-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__groups {
+    // Styles
+    display: grid;
+    gap: size.rem( 64 );
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      grid-template-columns: repeat( 2, 1fr );
+    }
+
+    @include mixin.max-width( md ) {
+      gap: size.rem( 48 );
+    }
+  }
+
+  &__group {
+    // Children
+    &-icon {
+      // Mixins
+      @include mixin.icon-size-styles( 48 );
+
+      // Styles
+      margin: 0 0 size.rem( 24 );
+    }
+
+    &-paragraph {
+      margin: size.rem( 16 ) 0 size.rem( 32 );
+    }
+
+    &-actions {
+      @include mixin.grid-auto-columns( 16, flex-start );
+    }
+
+    // Align...
+    &--align {
+      &-center {
+        @include mixin.child-styles( section, group ) {
+          &-icon {
+            margin: 0 auto size.rem( 24 );
+          }
+
+          &-actions {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}

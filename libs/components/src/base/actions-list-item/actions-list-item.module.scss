@@ -1,0 +1,113 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.actions-list-item {
+  // Mixins
+  @include mixin.flex-center( flex-start );
+  @include mixin.transition-style( base );
+
+  // Styles
+  width: 100%;
+  padding: size.rem( 8 ) size.rem( 12 );
+  background: color.get( neutral-transparent );
+  border: none;
+  border-radius: border.radius( md );
+  color: color.get( invert-0 );
+  text-align: left;
+  cursor: pointer;
+
+  // Children
+  &__arrow,
+  &__label {
+    color: color.get( base-0 );
+  }
+
+  &__icon,
+  &__arrow {
+    // Styles
+    width: size.rem(20);
+    height: size.rem(20);
+    display: block;
+
+    // Children
+    span {
+      font-size: size.rem(20);
+    }
+  }
+
+  &__icon {
+    margin: 0 size.rem(8) 0 0;
+  }
+  
+  &__label {
+    @include mixin.transition( none );
+  }
+
+  &__arrow {
+    // Mixins
+    @include mixin.transition-style( base );
+    @include mixin.transform(
+      translateX( size.rem( -4 ) )
+    );
+
+    // Styles
+    margin: 0 0 0 auto;
+    color: color.get(grey-500);
+    opacity: 0;
+  }
+
+  // States
+  @include mixin.hover-active-styles() {
+    @include mixin.child-styles( actions-list-item, arrow ) {
+      // Mixins
+      @include mixin.transform( none );
+
+      // Styles
+      opacity: 1;
+    }
+  }
+
+  @include mixin.hover-styles() {
+    // Styles
+    background: color.get( primary-50 );
+    color: color.get( primary-500 );
+
+    // Children
+    @include mixin.children-styles( actions-list-item, ( arrow, icon ) ) {
+      color: color.get( primary-500 );
+    }
+  }
+  
+  @include mixin.active-styles() {
+    // Styles
+    background: color.get( primary-100 );
+    color: color.get( primary-600 );
+
+    // Children
+    @include mixin.children-styles( actions-list-item, ( arrow, icon ) ) {
+      color: color.get( primary-600 );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-disabled {
+      // Styles
+      pointer-events: none;
+
+      // Children
+      @include mixin.children-styles( actions-list-item, ( label, icon, arrow ) ) {
+        color: color.get( grey-400 );
+      }
+    }
+
+    &-skeleton {
+      @include mixin.skeleton-loader();
+    }
+  }
+}

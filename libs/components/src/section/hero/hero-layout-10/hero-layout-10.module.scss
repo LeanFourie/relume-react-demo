@@ -1,0 +1,33 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l10-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  max-width: size.rem( 1440 );
+  margin: 0 auto;
+  padding: size.rem( 112 ) 5%;
+  background: var( --hero-l10-bg-color );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    padding: size.rem( 96 ) 5%;
+  }
+
+  @include mixin.max-width( sm ) {
+    padding: size.rem( 64 ) 5%;
+  }
+
+  @include mixin.child-styles( section, content ) {
+    // Styles
+    max-width: size.rem( 768 );
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

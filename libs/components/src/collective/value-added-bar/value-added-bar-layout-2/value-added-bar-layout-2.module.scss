@@ -1,0 +1,117 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.vab {
+  // Variables
+  --vab-l2-bg-color: #{ color.get( neutral-transparent ) };
+
+  --vab-l2-border-size: #{ size.rem( 1 ) };
+  --vab-l2-border-color: #{ color.get( grey-500 ) };
+
+  // Mixins
+  @include mixin.full-width();
+  @include mixin.transform(
+    translateX( -50% )
+  );
+  @include mixin.transition(
+    all
+    transition.duration( extraSlow )
+    transition.easing( easeInDrastic )
+  );
+
+  // Styles
+  position: fixed;
+  top: 0;
+  left: 50%;
+  padding: size.rem( 12 ) size.rem( 16 );
+  background: var( --vab-l2-bg-color );
+  border-bottom: solid var( --vab-l2-border-size ) var( --vab-l2-border-color );
+
+  // Children
+  &__inner {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+
+  &__content {
+    @include mixin.grid-styles(
+      auto 1fr,
+      16,
+      center,
+      flex-start
+    );
+  }
+
+  &__icon {
+    // Mixins
+    @include mixin.icon-size-styles( 32 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      display: none;
+    }
+  }
+
+  &__actions {
+    // Mixins
+    @include mixin.grid-auto-columns( 16 );
+
+    // Styles
+    align-items: center;
+    justify-content: flex-end;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 16 ) 0 0;
+    }
+  }
+
+  &__close {
+    @include mixin.max-width( sm ) {
+      position: absolute;
+      top: size.rem( 4 );
+      right: size.rem( 4 );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-condensed {
+      // Styles
+      max-width: size.rem( 1280 );
+      border: solid var( --vab-l2-border-size ) var( --vab-l2-border-color );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        max-width: 90%;
+      }
+    }
+
+    &-hidden {
+      // Mixins
+      @include mixin.transform(
+        translate( -50%, -100% )
+        scale( .975 )
+      );
+
+      // Styles
+      opacity: 0;
+    }
+  }
+}

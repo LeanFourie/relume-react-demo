@@ -1,0 +1,232 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-full-l6-bg-color-base: #{ color.get( base-0 ) };
+  --menu-full-l6-bg-color-layer: #{ color.get( grey-50 ) };
+
+  --menu-full-l6-link-color: #{ color.get( invert-0 ) };
+  --menu-full-l6-link-indicator-color: #{ color.get( primary-500 ) };
+  --menu-full-l6-link-indicator-border-radius: #{ border.radius( round ) };
+
+  --menu-full-l6-post-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat( 6, 1fr );
+  align-items: center;
+  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var( --menu-full-l6-bg-color-base );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  // Children
+  &__links {
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap: size.rem( 40 );
+    grid-column: 1 / span 4;
+    align-items: center;
+    padding: 0 size.rem( 40 ) size.rem( 72 ) size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-column: 1 / span 1;
+      padding: size.rem( 40 ) size.rem( 64 );
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 20 );
+      padding: size.rem( 40 ) size.rem( 20 );
+    }
+  }
+
+  &__link {
+    // Mixins
+    @include mixin.flex-center( flex-start );
+    @include mixin.transition-style( base );
+
+    // Children
+    &-inner {
+      // Styles
+      position: relative;
+      color: var( --menu-full-l6-link-color );
+      text-decoration: none;
+
+      // States
+      @include mixin.hover-styles() {
+        @include mixin.child-styles( menu, link-label ) {
+          &::after {
+            // Mixins
+            @include mixin.transform(
+              translate( 0, -50% )
+            );
+
+            // Styles
+            opacity: 1;
+          }
+
+          // Children
+          &-element {
+            letter-spacing: size.rem( 2 );
+          }
+        }
+      }
+    }
+
+    &-label {
+      // Mixins
+      @include mixin.transition-style( base );
+
+      // Styles
+      position: relative;
+
+      // Pseudo Elements
+      &::after {
+        // Mixins
+        @include mixin.transform(
+          translate( size.rem( 20 ), -50% )
+        );
+        @include mixin.transition-style( base );
+
+        // Styles
+        content: '';
+        width: size.rem( 12 );
+        height: size.rem( 12 );
+        position: absolute;
+        top: 50%;
+        right: size.rem( -28 );
+        background: var( --menu-full-l6-link-indicator-color );
+        border-radius: var( --menu-full-l6-link-indicator-border-radius );
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      // Children
+      @include mixin.child-styles( menu, link-label-element) {
+        line-height: 1;
+      }
+    }
+  }
+
+  &__posts {
+    // Styles
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    grid-column: 5 / span 2;
+    flex-direction: column;
+    background: var( --menu-full-l6-bg-color-layer );
+    padding: 0 size.rem( 64 ) size.rem( 72 ) size.rem( 40 );
+
+    // Media Queries
+    @include mixin.max-width( lg ) {
+      padding: 0 size.rem( 28 ) size.rem( 72 ) size.rem( 28 );
+    }
+
+    @include mixin.max-width( md ) {
+      min-height: unset;
+      grid-column: 1 / span 1;
+      padding: size.rem( 40 ) size.rem( 64 );
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 40 ) size.rem( 20 );
+    }
+
+    &-items {
+      // Styles
+      margin: size.rem( 16 ) 0;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 16 ) 0 size.rem( 4 );
+      }
+    }
+  }
+
+  &__post {
+    // Styles
+    display: grid;
+    grid-template-columns: size.rem( 160 ) 1fr;
+    gap: size.rem( 24 );
+    padding: size.rem( 8 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 12 );
+      padding: size.rem( 4 ) 0 size.rem( 24 );
+    }
+
+    // Children
+    &-image {
+      // Mixins
+      @include mixin.cover-image-styles( 65% );
+
+      // Styles
+      border-radius: var( --menu-full-l6-post-image-border-radius )
+    }
+
+    &-text {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-link {
+      // Styles
+      margin: auto 0 0;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 12 ) 0 0;
+      }
+    }
+  }
+
+  &__footer {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    width: 100%;
+    min-height: size.rem( 72 );
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      position: relative;
+      bottom: unset;
+      left: unset;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20 );
+    }
+  }
+}

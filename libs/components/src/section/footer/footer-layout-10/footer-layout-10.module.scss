@@ -1,0 +1,228 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.footer {
+  // Variables
+  --footer-l0-bg-color: #{ color.get( neutral-transparent ) };
+
+  --footer-l0-inner-bg-color: #{ color.get( neutral-transparent ) };
+  --footer-l0-inner-border-color: #{ color.get( grey-100 ) };
+  --footer-l0-inner-border-width: #{ size.rem( 1 ) };
+  --footer-l0-inner-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --footer-l10-bg-color );
+
+  // Children
+  &__inner {
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    margin: 0 auto;
+    padding: size.rem( 80 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 72 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 48 ) 0;
+    }
+  }
+
+  &__top {
+    // Styles
+    display: grid;
+    grid-template-columns: 1fr .5fr;
+    align-items: flex-start;
+    gap: 8vw;
+    justify-content: space-between;
+    padding: size.rem( 48 );
+    background: var( --footer-l10-inner-bg-color );
+    border: solid var( --footer-l10-inner-border-width ) var( --footer-l10-inner-border-color );
+    border-radius: var( --footer-l10-inner-border-radius );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-auto-flow: row;
+      grid-template-columns: 1fr;
+      gap: size.rem( 48 );
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 40 );
+      padding: size.rem( 24 );
+    }
+  }
+
+  &__logo-links {
+    // Styles
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: size.rem( 32 );
+    align-items: flex-start;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-auto-flow: row;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__logo {
+    // Styles
+    height: size.rem( 28 );
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Children
+    &-element {
+      * {
+        object-position: center left;
+      }
+    }
+  }
+
+  &__links {
+    display: contents;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: size.rem( 32 );
+      align-items: flex-start;
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      grid-template-columns: 1fr;
+    }
+
+    &-group {
+      &-title {
+        // Styles
+        margin: 0 0 size.rem( 24 );
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+    }
+  }
+
+  &__link {
+    // Styles
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Selectors
+    &:not( :last-child ) {
+      margin: 0 0 size.rem( 12 );
+    }
+
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.flex-center( flex-start );
+
+      // Styles
+      position: relative;
+      text-decoration: none;
+    }
+  }
+
+  &__newsletter {
+    // Styles
+    max-width: size.rem( 500 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: size.rem( 560 );
+    }
+
+    @include mixin.max-width( sm ) {
+      max-width: 100%;
+    }
+
+    // Children
+    &-paragraph {
+      margin: size.rem( 4 ) 0 size.rem( 16 );
+    }
+  }
+
+  &__bottom {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: size.rem( 32 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__copy-and-legal {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      margin: size.rem( 28 ) 0 0;
+      order: 1;
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      gap: size.rem( 24 );
+    }
+  }
+
+  &__copyright {
+    @include mixin.max-width( md ) {
+      order: 2;
+    }
+  }
+
+  &__legal {
+    &-links {
+      // Mixins
+      @include mixin.grid-centered-columns( 24 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        grid-auto-flow: row;
+        gap: size.rem( 12 );
+        justify-content: flex-start;
+      }
+    }
+    
+    // Children
+    &-link {
+      @include mixin.child-styles( footer, legal-link-element ) {
+        * {
+          font-size: size.rem( 14 );
+        }
+      }
+    }
+  }
+}

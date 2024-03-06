@@ -1,0 +1,268 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.footer {
+  // Variables
+  --footer-l1-bg-color: #{ color.get( neutral-transparent ) };
+
+  --footer-l1-separator-color: #{ color.get( grey-100 ) };
+  --footer-l1-separator-width: #{ size.rem( 1 ) };
+
+  --footer-l1-social-link-color: #{ color.get( invert-0 ) };
+  --footer-l1-social-link-color-hover: #{ color.get( invert-0 ) };
+  --footer-l1-social-link-color-pressed: #{ color.get( invert-0 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --footer-l1-bg-color );
+
+  // Children
+  &__inner {
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 80 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      gap: size.rem( 64 );
+      padding: size.rem( 72 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 48 );
+      padding: size.rem( 48 ) 0;
+    }
+  }
+
+  &__top {
+    // Styles
+    display: grid;
+    grid-template-columns: .75fr 1fr;
+    gap: 8vw;
+    align-items: flex-start;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 60 );
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 40 );
+    }
+  }
+
+  &__form {
+    // Styles
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      max-width: 100%;
+    }
+
+    // Children
+    &-logo {
+      height: size.rem( 28 );
+    }
+
+    &-description {
+      // Styles
+      margin: size.rem( 24 ) 0 size.rem( 12 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 16 ) 0 size.rem( 12 );
+      }
+    }
+
+    &-newsletter {
+      width: 100%;
+    }
+  }
+
+  &__links {
+    // Styles
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: size.rem( 32 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+    }
+
+    // Children
+    &-group {
+      &-title {
+        // Styles
+        margin: 0 0 size.rem( 24 );
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+    }
+  }
+
+  &__link {
+    // Styles
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Selectors
+    &:not( :last-child ) {
+      // Styles
+      margin: 0 0 size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: 0 0 size.rem( 12 );
+      }
+    }
+
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.flex-center( flex-start );
+
+      // Styles
+      position: relative;
+      text-decoration: none;
+    }
+
+    &-icon {
+      width: size.rem( 24 );
+      height: size.rem( 24 );
+      margin: 0 size.rem( 12 ) 0 0;
+    }
+
+    // Variants
+    &--social {
+      @include mixin.child-styles( footer, link-element ) {
+        // Styles
+        color: var( --footer-l1-social-link-color );
+
+        // States
+        @include mixin.hover-styles() {
+          // Styles
+          color: var( --footer-l1-social-link-color-hover );
+
+          // Children
+          @include mixin.child-styles( footer, link-label ) {
+            &::before {
+              // Mixins
+              @include mixin.transform( scaleX( 1 ) );
+              
+              // Styles
+              background: var( --footer-l1-social-link-color-hover );
+              transform-origin: bottom left;
+            }
+          }
+        }
+
+        // States
+        @include mixin.active-styles() {
+          // Styles
+          color: var( --footer-l1-social-link-color-pressed );
+
+          // Children
+          @include mixin.child-styles( footer, link-label ) {
+            &::before {
+              background: var( --footer-l1-social-link-color-pressed );
+            }
+          }
+        }
+      }
+
+      @include mixin.child-styles( footer, link-label ) {
+        // Styles
+        position: relative;
+
+        // Pseudo Elements
+        &::before {
+          // Mixins
+          @include mixin.transform( scaleX( 0 ) );
+          @include mixin.transition-style( base, transform );
+          
+          // Styles
+          content: '';
+          width: 100%;
+          height: size.rem( 1 );
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          background: var( --footer-l1-social-link-color );
+          transform-origin: bottom right;
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: size.rem( 32 ) 0 0;
+    border-top: solid var( --footer-l1-separator-width ) var( --footer-l1-separator-color );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: size.rem( 24 ) 0 0;
+    }
+  }
+
+  &__copyright {
+    @include mixin.max-width( sm ) {
+      order: 2;
+      margin: size.rem( 16 ) 0 0;
+    }
+  }
+
+  &__legal {
+    &-links {
+      // Styles
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: auto;
+      gap: size.rem( 24 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        grid-auto-flow: row;
+        gap: size.rem( 12 );
+        order: 1;
+      }
+    }
+
+    // Children
+    &-link {
+      @include mixin.child-styles( footer, legal-link-element ) {
+        * {
+          font-size: size.rem( 14 );
+        }
+      }
+    }
+  }
+}

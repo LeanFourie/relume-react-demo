@@ -1,0 +1,29 @@
+// STYLES
+.host {
+  // Styles
+  display: inline-block;
+  
+  // Is...
+  &--is {
+    &-disabled,
+    &-loading {
+      cursor: not-allowed;
+    }
+    
+    &-disabled,
+    &-loading,
+    &-skeleton {
+      * {
+        pointer-events: none;
+      }
+    }
+    
+    &-full-width {
+      width: 100%;
+    }
+    
+    &-skeleton {
+      cursor: default;
+    }
+  }
+}

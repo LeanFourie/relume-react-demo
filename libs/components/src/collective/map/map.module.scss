@@ -1,0 +1,12 @@
+// STYLES
+.map {
+  // Styles
+  width: 100%;
+  height: 100%;
+
+  // Children
+  &__element {
+    width: 100%;
+    height: 100%;
+  }
+}

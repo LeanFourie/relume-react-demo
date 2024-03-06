@@ -1,0 +1,201 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l2-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l2-bg-color-inner: #{ color.get( neutral-transparent ) };
+  --cta-banner-l2-border-color-inner: #{ color.get( grey-50 ) };
+  --cta-banner-l2-border-width-inner: #{ size.rem( 1 ) };
+  --cta-banner-l2-border-radius-inner: #{ border.radius( none ) };
+
+  --cta-banner-l2-media-overlay-color: #{ color.alpha( invert-0, .5 ) };
+
+  // Styles
+  position: relative;
+  padding: 0 5%;
+  background: var( --cta-banner-l2-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__container {
+    // Is...
+    &--is {
+      &-outlined {
+        // Styles
+        position: relative;
+        padding: size.rem( 48 );
+        background: var( --cta-banner-l4-bg-color-inner );
+        border: solid var( --cta-banner-l4-border-width-inner ) var( --cta-banner-l4-border-color-inner );
+        border-radius: var( --cta-banner-l4-border-radius-inner );
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          padding: size.rem( 32 );
+        }
+    
+        @include mixin.max-width( sm ) {
+          padding: size.rem( 24 );
+        }
+
+        // Children
+        @include mixin.child-styles( section, actions ) {
+          align-items: center;
+        }
+      }
+    }
+
+    // Has...
+    &--has {
+      &-media {
+        @include mixin.children-styles( section, ( text, form-message ) ) {
+          color: color.get( base-0 );
+        }
+      }
+    }
+  }
+
+  &__content {
+    // Styles
+    display: grid;
+    gap: size.rem( 80 );
+    position: relative;
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      grid-template-columns: 1.25fr .75fr;
+    }
+
+    @include mixin.max-width( md ) {
+      gap: size.rem( 32 );
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 24 );
+    }
+  }
+
+  &__text {
+    max-width: size.rem( 768 );
+  }
+
+  &__paragraph {
+    margin: size.rem( 12 ) 0 0;
+  }
+
+  &__actions {
+    @include mixin.grid-auto-columns( 16, flex-end );
+
+    // Styles
+    align-items: flex-start;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      justify-content: flex-start;
+    }
+  }
+
+  &__form {
+    &-row {
+      // Styles
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    &-input {
+      flex: 1;
+    }
+
+    &-submit {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+  
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 8 ) 0 0;
+      }
+  
+      // Children
+      @include mixin.children-styles( section, ( form-submit-host, form-submit-element ) ) {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-message {
+      width: 100%;
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__media {
+    // Styles
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    // Pseudo Elements
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var( --cta-banner-l2-media-overlay-color );
+    }
+  }
+
+  &__image,
+  &__video,
+  &__background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__image,
+  &__video {
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

@@ -1,0 +1,214 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l14-bg-color: #{ color.get( neutral-transparent ) };
+
+  --hero-l14-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 300vh;
+  position: relative;
+  padding-left: 5%;
+  padding-right: 5%;
+  background: var( --hero-l14-bg-color );
+
+  // Media Queries
+  @include mixin.max-width( sm ) {
+    height: 150vh;
+  }
+
+  // Children
+  &__inner {
+    // Mixins
+    @include mixin.flex-center();
+
+    // Styles
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+  }
+
+  &__images {
+    // Styles
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+
+    // Children
+    &-list {
+      display: flex;
+      flex-direction: column;
+      grid-row-gap: 26vw;
+      padding-top: 70vh;
+    }
+
+    // Stack...
+    &--stack {
+      &-top {
+        right: auto;
+        left: 0%;
+        z-index: 1;
+      }
+
+      &-bottom {
+        right: 0%;
+        left: auto;
+        z-index: 0;
+      }
+    }
+  }
+
+  &__image {
+    // Styles
+    padding-top: 120%;
+    position: relative;
+    border-radius: var( --hero-l14-image-border-radius );
+    overflow: hidden;
+
+    // Children
+    &-inner {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    // Position...
+    &--position {
+      &-1 {
+        // Styles
+        width: 22vw;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 28vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 30vw;
+        }
+      }
+
+      &-2 {
+        // Styles
+        width: 22vw;
+        margin-top: -46vw;
+        left: 58vw;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 28vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 30vw;
+          left: 52vw;
+        }
+      }
+
+      &-3 {
+        // Styles
+        width: 20vw;
+        margin-top: -5vw;
+        left: 4vw;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 26vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 28vw;
+        }
+      }
+
+      &-4 {
+        // Styles
+        width: 18vw;
+        margin-top: -45vw;
+        left: 64vw;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 24vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 26vw;
+        }
+      }
+
+      &-5 {
+        // Styles
+        width: 20vw;
+        opacity: .75;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 26vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 28vw;
+        }
+      }
+
+      &-6 {
+        // Styles
+        width: 18vw;
+        opacity: .75;
+        margin-top: -44vw;
+        right: 54vw;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: 24vw;
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 26vw;
+          right: 50vw;
+        }
+      }
+    }
+  }
+
+  &__content {
+    // Styles
+    max-width: size.rem( 768 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: 100%;
+      padding: 0 5vw;
+    }
+  }
+
+  @include mixin.child-styles( section, content ) {
+    * {
+      text-align: center;
+      justify-content: center;
+    }
+
+    div {
+      div {
+        &:nth-child( 2 ) {
+          position: relative;
+          z-index: 3;
+        }
+      }
+    }
+  }
+}

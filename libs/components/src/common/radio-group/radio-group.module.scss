@@ -1,0 +1,27 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.group {
+  // Styles
+  display: grid;
+  gap: size.rem( 12 );
+
+  // Children
+  &__options {
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap: size.rem( 12 );
+  
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

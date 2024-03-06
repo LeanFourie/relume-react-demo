@@ -1,0 +1,97 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin features-styles-scoped(
+  $column-count,
+  $max-width
+) {
+  @include mixin.variant-styles( pricing, columns, #{ $column-count } ) {
+    // Styles
+    @content;
+
+    // Children
+    @include mixin.child-styles( pricing, pricing ) {
+      max-width: size.rem( $max-width );
+      margin: 0 auto;
+    }
+  }
+}
+
+// STYLES
+.pricing {
+  // Variables
+  --pricing-l1-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --pricing-l1-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      gap: size.rem( 72 );
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 48 );
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__content {
+    max-width: size.rem( 768 );
+    margin: 0 auto;
+  }
+
+  &__pricing {
+    // Styles
+    width: 100%;
+
+    &-inner {
+      gap: size.rem( 32 );
+      display: grid;
+    }
+  }
+
+  // Columns...
+  @include features-styles-scoped( 1, 768 );
+
+  @include features-styles-scoped( 2, 1280 ) {
+    @include mixin.child-styles( pricing, pricing-inner ) {
+      @include mixin.min-width( md ) {
+        grid-template-columns: repeat( 2, 1fr );
+      }
+    }
+  }
+
+  @include features-styles-scoped( 3, 1280 ) {
+    @include mixin.child-styles( pricing, pricing-inner ) {
+      @include mixin.min-width( md ) {
+        grid-template-columns: repeat( 3, 1fr );
+      }
+    }
+  }
+
+  // Is...
+  &--is {
+    &-condensed {
+      @include features-styles-scoped( 1, 560 );
+      @include features-styles-scoped( 2, 1024 );
+      @include features-styles-scoped( 3, 1280 );
+    }
+  }
+}

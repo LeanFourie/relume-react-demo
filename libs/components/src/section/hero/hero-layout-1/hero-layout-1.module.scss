@@ -1,0 +1,241 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l1-bg-color: #{ color.get( neutral-transparent ) };
+
+  --hero-l1-inner-bg-color: #{ color.get( neutral-transparent ) };
+  --hero-l1-inner-border-color: #{ color.get( grey-100 ) };
+  --hero-l1-inner-border-width: #{ size.rem( 1 ) };
+  --hero-l1-inner-border-radius: #{ border.radius( none ) };
+
+  --hero-l1-media-border-radius: #{ border.radius( none ) };
+
+  // Styles
+  background: var( --hero-l1-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    align-items: center;
+  
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__image,
+  &__video,
+  &__background {
+    position: relative;
+  }
+
+  &__image {
+    @include mixin.child-styles( section, image-element ) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__video {
+    @include mixin.child-styles( section, video-element ) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  // Is...
+  &--is {
+    &-full {
+      @include mixin.child-styles( section, content ) {
+        // Styles
+        max-width: size.rem( 560 );
+        margin: 0 5vw 0 size.rem( 80 );
+    
+        // Media Queries
+        @include mixin.max-width( md ) {
+          margin: 0 5%;
+          padding: size.rem( 96 ) 0 size.rem( 64 );
+        }
+    
+        @include mixin.max-width( sm ) {
+          padding: size.rem( 64 ) 0;
+        }
+      }
+
+      @include mixin.children-styles( section, ( image, video, background ) ) {
+        // Styles
+        height: 100vh;
+    
+        // Media Queries
+        @include mixin.max-width( md ) {
+          height: auto;
+          padding: 100% 0 0;
+          order: 2;
+        }
+      }
+    }
+
+    &-condensed {
+      // Styles
+      padding: 0 5%;
+
+      // Children
+      @include mixin.child-styles( section, inner ) {
+        // Styles
+        width: 100%;
+        max-width: size.rem( 1280 );
+        gap: size.rem( 80 );
+        margin: 0 auto;
+        padding: size.rem( 112 ) 0;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          gap: size.rem( 64 );
+          padding: size.rem( 96 ) 0;
+        }
+
+        @include mixin.max-width( sm ) {
+          gap: size.rem( 48 );
+          padding: size.rem( 64 ) 0;
+        }
+      }
+
+      @include mixin.children-styles( section, ( image, video, background ) ) {
+        // Styles
+        height: auto;
+        padding: 100% 0 0;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          order: 2;
+        }
+      }
+
+      // Variants
+      @include mixin.variant-styles( section, is, contained ) {
+        @include mixin.child-styles( section, inner ) {
+          // Styles
+          gap: size.rem( 0 );
+          background: var( --hero-l1-inner-bg-color );
+          position: relative;
+
+          // Media Queries
+          @include mixin.max-width( md ) {
+            gap: size.rem( 48 );
+          }
+
+          // Pseudo Elements
+          &::after {
+            // Styles
+            content: '';
+            width: 100%;
+            height: calc( 100% - ( #{ size.rem( 113 ) } * 2 ) );
+            position: absolute;
+            top: size.rem( 112 );
+            left: 0;
+            border: solid var( --hero-l1-inner-border-width ) var( --hero-l1-inner-border-color );
+            border-radius: var( --hero-l1-inner-border-radius );
+            pointer-events: none;
+
+            // Media Queries
+            @include mixin.max-width( md ) {
+              width: calc( 100% - #{ size.rem( 2 ) } );
+              height: calc( 100% - ( #{ size.rem( 97 ) } * 2 ) );
+              top: size.rem( 96 );
+            }
+
+            @include mixin.max-width( md ) {
+              height: calc( 100% - ( #{ size.rem( 97 ) } * 2 ) + #{ size.rem( 64 ) } );
+              top: size.rem( 64 );
+            }
+          }
+        }
+
+        // Children
+        @include mixin.child-styles( section, content ) {
+          // Styles
+          padding: size.rem( 48 );
+
+          // Media Queries
+          @include mixin.max-width( md ) {
+            order: 2;
+          }
+
+          @include mixin.max-width( md ) {
+            padding: size.rem( 32 );
+          }
+        }
+
+        @include mixin.children-styles( section, ( image, video, background ) ) {
+          @include mixin.max-width( md ) {
+            order: 1;
+          }
+        }
+      }
+    }
+  }
+
+  // Order...
+  &--order {
+    &-reverse {
+      // Children
+      @include mixin.children-styles( section, ( image, video, background ) ) {
+        order: 2;
+      }
+
+      // Variants
+      @include mixin.variant-styles( section, is, condensed ) {
+        @include mixin.variant-styles( section, is, contained ) {
+          @include mixin.child-styles( section, inner ) {
+            // Media Queries
+            @include mixin.max-width( sm ) {
+              gap: 0;
+            }
+
+            // Pseudo Elements
+            &::after {
+              @include mixin.max-width( md ) {
+                height: calc( 100% - ( #{ size.rem( 97 ) } * 2 ) );
+                top: size.rem( 96 );
+              }
+
+              @include mixin.max-width( sm ) {
+                height: calc( 100% - ( #{ size.rem( 65 ) } * 2 ) );
+                top: size.rem( 64 );
+              }
+            }
+          }
+
+          // Children
+          @include mixin.child-styles( section, content ) {
+            order: 1;
+          }
+
+          @include mixin.children-styles( section, ( image, video, background ) ) {
+            order: 2;
+          }
+        }
+      }
+    }
+  }
+
+  // Selectors
+  &:not( .section--is-full ) {
+    @include mixin.children-styles( section, ( image, video, background ) ) {
+      border-radius: var( --hero-l1-media-border-radius );
+      overflow: hidden;
+    }
+  }
+}

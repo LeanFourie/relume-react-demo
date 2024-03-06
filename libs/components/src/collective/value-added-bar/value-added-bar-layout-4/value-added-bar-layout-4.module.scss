@@ -1,0 +1,109 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.vab {
+  // Variables
+  --vab-l4-bg-color: #{ color.get( neutral-transparent ) };
+
+  --vab-l4-border-size: #{ size.rem( 1 ) };
+  --vab-l4-border-color: #{ color.get( grey-500 ) };
+
+  // Mixins
+  @include mixin.full-width();
+  @include mixin.transform(
+    translateX( -50% )
+  );
+  @include mixin.transition(
+    all
+    transition.duration( extraSlow )
+    transition.easing( easeInDrastic )
+  );
+
+  // Styles
+  position: fixed;
+  top: 0;
+  left: 50%;
+  padding: size.rem( 12 ) size.rem( 16 );
+  background: var( --vab-l4-bg-color );
+  border-bottom: solid var( --vab-l4-border-size ) var( --vab-l4-border-color );
+
+  // Children
+  &__inner {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+
+  &__content {
+    margin: 0 auto;
+  }
+
+  &__message,
+  &__link {
+    display: inline-block;
+  }
+
+  &__message {
+    margin: 0 size.rem( 4 ) 0 0;
+  }
+
+  &__close {
+    @include mixin.max-width( sm ) {
+      position: absolute;
+      top: size.rem( 4 );
+      right: size.rem( 4 );
+    }
+  }
+
+  @include mixin.child-styles( vab, link ) {
+    span {
+      // Styles
+      font-size: size.rem( 14 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        font-size: size.rem( 12 );
+      }
+    }
+  }
+
+  // Is...
+  &--is {
+    &-condensed {
+      // Styles
+      max-width: size.rem( 1280 );
+      border: solid var( --vab-l4-border-size ) var( --vab-l4-border-color );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        max-width: 90%;
+      }
+    }
+
+    &-hidden {
+      // Mixins
+      @include mixin.transform(
+        translate( -50%, -100% )
+        scale( .975 )
+      );
+
+      // Styles
+      opacity: 0;
+    }
+  }
+}

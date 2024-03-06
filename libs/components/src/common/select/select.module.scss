@@ -1,0 +1,119 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.select {
+  // Variables
+  --select-arrow-color: #{ color.get( grey-500 ) };
+  --select-arrow-border-radius: #{ border.radius( min ) };
+
+  // Styles
+  position: relative;
+
+  // Children
+  &__input {
+    // Styles
+    position: relative;
+    cursor: pointer;
+
+    // Children
+    &-element {
+      span {
+        &[ data-input ] {
+          &::before,
+          &::after {
+            // Mixins
+            @include mixin.transition-style( base, transform );
+      
+            // Styles
+            content: '';
+            width: size.rem( 8 );
+            height: size.rem( 2 );
+            position: absolute;
+            top: 50%;
+            right: size.rem( 16 );
+            background: var( --select-arrow-color );
+            border-radius: var( --select-arrow-border-radius );
+            z-index: 2;
+            pointer-events: none;
+          }
+      
+          &::before {
+            @include mixin.transform( translate( -70%, -50% ) rotate( 45deg ) );
+          }
+      
+          &::after {
+            @include mixin.transform( translateY( -50% ) rotate( -45deg ) );
+          }
+        }
+      }
+    }
+
+    * {
+      cursor: pointer;
+    }
+  }
+
+  &__options {
+    // Mixins
+    @include mixin.transform( scale( .98 ) );
+
+    // Styles
+    height: 0;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  // Is...
+  &--is {
+    &-open {
+      @include mixin.child-styles( select, input ) {
+        &-element {
+          span {
+            &[ data-input ] {
+              &::before {
+                @include mixin.transform( translate( -70%, -50% ) rotate( -45deg ) );
+              }
+      
+              &::after {
+                @include mixin.transform( translateY( -50% ) rotate( 45deg ) );
+              }
+            }
+          }
+        }
+      }
+
+      @include mixin.child-styles( select, options ) {
+        // Mixins
+        @include mixin.transform( scale( 1 ) );
+        @include mixin.transition-style( base, transform );
+
+        // Styles
+        height: auto;
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+  }
+
+  // Position...
+  &--position {
+    &-top {
+      @include mixin.child-styles( select, options ) {
+        bottom: calc( 100% + #{ size.rem( 4 ) } );
+      }
+    }
+
+    &-bottom {
+      @include mixin.child-styles( select, options ) {
+        top: calc( 100% + #{ size.rem( 4 ) } );
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.footer {
+  // Variables
+  --footer-l7-bg-color: #{ color.get( neutral-transparent ) };
+
+  --footer-l7-separator-color: #{ color.get( grey-100 ) };
+  --footer-l7-separator-width: #{ size.rem( 1 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --footer-l7-bg-color );
+
+  // Children
+  &__inner {
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 80 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      gap: size.rem( 64 );
+      padding: size.rem( 72 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 48 );
+      padding: size.rem( 48 ) 0;
+    }
+  }
+
+  &__top {
+    // Styles
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: size.rem( 32 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 24 );
+    }
+  }
+
+  &__logo {
+    // Styles
+    height: size.rem( 28 );
+
+    // Children
+    &-element {
+      * {
+        // Styles
+        object-position: center;
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          object-position: center;
+        }
+      }
+    }
+  }
+
+  &__links {
+    // Mixins
+    @include mixin.grid-centered-columns( 32 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      gap: size.rem( 16 );
+
+      * {
+        @include mixin.flex-center();
+      }
+    }
+  }
+
+  &__bottom {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: size.rem( 32 ) 0 0;
+    border-top: solid var( --footer-l7-separator-width ) var( --footer-l7-separator-color );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      flex-direction: column;
+      justify-content: center;
+      padding: size.rem( 24 ) 0 0;
+    }
+  }
+
+  &__copyright {
+    @include mixin.max-width( sm ) {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      order: 2;
+      margin: size.rem( 24 ) 0 0;
+    }
+  }
+
+  &__legal {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Styles
+    margin: 0 0 0 size.rem( 24 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      gap: size.rem( 16 );
+      align-items: center;
+      justify-content: center;
+    }
+
+    // Children
+    &-link {
+      @include mixin.max-width( sm ) {
+        @include mixin.flex-center();
+      }
+    }
+  }
+}

@@ -1,0 +1,248 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.card {
+  // Variables
+  --product-card-bg-color: #{ color.get( neutral-transparent ) };
+
+  --product-card-border-radius: #{ border.radius( none ) };
+
+  --product-card-image-border-radius: #{ border.radius( none ) };
+
+  --product-card-images-indicator-color: #{ color.get( neutral-white ) };
+  --product-card-images-indicator-color-hover: #{ color.get( neutral-white ) };
+  --product-card-images-indicator-color-pressed: #{ color.get( neutral-white ) };
+  --product-card-images-indicator-color-active: #{ color.get( neutral-white ) };
+
+  --product-card-images-indicator-opacity: .6;
+  --product-card-images-indicator-opacity-hover: .75;
+  --product-card-images-indicator-opacity-pressed: .9;
+  --product-card-images-indicator-opacity-active: 1;
+
+  --product-card-images-indicator-border-radius: #{ border.radius( round ) };
+
+  // Styles
+  position: relative;
+  background: var( --product-card-bg-color );
+  border-radius: var( --product-card-border-radius );
+
+  // Children
+  &__image {
+    // Styles
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    position: relative;
+    border-radius: var( --product-card-image-border-radius );
+    white-space: nowrap;
+    overflow: hidden;
+
+    // Children
+    &-inner {
+      position: relative;
+      padding: 80% 0 0;
+    }
+
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-indicators {
+      // Mixins
+      @include mixin.grid-centered-columns( 4 );
+      @include mixin.transform(
+        translateX( -50% )
+      );
+
+      // Styles
+      position: absolute;
+      bottom: size.rem( 12 );
+      left: 50%;
+      z-index: 3;
+    }
+
+    &-indicator {
+      // Mixins
+      @include mixin.transition-style( base );
+
+      // Styles
+      width: size.rem( 8 );
+      height: size.rem( 8 );
+      position: relative;
+      padding: 0;
+      background: var( --product-card-images-indicator-color );
+      border: none;
+      border-radius: var( --product-card-images-indicator-border-radius );
+      opacity: var( --product-card-images-indicator-opacity );
+      cursor: pointer;
+
+      // Pseudo Elements
+      &::after {
+        // Mixins
+        @include mixin.transition(
+          transform
+          transition.duration( medium )
+          transition.easing( easeInDrastic )
+        );
+        @include mixin.transform(
+          translate( -50%, -50% )
+        );
+
+        // Styles
+        content: '';
+        width: calc( 100% + #{ size.rem( 2 ) });
+        height: calc( 100% + #{ size.rem( 24 ) });
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+
+      // States
+      @include mixin.hover-styles() {
+        width: size.rem( 16 );
+        height: size.rem( 16 );
+        margin: size.rem( -4 ) size.rem( 2 );
+        background: var( --product-card-images-indicator-color-hover );
+        opacity: var( --product-card-images-indicator-opacity-hover );
+      }
+
+      @include mixin.active-styles() {
+        background: var( --product-card-images-indicator-color-pressed );
+        opacity: var( --product-card-images-indicator-opacity-pressed );
+      }
+
+      // Is...
+      &--is {
+        &-active {
+          pointer-events: none;
+          background: var( --product-card-images-indicator-color-active );
+          opacity: var( --product-card-images-indicator-opacity-active );
+        }
+      }
+    }
+
+    // Is...
+    &--is {
+      &-array {
+        &::after {
+          content: '';
+          width: 100%;
+          height: size.rem( 32 );
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          background: linear-gradient(
+            to bottom,
+            color.alpha( neutral-black, 0 ),
+            color.alpha( neutral-black, .3 )
+          );
+          z-index: 2;
+        }
+      }
+    }
+  }
+
+  &__floating-items {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: size.rem( 8 );
+    z-index: 3;
+  }
+
+  &__badges {
+    @include mixin.flex-center( flex-start );
+  }
+
+  &__badge {
+    &:not( :last-child ) {
+      margin: 0 size.rem( -4 ) 0 0;
+    }
+  }
+
+  &__wishlist {
+    // Styles
+    position: relative;
+    margin: 0 0 0 auto;
+
+    // Pseudo Elements
+    &::before {
+      content: '';
+      width: calc( 100% + #{ size.rem( 24 ) } );
+      height: calc( 100% + #{ size.rem( 24 ) } );
+      position: absolute;
+      top: size.rem( -8 );
+      right: size.rem( -8 );
+      background: linear-gradient(
+        -135deg,
+        color.alpha( neutral-black, .3 ),
+        color.alpha( neutral-black, 0 ),
+        color.alpha( neutral-black, 0 )
+      );
+      border-radius: 0 0 0 border.radius( round );
+      z-index: -1;
+    }
+  }
+
+  &__text {
+    margin: size.rem( 16 ) 0;
+  }
+
+  &__price {
+    // Mixins
+    @include mixin.grid-centered-columns( 16 );
+
+    // Styles
+    margin: size.rem( 8 ) 0 0;
+
+    // Children
+    @include mixin.child-styles( card, price-element ) {
+      // Variants
+      &--sale {
+        color: color.get( danger-500 );
+      }
+
+      // Is...
+      &--is {
+        &-disabled {
+          text-decoration: line-through;
+        }
+      }
+    }
+
+    // Align
+    &--align {
+      &-left {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &__action {
+    &--add-to-cart {
+      width: 100%;
+    }
+
+    &--wishlist {
+      margin: 0 0 0 size.rem( 16 );
+    }
+  }
+}

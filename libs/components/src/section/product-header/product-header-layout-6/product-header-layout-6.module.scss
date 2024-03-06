@@ -1,0 +1,273 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/shadows' as shadow;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --product-header-l6-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  background: var( --product-header-l6-bg-color );
+
+  // Children
+  &__inner {
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__product {
+    // Styles
+    display: grid;
+    gap: size.rem( 80 );
+    align-items: flex-start;
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      grid-template-columns: repeat( 2, 1fr );
+    }
+
+    @include mixin.max-width( md ) {
+      gap: size.rem( 40 );
+    }
+  }
+
+  &__images {
+    // Styles
+    display: grid;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      height: 200vh;
+    }
+
+    // Children
+    &-listing {
+      // Styles
+      display: grid;
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        // Styles
+        width: 100%;
+        grid-auto-flow: column;
+        grid-auto-columns: 80vw;
+        order: 2;
+        overflow-x: scroll;
+        overflow-y: hidden;
+
+        // Selectors
+        &::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+          display: none;
+          opacity: 0;
+        }
+      }
+    }
+
+    &-item {
+      position: relative;
+      padding: 100% 0 0;
+    }
+
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-badges {
+      // Mixins
+      @include mixin.flex-center( flex-end );
+
+      // Styles
+      position: absolute;
+      top: size.rem( 12 );
+      right: size.rem( 12 );
+      left: unset;
+      z-index: 2;
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        right: unset;
+        left: size.rem( 12 );
+      }
+    }
+
+    &-badge {
+      &:not( :last-child ) {
+        margin: 0 size.rem( -4 ) 0 0;
+      }
+    }
+  }
+
+  &__details {
+    // Styles
+    padding: size.rem( 80 ) 5vw 0 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: 0 5vw;
+    }
+
+    // Children
+    > div {
+      max-width: size.rem( 560 );
+    }
+  }
+
+  &__breadcrumbs {
+    margin: 0 0 size.rem( 24 );
+  }
+
+  &__name {
+    margin: 0 0 size.rem( 8 );
+  }
+
+  &__description,
+  &__variants {
+    margin: 0 0 size.rem( 24 );
+  }
+
+  &__price {
+    // Mixins
+    @include mixin.grid-centered-columns( 16 );
+
+    // Styles
+    margin: 0 0 size.rem( 8 );
+    justify-content: flex-start;
+
+    // Children
+    @include mixin.child-styles( section, price-element ) {
+      // Variants
+      &--sale {
+        color: color.get( danger-500 );
+      }
+
+      // Is...
+      &--is {
+        &-disabled {
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  &__rating {
+    // Mixins
+    @include mixin.flex-center( flex-start );
+
+    // Styles
+    margin: 0 0 size.rem( 24 );
+
+    // Children
+    &-stars {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      margin: 0 size.rem( 8 ) 0 0;
+    }
+
+    &-star {
+      // Variables
+      $icon-size: 24;
+  
+      // Styles
+      width: size.rem( $icon-size );
+      height: size.rem( $icon-size );
+      color: color.get( warning-500 );
+  
+      // Children
+      &-element {
+        * {
+          font-size: size.rem( $icon-size );
+          font-weight: 300;
+        }
+      }
+  
+      // Is...
+      &--is {
+        &-filled {
+          @include mixin.child-styles( section, rating-star-element ) {
+            font-variation-settings: 'FILL' 1;
+          }
+        }
+      }
+    }
+
+    &-text {
+      &-element {
+        &--has {
+          &-rating {
+            // Styles
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: auto;
+            gap: size.rem( 8 );
+            align-items: center;
+            justify-content: flex-start;
+
+            // Children
+            span {
+              // Mixins
+              @include mixin.flex-center();
+
+              // Pseudo Elements
+              &::before {
+                content: '';
+                width: size.rem( 3 );
+                height: size.rem( 3 );
+                margin: 0 size.rem( 8 ) 0 0;
+                background: color.get( grey-300 );
+                border-radius: border.radius( round );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__variants {
+    display: grid;
+    gap: size.rem( 24 );
+  }
+
+  &__quantity {
+    // Styles
+    margin: 0 0 size.rem( 32 );
+
+    // Media Queries
+    @include mixin.min-width( sm ) {
+      max-width: size.rem( 140 );
+    }
+  }
+
+  &__actions {
+    display: grid;
+    gap: size.rem( 16 );
+  }
+
+  &__note {
+    margin: size.rem( 24 ) 0 0;
+  }
+
+  &__tabs {
+    margin: size.rem( 32 ) 0 0;
+  }
+}

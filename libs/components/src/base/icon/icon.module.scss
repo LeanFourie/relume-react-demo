@@ -1,0 +1,23 @@
+// INPORTS
+// Use
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.icon {
+  // Mixins
+  @include mixin.fit-image( contain );
+  
+  // Children
+  &__element {
+    @include mixin.fit-image( contain );
+    @include mixin.flex-center();
+    @include mixin.transition-style( base );
+    
+    line-height: 1;
+    font-family: 'Material Symbols Rounded';
+
+    svg {
+      @include mixin.fit-image( contain );
+    }
+  }
+}

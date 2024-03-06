@@ -1,0 +1,174 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-mega-l3-bg-color-base: #{ color.get( base-0 ) };
+  --menu-mega-l3-bg-color-layer: #{ color.get( base-50 ) };
+
+  --menu-mega-l3-link-border-radius: #{ border.radius( sm ) };
+
+  --menu-mega-l3-link-color: #{ color.get( invert-0 ) };
+  --menu-mega-l3-link-color-hover: #{ color.get( primary-500 ) };
+  --menu-mega-l3-link-color-pressed: #{ color.get( primary-600 ) };
+
+  --menu-mega-l3-link-bg-color-hover: #{ color.get( primary-50 ) };
+  --menu-mega-l3-link-bg-color-pressed: #{ color.get( primary-100 ) };
+
+  // Children
+  &__groups {
+    // Mixins
+    @include mixin.grid-styles(
+      repeat( 4, 1fr ),
+      32,
+      unset,
+      unset
+    );
+
+    // Styles
+    padding: size.rem( 32 ) size.rem( 64 );
+    background: var( --menu-mega-l3-bg-color-base );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: repeat( 2, 1fr );
+      padding: size.rem( 20 );
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__group {
+    &-title {
+      margin: 0 0 size.rem( 16 );
+    }
+
+    &-links {
+      // Styles
+      display: grid;
+      gap: size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        gap: size.rem( 8 );
+      }
+    }
+  }
+
+  &__link {
+    // Mixins
+    @include mixin.transition-style( base );
+
+    // Styles
+    display: grid;
+    grid-template-columns: size.rem( 24 ) 1fr;
+    gap: size.rem( 12 );
+    align-items: flex-start;
+    position: relative;
+    padding: size.rem( 8 ) 0;
+    color: var( --menu-mega-l3-link-color );
+    text-decoration: none;
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      align-items: center;
+    }
+
+    &::before {
+      // Mixins
+      @include mixin.transition-style( base );
+      @include mixin.transform(
+        translate( -50%, -50% )
+        scale( .95 )
+      );
+
+      // Styles
+      content: '';
+      width: calc( 100% + #{ size.rem( 24 ) } );
+      height: calc( 100% + #{ size.rem( 8 ) } );
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: var( --menu-mega-l3-link-bg-color-hover );
+      border-radius: var( --menu-mega-l3-link-border-radius );
+      transform-origin: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    // Children
+    &-icon,
+    &-text {
+      position: relative;
+      color: inherit;
+      z-index: 2;
+    }
+
+    &-description {
+      @include mixin.max-width( sm ) {
+        display: none;
+      }
+    }
+
+    &-icon {
+      @include mixin.icon-size-styles( 24 );
+    }
+
+    // States
+    @include mixin.hover-styles() {
+      // Styles
+      color: var(  --menu-mega-l3-link-color-hover );
+
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transform(
+          translate( -50%, -50% )
+          scale( 1 )
+        );
+
+        // Styles
+        opacity: 1;
+      }
+    }
+
+    @include mixin.active-styles() {
+      // Styles
+      color: var( --menu-mega-l3-link-color-pressed );
+
+      // Pseudo Elements
+      &::before {
+        background: var( --menu-mega-l3-link-bg-color-pressed );
+      }
+    }
+  }
+
+  &__footer {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: size.rem( 8 ) size.rem( 64 );
+    background: var( --menu-mega-l3-bg-color-layer );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 12 ) size.rem( 20 );
+    }
+
+    // Children
+    &-actions {
+      @include mixin.max-width( md ) {
+        display: none;
+      }
+    }
+  }
+}

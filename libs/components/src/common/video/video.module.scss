@@ -1,0 +1,55 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin video-fit-style-scoped( $fit ) {
+  // Mixins
+  @include mixin.fit-image( $fit );
+  
+  // Children
+  @include mixin.children-styles( video, ( inner, element ) ) {
+    @include mixin.fit-image( $fit );
+  }
+}
+
+// STYLES
+.video {
+  // Styles
+  position: relative;
+
+  // Children
+  &__button {
+    @include mixin.absolute-center();
+    @include mixin.transition-style( base );
+  }
+
+  // Fit...
+  &--fit {
+    &-cover {
+      @include video-fit-style-scoped( cover );
+    }
+    
+    &-contain {
+      @include video-fit-style-scoped( contain );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-playing {
+      @include mixin.child-styles( video, button ) {
+        // Styles
+        opacity: 0;
+
+        // Is...
+        &--is {
+          &-visible {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

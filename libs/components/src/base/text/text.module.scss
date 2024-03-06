@@ -1,0 +1,287 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/fonts' as font;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin font-size-style-scoped(
+  $font-size-desktop,
+  $font-size-tablet,
+  $font-size-mobile
+) {
+  // Styles
+  font-size: size.rem( $font-size-desktop );
+  
+  // Media Queries
+  @include mixin.max-width( md ) {
+    font-size: size.rem( $font-size-tablet );
+  }
+  
+  @include mixin.max-width( sm ) {
+    font-size: size.rem( $font-size-mobile );
+  }
+}
+
+@mixin line-height-style-scoped(
+  $line-height-desktop,
+  $line-height-tablet,
+  $line-height-mobile
+) {
+  // Styles
+  line-height: $line-height-desktop;
+  
+  // Media Queries
+  @include mixin.max-width( md ) {
+    line-height: $line-height-tablet;
+  }
+  
+  @include mixin.max-width( md ) {
+    line-height: $line-height-mobile;
+  }
+}
+
+@mixin text-size-styles-scoped(
+  $font-size,
+  $line-height
+) {
+  @include line-height-style-scoped( $line-height... );
+  @include font-size-style-scoped( $font-size... );
+}
+
+@mixin text-variant-style-scoped(
+  $styles-tiny,
+  $styles-small,
+  $styles-regular,
+  $styles-medium,
+  $styles-large,
+  $styles-extra-large,
+) {
+  &-tiny {
+    @include text-size-styles-scoped( $styles-tiny... );
+  }
+
+  &-small {
+    @include text-size-styles-scoped( $styles-small... );
+  }
+
+  &-regular {
+    @include text-size-styles-scoped( $styles-regular... );
+  }
+
+  &-medium {
+    @include text-size-styles-scoped( $styles-medium... );
+  }
+
+  &-large {
+    @include text-size-styles-scoped( $styles-large... );
+  }
+
+  &-extra-large {
+    @include text-size-styles-scoped( $styles-extra-large... );
+  }
+}
+
+// STYLES
+.text {
+  // Mixins
+  @include mixin.transition-style( base );
+  
+  // Styles
+  position: relative;
+  margin: 0;
+  text-rendering: optimizeSpeed;
+  color: inherit;
+  font-family: font.family( primary ), 'sans-serif';
+  
+  // Align...
+  &--align {
+    &-left {
+      text-align: left;
+    }
+    
+    &-center {
+      text-align: center;
+    }
+    
+    &-right {
+      text-align: right;
+    }
+  }
+  
+  // Casing...
+  &--casing {
+    &-uppercase {
+      text-transform: uppercase;
+    }
+    
+    &-lowercase {
+      text-transform: lowercase;
+    }
+    
+    &-unset {
+      text-transform: unset;
+    }
+  }
+  
+  // Style...
+  &--style {
+    &-italic {
+      font-style: italic;
+    }
+    
+    &-unset {
+      font-style: unset;
+    }
+  }
+  
+  // Variant...
+  &--variant {
+    &-heading {
+      @include text-variant-style-scoped(
+        // Tiny
+        (
+          ( 20, 18, 16 ),
+          ( 1.4, 1.4, 1.4 )
+        ),
+        // Small
+        (
+          ( 24, 20, 18 ),
+          ( 1.4, 1.4, 1.4 )
+        ),
+        // Regular
+        (
+          ( 32, 28, 24 ),
+          ( 1.3, 1.3, 1.3 )
+        ),
+        // Medium
+        (
+          ( 40, 32, 28 ),
+          ( 1.2, 1.2, 1.2 )
+        ),
+        // Large
+        (
+          ( 48, 40, 32 ),
+          ( 1.2, 1.2, 1.2 )
+        ),
+        // Extra Large
+        (
+          ( 56, 48, 40 ),
+          ( 1.2, 1.2, 1.2 )
+        )
+      );
+    }
+    
+    &-text {
+      @include text-variant-style-scoped(
+        // Tiny
+        (
+          ( 12, 12, 10 ),
+          ( 1.5, 1.5, 1.5 )
+        ),
+        // Small
+        (
+          ( 14, 14, 12 ),
+          ( 1.5, 1.5, 1.5 )
+        ),
+        // Regular
+        (
+          ( 16, 16, 14 ),
+          ( 1.5, 1.5, 1.5 )
+        ),
+        // Medium
+        (
+          ( 18, 18, 16 ),
+          ( 1.5, 1.5, 1.5 )
+        ),
+        // Large
+        (
+          ( 20, 20, 18 ),
+          ( 1.5, 1.5, 1.5 )
+        ),
+        // Extra Large
+        (
+          ( 20, 20, 18 ),
+          ( 1.5, 1.5, 1.5 )
+        )
+      );
+    }
+  }
+  
+  // Weight...
+  &--weight {
+    &-thin {
+      font-weight: 100
+    }
+    
+    &-extralight {
+      font-weight: 200
+    }
+    
+    &-light {
+      font-weight: 300
+    }
+    
+    &-regular {
+      font-weight: 400
+    }
+    
+    &-medium {
+      font-weight: 500
+    }
+    
+    &-semibold {
+      font-weight: 600
+    }
+    
+    &-bold {
+      font-weight: 700
+    }
+    
+    &-extrabold {
+      font-weight: 800
+    }
+    
+    &-black {
+      font-weight: 900
+    }
+  }
+  
+  // Is...
+  &--is {
+    &-editable,
+    &-skeleton {
+      border-radius: border.radius( md );
+    }
+    
+    &-editable {
+      // Styles
+      padding: 0 size.rem( 16 );
+      border: solid size.rem( 2 ) color.get( neutral-transparent );
+      
+      // States
+      @include mixin.hover-styles() {
+        border-color: color.get( grey-100 );
+      }
+      
+      &:focus-within {
+        border-color: color.get( primary-500 );
+      }
+      
+      &:focus-visible {
+        outline: none;
+      }
+    }
+    
+    &-skeleton {
+      // Mixins
+      @include mixin.skeleton-loader();
+      
+      // Styles
+      display: inline-block;
+    }
+  }
+}
+

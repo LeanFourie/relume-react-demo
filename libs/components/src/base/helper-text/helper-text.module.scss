@@ -1,0 +1,67 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin helper-text-color-style-scoped( $color ) {
+  @include mixin.children-styles( helper-text, ( icon, text ) ) {
+    color: color.get( $color );
+  }
+}
+
+// STYLES
+.helper-text {
+  // Mixins
+  @include mixin.inline-flex-center();
+  
+  // Children
+  &__icon {
+    // Styles
+    display: inline-block;
+    margin: 0 size.rem( 8 ) 0 0;
+    
+    // Children
+    &-element {
+      span {
+        font-size: size.rem( 16 );
+      }
+    }
+  }
+  
+  // State...
+  &--state {
+    &-default {
+      @include helper-text-color-style-scoped( invert-0 );
+    }
+    
+    &-info {
+      @include helper-text-color-style-scoped( info-500 );
+    }
+    
+    &-success {
+      @include helper-text-color-style-scoped( success-500 );
+    }
+    
+    &-warning {
+      @include helper-text-color-style-scoped( warning-500 );
+    }
+    
+    &-danger {
+      @include helper-text-color-style-scoped( danger-500 );
+    }
+  }
+  
+  // Is...
+  &--is {
+    &-skeleton {
+      // Mixins
+      @include mixin.skeleton-loader();
+      
+      // Styles
+      border-radius: border.radius( md );
+    }
+  }
+}

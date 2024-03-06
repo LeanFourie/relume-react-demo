@@ -1,0 +1,94 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.card {
+  // Variables
+  --testimonial-card-bg-color: #{ color.get( neutral-transparent ) };
+
+  --testimonial-card-border-color: #{ size.rem( 1 ) };
+  --testimonial-card-border-width: #{ color.get( grey-100 ) };
+  --testimonial-card-border-radius: #{ border.radius( none ) };
+
+  --testimonial-card-star-color: #{ color.get( warning-500 ) };
+
+  --testimonial-card-image-border-radius: #{ border.radius( round ) };
+
+  // Styles
+  padding: size.rem( 32 );
+  background: var( --testimonial-card-bg-color );
+  border: solid var( --testimonial-card-border-color ) var( --testimonial-card-border-width );
+  border-radius: var( --testimonial-card-border-radius );
+  
+  // Media Queries
+  @include mixin.max-width( md ) {
+    padding: size.rem( 24 );
+  }
+
+  // Children
+  &__logo {
+    width: size.rem( 120 );
+    height: size.rem( 48 );
+    padding: 0 0 size.rem( 24 );
+
+    &-element {
+      * {
+        object-position: center left;
+      }
+    }
+  }
+
+  &__rating {
+    @include mixin.flex-center( flex-start );
+  }
+
+  &__star {
+    // Mixins
+    @include mixin.icon-size-styles( 24 );
+
+    // Styles
+    color: var( --testimonial-card-star-color );
+
+    // Selectors
+    &:not( :last-child ) {
+      margin: 0 0 0 size.rem( 4 );
+    }
+
+    // Is...
+    &--is {
+      &-filled {
+        @include mixin.child-styles( card, star-element ) {
+          font-variation-settings: 'FILL' 1;
+        }
+      }
+    }
+  }
+
+  &__message {
+    margin: size.rem( 24 ) 0;
+  }
+
+  &__client {
+    // Styles
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: size.rem( 20 );
+    align-items: center;
+
+    // Children
+    &-image {
+      width: size.rem( 56 );
+      height: size.rem( 56 );
+      border-radius: var( --testimonial-card-image-border-radius );
+      overflow: hidden;
+    }
+  }
+
+  &__link {
+    margin: size.rem( 32 ) 0 0;
+  }
+}

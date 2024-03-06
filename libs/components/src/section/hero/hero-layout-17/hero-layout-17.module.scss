@@ -1,0 +1,84 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l17-bg-color: #{ color.get( neutral-transparent ) };
+
+  --hero-l17-carousel-bg-color: #{ color.get( grey-50 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat( 2, 1fr );
+  align-items: center;
+  justify-content: center;
+  background: var( --hero-l17-bg-color );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: size.rem( 64 );
+    padding: size.rem( 96 ) 0 0;
+  }
+
+  @include mixin.max-width( sm ) {
+    padding: size.rem( 64 ) 0 0;
+  }
+
+  // Children
+  &__content {
+    // Styles
+    max-width: size.rem( 560 );
+    margin: 0 size.rem( 80 ) 0 5vw;
+    justify-self: end;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      justify-self: start;
+      margin: 0 5vw;
+    }
+
+    @include mixin.max-width( sm ) {
+      max-width: 100%;
+    }
+  }
+
+  &__slide {
+    // Styles
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    // Children
+    &-image {
+      // Styles
+      flex: 1;
+      position: relative;
+
+      // Children
+      &-element {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    &-text {
+      padding: size.rem( 32 ) size.rem( 32 ) size.rem( 128 );
+      background: var( --hero-l17-carousel-bg-color );
+    }
+
+    &-title {
+      margin: 0 0 size.rem( 4 );
+    }
+  }
+}

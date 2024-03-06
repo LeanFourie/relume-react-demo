@@ -1,0 +1,362 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// Mixins
+@mixin four-column-grid-scoped() {
+  @include mixin.grid-styles(
+    1.5fr repeat( 3, 1fr ),
+    32,
+    unset,
+    unset
+  );
+}
+
+// STYLES
+.table {
+  // Variables
+  --pricing-table-header-bg-color: #{ color.get( base-0 ) };
+
+  --pricing-table-borders-color: #{ color.get( grey-100 ) };
+  --pricing-table-borders-width: #{ size.rem( 1 ) };
+  
+  --pricing-table-row-bg-color: #{ color.get( base-0 ) };
+  --pricing-table-row-bg-color-alt: #{ color.get( grey-25 ) };
+
+  --pricing-table-toggle-arrow-color: #{ color.get( grey-300 ) };
+
+  // Children
+  &__prices {
+    // Mixins
+    @include four-column-grid-scoped();
+
+    // Is...
+    &--is {
+      &-sticky {
+        // Styles
+        position: sticky;
+        top: 0;
+        background: var( --pricing-table-header-bg-color );
+        border-bottom: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+        z-index: 2;
+
+        // Children
+        @include mixin.child-styles( table, price ) {
+          align-items: flex-start;
+          justify-content: flex-start;
+          padding: size.rem( 32 ) size.rem( 24 );
+          border-left: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+        }
+      }
+    }
+  }
+
+  &__price {
+    // Styles
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 size.rem( 16 );
+
+    // Children
+    &-name {
+      margin: 0 0 size.rem( 16 );
+    }
+
+    &-description {
+      margin: size.rem( 16 ) 0 0;
+    }
+
+    &-action {
+      width: 100%;
+      margin: size.rem( 32 ) 0 0;
+    }
+
+    // Selectors
+    &:nth-child( 1 ) {
+      grid-column-start: 2;
+    }
+
+    &:nth-child( 2 ) {
+      grid-column-start: 3;
+    }
+
+    &:nth-child( 3 ) {
+      grid-column-start: 4;
+    }
+  }
+
+  &__category {
+    &-name {
+      padding: size.rem( 20 ) 0;
+    }
+  }
+
+  &__option {
+    // Mixins
+    @include mixin.flex-center();
+    @include four-column-grid-scoped();
+
+    // Styles
+    height: size.rem( 56 );
+    background: var( --pricing-table-row-bg-color );
+
+    // Children
+    &-description {
+      @include mixin.flex-center( flex-start );
+    }
+
+    &-include {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      height: 100%;
+
+      // Children
+      &-element {
+        &--icon {
+          &-include {
+            color: color.get( success-500 );
+          }
+
+          &-exclude {
+            color: color.get( grey-500 );
+          }
+        }
+      }
+    }
+  }
+
+  &__ctas {
+    @include four-column-grid-scoped();
+  }
+
+  &__cta {
+    &:nth-child( 1 ) {
+      grid-column-start: 2;
+    }
+
+    &:nth-child( 2 ) {
+      grid-column-start: 3;
+    }
+
+    &:nth-child( 3 ) {
+      grid-column-start: 4;
+    }
+  }
+
+  &__groups {
+    display: grid;
+    gap: size.rem( 40 );
+  }
+
+  &__group {
+    &-name {
+      margin: 0 0 size.rem( 12 );
+    }
+
+    &-description {
+      margin: size.rem( 12 ) 0 0;
+    }
+
+    &-action {
+      margin: size.rem( 16 ) 0 0;
+    }
+
+    &-category {
+      // Mixins
+      @include mixin.flex-center( space-between );
+
+      // Styles
+      position: relative;
+      padding: size.rem( 12 ) 0;
+
+      // Children
+      &-icon {
+        // Mixins
+        @include mixin.flex-center();
+  
+        // Styles
+        width: size.rem( 28 );
+        height: size.rem( 28 );
+        position: relative;
+  
+        // Children
+        &-handle {
+          // Mixins
+          @include mixin.transition(
+            transform
+            transition.duration( medium )
+            transition.easing( easeInDrastic )
+          );
+  
+          // Styles
+          width: size.rem( 2 );
+          height: size.rem( 12 );
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          background: var( --pricing-table-toggle-arrow-color );
+  
+          // Variants
+          &--1 {
+            // Mixins
+            @include mixin.transform(
+              translate( size.rem( -3.5 ), -50% )
+              rotate( -45deg )
+            );
+
+            // Is...
+            &-is {
+              &-active {
+                @include mixin.transform(
+                  translate( size.rem( -3.5 ), -50% )
+                  rotate( 45deg )
+                );
+              }
+            }
+          }
+  
+          &--2 {
+            // Mixins
+            @include mixin.transform(
+              translate( size.rem( 3.5 ), -50% )
+              rotate( 45deg )
+            );
+
+            // Is...
+            &-is {
+              &-active {
+                @include mixin.transform(
+                  translate( size.rem( 3.5 ), -50% )
+                  rotate( -45deg )
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-features {
+      // Styles
+      height: 0;
+      overflow: hidden;
+
+      // Children
+      &-inner {
+        padding: 0 0 size.rem( 12 );
+      }
+    }
+
+    &-option {
+      // Mixins
+      @include mixin.grid-styles(
+        repeat( 2, 1fr ),
+        12,
+        center,
+        unset
+      );
+
+      // Styles
+      padding: size.rem( 12 ) 0;
+    }
+  }
+
+  // Has...
+  &--has {
+    &-sticky-header {
+      @include mixin.child-styles( table, category-name ) {
+        border-bottom: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+      }
+
+      @include mixin.child-styles( table, option ) {
+        // Styles
+        border-bottom: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+
+        // Children
+        &-include {
+          border-left: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+        }
+      }
+
+      @include mixin.child-styles( table, group ) {
+        &-header {
+          position: sticky;
+          top: 0;
+          padding: 0 0 size.rem( 20 );
+          background: color.get( base-0 );
+          z-index: 2;
+        }
+
+        &-header,
+        &-category,
+        &-option {
+          border-bottom: solid var( --pricing-table-borders-width ) var( --pricing-table-borders-color );
+        }
+      }
+    }
+  }
+
+  // Selectors
+  &:not( .table--has-sticky-header ) {
+    @include mixin.child-styles( table, features ) {
+      margin: size.rem( 32 ) 0;
+    }
+
+    @include mixin.child-styles( table, option ) {
+      // Styles
+      padding-left: size.rem( 24 );
+    
+      // Selectors
+      &:nth-child( odd ) {
+        background: var( --pricing-table-row-bg-color-alt );
+      }
+    }
+
+    @include mixin.child-styles( table, group ) {
+      &-header,
+      &-cta {
+        padding-top: size.rem( 20 );
+        padding-bottom: size.rem( 20 );
+        background: var( --pricing-table-row-bg-color-alt );
+      }
+
+      &-header {
+        // Mixins
+        @include mixin.flex-center();
+
+        // Styles
+        flex-direction: column;
+      }
+
+      &-body,
+      &-cta {
+        padding-right: size.rem( 12 );
+        padding-left: size.rem( 12 );
+      }
+
+      &-body {
+        padding-right: size.rem( 12 );
+        padding-left: size.rem( 12 );
+        border: solid size.rem( 1 ) var( --pricing-table-row-bg-color-alt );
+      }
+
+      &-option {
+        // Styles
+        padding-right: size.rem( 12 );
+        padding-left: size.rem( 12 );
+
+        // Selectors
+        &:nth-child( odd ) {
+          background: var( --pricing-table-row-bg-color-alt );
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l12-bg-color: #{ color.get( neutral-transparent ) };
+
+  --hero-l12-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: auto;
+  display: grid;
+  gap: size.rem( 80 );
+  align-items: center;
+  padding: size.rem( 112 ) 0;
+  background: var( --hero-l12-bg-color );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    gap: size.rem( 64 );
+    padding: size.rem( 96 ) 0;
+  }
+
+  @include mixin.max-width( sm ) {
+    gap: size.rem( 48 );
+    padding: size.rem( 64 ) 0;
+  }
+
+  // Children
+  &__images {
+    // Styles
+    height: auto;
+    display: grid;
+    gap: size.rem( 16 );
+    overflow: hidden;
+
+    // Children
+    &-group {
+      // Styles
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: size.rem( 16 );
+      position: relative;
+      will-change: transform;
+
+      // Children
+      &-inner {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        gap: size.rem( 16 );
+        align-self: center;
+      }
+
+      // Is...
+      &--is {
+        &-odd {
+          margin: 0 0 0 -8.5%;
+        }
+      }
+    }
+  }
+
+  &__image {
+    // Styles
+    width: size.rem( 416 );
+    position: relative;
+    padding: 75% 0 0;
+    border-radius: var( --hero-l12-image-border-radius );
+    overflow: hidden;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      width: size.rem( 416 );
+    }
+
+    @include mixin.max-width( sm ) {
+      width: 60vw;
+    }
+
+    // Children
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__content {
+    // Styles
+    max-width: size.rem( 768 );
+    justify-self: center;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: 100%;
+      padding: 0 5vw;
+    }
+  
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20 );
+    }
+  }
+
+  @include mixin.child-styles( section, content ) {
+    * {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,222 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-mega-l6-bg-color-base: #{ color.get( base-0 ) };
+
+  --menu-mega-l6-link-border-radius: #{ border.radius( sm ) };
+
+  --menu-mega-l6-link-color: #{ color.get( invert-0 ) };
+  --menu-mega-l6-link-color-hover: #{ color.get( primary-500 ) };
+  --menu-mega-l6-link-color-pressed: #{ color.get( primary-600 ) };
+
+  --menu-mega-l6-link-bg-color-hover: #{ color.get( primary-50 ) };
+  --menu-mega-l6-link-bg-color-pressed: #{ color.get( primary-100 ) };
+
+  --menu-mega-l6-feature-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.grid-styles(
+    repeat( 5, 1fr ),
+    32,
+    flex-start,
+    unset
+  );
+
+  // Styles
+  padding: size.rem( 32 ) size.rem( 64 );
+  background: var( --menu-mega-l6-bg-color-base );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    grid-template-columns: 1fr;
+  }
+
+  @include mixin.max-width( sm ) {
+    gap: size.rem( 20 );
+    padding: size.rem( 20 );
+  }
+
+  // Children
+  &__groups {
+    grid-column: 1 / span 1;
+  }
+
+  &__group {
+    // Styles
+    display: grid;
+    gap: size.rem( 8 );
+
+    // Children
+    &-links {
+      display: grid;
+      gap: size.rem( 4 );
+    }
+  }
+
+  &__link {
+    // Mixins
+    @include mixin.transition-style( base );
+
+    // Styles
+    position: relative;
+    padding: size.rem( 8 ) 0;
+    color: var( --menu-mega-l6-link-color );
+    text-decoration: none;
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      align-items: center;
+    }
+
+    // Pseudo Elements
+    &::before {
+      // Mixins
+      @include mixin.transition-style( base );
+      @include mixin.transform(
+        translate( -50%, -50% )
+        scale( .95 )
+      );
+
+      // Styles
+      content: '';
+      width: calc( 100% + #{ size.rem( 24 ) } );
+      height: calc( 100% + #{ size.rem( 8 ) } );
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: var( --menu-mega-l6-link-bg-color-hover );
+      border-radius: var( --menu-mega-l6-link-border-radius );
+      transform-origin: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    // Children
+    &-text {
+      position: relative;
+      color: inherit;
+      z-index: 2;
+    }
+
+    &-description {
+      @include mixin.max-width( sm ) {
+        display: none;
+      }
+    }
+
+    // States
+    @include mixin.hover-styles() {
+      // Styles
+      color: var( --menu-mega-l6-link-color-hover );
+
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transform(
+          translate( -50%, -50% )
+          scale( 1 )
+        );
+
+        // Styles
+        opacity: 1;
+      }
+    }
+
+    @include mixin.active-styles() {
+      // Styles
+      color: var( --menu-mega-l6-link-color-pressed );
+
+      // Pseudo Elements
+      &::before {
+        background: var( --menu-mega-l6-link-bg-color-pressed );
+      }
+    }
+  }
+
+  &__features {
+    // Mixins
+    @include mixin.grid-styles(
+      repeat( 2, 1fr ),
+      32,
+      flex-start,
+      unset
+    );
+
+    // Styles
+    row-gap: size.rem( 8 );
+    column-gap: size.rem( 32 );
+    grid-column: 2 / span 4;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: 1fr;
+      grid-column: 1 / span 1;
+    }
+  }
+
+  &__feature {
+    // Mixins
+    @include mixin.grid-styles(
+      size.rem( 160 ) 1fr,
+      24,
+      flex-start,
+      unset
+    );
+
+    // Styles
+    padding: size.rem( 8 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 12 );
+    }
+
+    // Children
+    &-image {
+      // Mixins
+      @include mixin.cover-image-styles( 65% );
+
+      // Styles
+      width: size.rem( 160 );
+      border-radius: var( --menu-mega-l6-feature-image-border-radius );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        width: 100%;
+      }
+    }
+
+    &-text {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-link {
+      margin: auto 0 0;
+    }
+
+    .menu {
+      &__feature {
+        &-description {
+          // Styles
+          margin: size.rem( 4 ) 0 0;
+
+          // Media Queries
+          @include mixin.max-width( sm ) {
+            margin: size.rem( 4 ) 0 size.rem( 8 );
+          }
+        }
+      }
+    }
+  }
+}

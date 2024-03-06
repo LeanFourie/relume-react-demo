@@ -1,0 +1,248 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.feature-content {
+  // Children
+  &__tagline {
+    margin: 0 0 size.rem( 8 );
+  }
+
+  &__icon {
+    // Mixins
+    @include mixin.icon-size-styles( 80 );
+
+    // Styles
+    margin: 0 0 size.rem( 24 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 20 );
+    }
+
+    // Size...
+    &--size {
+      &-sm {
+        // Mixins
+        @include mixin.icon-size-styles( 48 );
+
+        .feature-content__icon-element {
+          font-size: size.rem(48);
+
+          * {
+            font-size: size.rem(48);
+          }
+        }
+      }
+    }
+  }
+
+  &__content {
+    &-blocks {
+      // Styles
+      display: grid;
+      grid-template-columns: repeat( 2, 1fr );
+      gap: size.rem( 24 );
+      align-items: flex-start;
+      margin: size.rem( 32 ) 0 0;
+      padding: size.rem( 8 ) 0;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        grid-template-columns: 1fr;
+        margin: size.rem( 28 ) 0 0;
+      }
+    }
+
+    &-block {
+      // Children
+      &-title {
+        margin: 0 0 size.rem( 16 );
+      }
+
+      // Stack...
+      &--stack {
+        &-vertical {
+          @include mixin.child-styles( feature-content, content-block-icon ) {
+            // Mixins
+            @include mixin.icon-size-styles( 48 );
+
+            // Styles
+            margin: 0 0 size.rem( 16 );
+          }
+        }
+
+        &-horizontal {
+          // Styles
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: size.rem( 16 );
+
+          // Children
+          @include mixin.child-styles( feature-content, content-block-icon ) {
+            @include mixin.icon-size-styles( 32 );
+          }
+        }
+      }
+    }
+  }
+
+  &__list {
+    // Styles
+    display: grid;
+    gap: size.rem( 16 );
+    margin: size.rem( 32 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 28 ) 0 0;
+    }
+
+    // Children
+    &-item {
+      // Styles
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: size.rem( 12 );
+      align-items: center;
+
+      // Children
+      &-icon {
+        @include mixin.icon-size-styles( 20 );
+      }
+
+      // Selectors
+      &:not( .feature-content__list-item--has-icon ) {
+        // Styles
+        padding: 0 0 0 size.rem( 8 );
+
+        // Pseudo Elements
+        &::before {
+          // Mixins
+          @include mixin.transform(
+            scale( 3 )
+          );
+
+          // Styles
+          content: '\2022';
+          display: inline-block;
+          line-height: 1;
+        }
+      }
+
+      // Has...
+      &--has {
+        &-icon {
+          gap: size.rem( 16 );
+        }
+      }
+    }
+  }
+
+  &__logos {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+    padding: size.rem( 24 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 20 ) 0 0;
+    }
+  }
+
+  &__logo {
+    max-width: size.rem( 120 );
+    height: size.rem( 48 );
+  }
+
+  &__stats {
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap: size.rem( 24 );
+    align-items: flex-start;
+    margin: size.rem( 32 ) 0 0;
+    padding: size.rem( 8 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      margin: size.rem( 28 ) 0 0;
+    }
+
+    // Children
+    &-item {
+      &-value {
+        margin: 0 0 size.rem( 8 );
+      }
+    }
+  }
+
+  &__actions {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+    padding: size.rem( 16 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 12 ) 0 0;
+    }
+  }
+
+  // Stack...
+  &--stack {
+    &-vertical {
+      @include mixin.child-styles( feature-content, title ) {
+        // Styles
+        margin: 0 0 size.rem( 16 );
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 12 );
+        }
+      }
+    }
+
+    &-horizontal {
+      display: grid;
+      grid-template-columns: repeat( 2, 1fr );
+      gap: size.rem( 80 );
+      align-items: flex-start;
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        gap: size.rem( 48 );
+      }
+
+      @include mixin.max-width( sm ) {
+        grid-template-columns: 1fr;
+        gap: size.rem( 24 );
+      }
+    }
+  }
+
+  // Align...
+  &--align {
+    &-left {
+      @include mixin.children-styles( feature-content, ( logos, actions ) ) {
+        justify-content: flex-start;
+      }
+    }
+
+    &-center {
+      @include mixin.child-styles( feature-content, icon ) {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+  }
+}

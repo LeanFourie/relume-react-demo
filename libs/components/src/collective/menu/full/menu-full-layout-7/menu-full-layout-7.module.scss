@@ -1,0 +1,268 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/fonts' as font;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-full-l7-bg-color-base: #{ color.get( base-0 ) };
+  --menu-full-l7-bg-color-layer: #{ color.get( grey-50 ) };
+
+  --menu-full-l7-link-primary-color: #{ color.get( invert-0 ) };
+  --menu-full-l7-link-primary-color-hover: #{ color.get( base-0 ) };
+  --menu-full-l7-link-primary-bg-color-hover: #{ color.get( invert-0 ) };
+
+  --menu-full-l7-link-secondary-color: #{ color.get( invert-0 ) };
+  --menu-full-l7-link-secondary-color-hover: #{ color.get( primary-500 ) };
+  --menu-full-l7-link-secondary-color-pressed: #{ color.get( primary-600 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat( 6, 1fr );
+  align-items: center;
+  position: relative;
+  background: var( --menu-full-l6-bg-color-base );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  &__links {
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    row-gap: size.rem( 32 );
+    column-gap: size.rem( 40 );
+    grid-column: 1 / span 4;
+    align-items: center;
+    margin: 0 0 auto;
+    padding: 16vh size.rem( 40 ) 0 size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-column: 1 / span 1;
+      padding: size.rem( 40 ) size.rem( 64 );
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 20 );
+      padding: size.rem( 40 ) size.rem( 20 );
+    }
+  }
+
+  &__link {
+    // Mixins
+    @include mixin.flex-center( flex-start );
+
+    &-inner {
+      // Styles
+      color: var( --menu-full-l7-link-primary-color );
+      text-decoration: none;
+
+      // States
+      @include mixin.hover-styles() {
+        @include mixin.child-styles( menu, link-label ) {
+          &::before {
+            width: 100%;
+          }
+
+          &::after {
+            width: calc( 100% + #{ size.rem( 16 ) } );
+          }
+        }
+      }
+    }
+
+    &-label {
+      // Styles
+      position: relative;
+
+      // Pseudo Elements
+      &::before,
+      &::after {
+        // Mixins
+        @include mixin.transition-style( base );
+
+        // Styles
+        width: 0;
+        position: absolute;
+      }
+
+      &::before {
+        content: attr( data-label );
+        height: 100%;
+        top: 0;
+        left: 0;
+        color: var( --menu-full-l7-link-primary-color-hover );
+        line-height: 1;
+        letter-spacing: size.rem( -10 );
+        font-family: font.family( decorative );
+        font-size: size.rem( 48 );
+        white-space: nowrap;
+        overflow: hidden;
+        z-index: 3;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          font-size: size.rem( 40 );
+        }
+    
+        @include mixin.max-width( sm ) {
+          font-size: size.rem( 32 );
+        }
+      }
+
+      &::after {
+        content: '';
+        height: calc( 100% + #{ size.rem( 8 ) });
+        top: size.rem( -4 );
+        left: size.rem( -8 );
+        background: var( --menu-full-l7-link-primary-bg-color-hover );
+      }
+
+      // Children
+      @include mixin.child-styles( menu, link-label-element ) {
+        line-height: 1;
+      }
+    }
+  }
+
+  &__form {
+    // Styles
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    grid-row: 1 / span 2;
+    grid-column: 5 / span 2;
+    flex-direction: column;
+    background: var( --menu-full-l6-bg-color-layer );
+    padding: 16vh size.rem( 64 ) size.rem( 72 ) size.rem( 40 );
+
+    // Media Queries
+    @include mixin.max-width( lg ) {
+      padding: 16vh size.rem( 28 ) 0 size.rem( 28 );
+    }
+
+    @include mixin.max-width( md ) {
+      min-height: unset;
+      grid-row: 2 / span 1;
+      grid-column: 1 / span 1;
+      padding: size.rem( 40 ) size.rem( 64 );
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 40 ) size.rem( 20 );
+    }
+
+    &-row {
+      // Styles
+      margin: 0 0 size.rem( 24 );
+
+      // Variants
+      &--text {
+        display: grid;
+        gap: size.rem( 4 );
+        margin: 0 0 size.rem( 32 );
+      }
+    }
+  }
+
+  &__footer {
+    // Styles
+    display: grid;
+    gap: size.rem( 24 );
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0 size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 40 ) size.rem( 64 );
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 40 ) size.rem( 20 );
+    }
+  }
+
+  &__details {
+    // Styles
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Children
+    &-title {
+      margin: 0 0 size.rem( 8 );
+    }
+
+    &-item {
+      // Styles
+      position: relative;
+      color: var( --menu-full-l7-link-secondary-color );
+      text-decoration: none;
+
+      // Selectors
+      &:not( :last-child ) {
+        margin: 0 0 size.rem( 4 );
+
+        // Pseudo Elements
+        &::before {
+          // Mixins
+          @include mixin.transform( scaleX( 0 ) );
+          @include mixin.transition-style( base, transform );
+          
+          // Styles
+          content: '';
+          width: 100%;
+          height: size.rem( 1 );
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          background: var( --menu-full-l7-link-secondary-color-hover );
+          transform-origin: bottom right;
+        }
+
+        // States
+        @include mixin.hover-styles() {
+          // Styles
+          color: var( --menu-full-l7-link-secondary-color-hover );
+
+          // Pseudo Elements
+          &::before {
+            // Mixins
+            @include mixin.transform( scaleX( 1 ) );
+            
+            // Styles
+            transform-origin: bottom left;
+          }
+        }
+
+        // States
+        &:active {
+          // Styles
+          color: var( --menu-full-l7-link-secondary-color-pressed );
+
+          // Pseudo Elements
+          &::before {
+            background: var( --menu-full-l7-link-secondary-color-pressed );
+          }
+        }
+      }
+    }
+  }
+}

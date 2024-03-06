@@ -1,0 +1,23 @@
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/fonts' as font;
+@use '@relume-demo/styles/theming/shadows' as shadow;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+
+:root {
+  @include border.generate-border-variables();
+  @include color.generate-color-variables();
+  @include font.generate-font-variables();
+  @include shadow.generate-shadow-variables();
+  @include size.generate-size-variables();
+  @include transition.generate-transition-variables();
+  
+  --transparent: rgba( 255, 255, 255, 0 );
+}
+
+.sb-show-main {
+  &.sb-main-padded {
+    padding: 0;
+  }
+}

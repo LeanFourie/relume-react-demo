@@ -1,0 +1,197 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.group {
+  // Variables
+  --testimonial-group-bg-color: #{ color.get( neutral-transparent ) };
+  --testimonial-group-border-radius: #{ border.radius( none ) };
+
+  --testimonial-group-image-border-radius: #{ border.radius( round ) };
+
+  // Styles
+  max-width: size.rem( 768 );
+  background: var( --testimonial-group-bg-color );
+  border-radius: var( --testimonial-group-border-radius );
+
+  // Children
+  &__logo {
+    width: size.rem( 120 );
+    height: size.rem( 48 );
+  }
+
+  &__rating {
+    @include mixin.flex-center( flex-start );
+  }
+
+  &__star {
+    // Mixins
+    @include mixin.icon-size-styles( 24 );
+
+    // Styles
+    color: var( --testimonial-group-star-color );
+
+    // Selectors
+    &:not( :last-child ) {
+      margin: 0 0 0 size.rem( 4 );
+    }
+
+    // Is...
+    &--is {
+      &-filled {
+        @include mixin.child-styles( group, star-element ) {
+          font-variation-settings: 'FILL' 1;
+        }
+      }
+    }
+  }
+
+  &__message {
+    // Styles
+    margin: size.rem( 32 ) 0;
+
+    // Mixins
+    @include mixin.max-width( md ) {
+      margin: size.rem( 24 ) 0;
+    }
+  }
+
+  &__client {
+    // Styles
+    display: grid;
+    gap: size.rem( 20 );
+    align-items: center;
+
+    // Children
+    &-image {
+      width: size.rem( 56 );
+      height: size.rem( 56 );
+      border-radius: var( --testimonial-group-image-border-radius );
+      overflow: hidden;
+    }
+  }
+
+  // Align...
+  &--align {
+    &-center {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      flex-direction: column;
+      margin: 0 auto;
+
+      // Children
+      @include mixin.child-styles( group, logo-element ) {
+        * {
+          object-position: center left;
+        }
+      }
+
+      // Selectors
+      &:not( .group--has-rating ) {
+        @include mixin.child-styles( group, client ) {
+          // Styles
+          gap: size.rem( 16 );
+  
+          // Children
+          &-image {
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+
+    &-left {
+      // Styles
+      gap: size.rem( 20 );
+
+      // Children
+      @include mixin.child-styles( group, client ) {
+        // Styles
+        grid-auto-flow: column;
+        grid-auto-columns: auto;
+        gap: size.rem( 20 );
+        align-items: center;
+        justify-content: flex-start;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          grid-auto-flow: row;
+        }
+      }
+    }
+  }
+
+  // Has...
+  &--has {
+    &-rating {
+      @include mixin.child-styles( group, client ) {
+        // Styles
+        grid-auto-flow: column;
+        grid-auto-columns: auto;
+        gap: size.rem( 20 );
+        align-items: center;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          grid-auto-flow: row;
+        }
+
+        // Children
+        &-details {
+          // Styles
+          padding: 0 size.rem( 20 ) 0 0;
+          border-right: solid size.rem( 1 ) color.get( grey-100 );
+
+          // Media Queries
+          @include mixin.max-width( md ) {
+            padding: 0;
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+
+  // Client Stack...
+  &--client-stack {
+    &-vertical {
+      @include mixin.child-styles( group, client ) {
+        // Styles
+        gap: size.rem( 16 );
+        grid-auto-flow: row;
+
+        // Children
+        &-image {
+          margin: 0;
+        }
+
+        &-details {
+          padding: 0;
+          border: none;
+        }
+      }
+    }
+
+    &-horizontal {
+      @include mixin.child-styles( group, client ) {
+        // Styles
+        grid-auto-flow: column;
+        grid-auto-columns: auto;
+        gap: size.rem( 20 );
+        align-items: center;
+        justify-content: flex-start;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          grid-auto-flow: row;
+        }
+      }
+    }
+  }
+}

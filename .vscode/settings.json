@@ -1,0 +1,5 @@
+{
+  "docwriter.style": "JSDoc",
+  "docify.commentService.programmingLanguage": "javascript",
+  "docify.commentService.docstringFormat": "JsDoc"
+}

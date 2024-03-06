@@ -1,0 +1,26 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.variants {
+  &__title {
+    margin: 0 0 size.rem( 8 );
+  }
+
+  &__options {
+    // Mixins
+    @include mixin.grid-auto-columns( 16, flex-start );
+
+    // Styles
+    width: 100%;
+
+    // Has...
+    &--has {
+      &-select {
+        justify-content: stretch;
+      }
+    }
+  }
+}

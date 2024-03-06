@@ -1,0 +1,131 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l9-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l9-link-color: #{ color.get( invert-0 ) };
+  --cta-banner-l9-link-color-hover: #{ color.get( invert-25 ) };
+  --cta-banner-l9-link-color-pressed: #{ color.get( invert-50 ) };
+
+  --cta-banner-l9-link-border-color: #{ color.get( grey-100 ) };
+  --cta-banner-l9-link-border-width: #{ size.rem( 1 ) };
+
+  --cta-banner-l9-link-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l9-bg-color );
+  overflow: hidden;
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__tagline {
+    // Styles
+    margin: 0 0 size.rem( 32 );
+
+    /// Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 24 );
+    }
+  }
+
+  &__links {
+    // Mixins
+    @include mixin.flex-center();
+
+    // Styles
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+  }
+
+  &__link {
+    // Styles
+    position: relative;
+    padding: size.rem( 16 ) 0;
+    color: var( --cta-banner-l9-link-color );
+    text-decoration: none;
+
+    // Children
+    &-label {
+      // Mixins
+      @include mixin.flex-center( flex-start );
+
+      // Children
+      @include mixin.child-styles( section, link-label-index ) {
+        // Styles
+        display: inline-block;
+        margin: 0 size.rem( 32 ) 0 0;
+        
+        /// Media Queries
+        @include mixin.max-width( sm ) {
+          margin: 0 size.rem( 24 ) 0 0;
+        }
+      }
+    }
+
+    // States
+    @include mixin.hover-styles() {
+      color: var( --cta-banner-l9-link-color-hover );
+    }
+
+    @include mixin.active-styles() {
+      color: var( --cta-banner-l9-link-color-pressed );
+    }
+
+    // Selectors
+    &:not( :last-child ) {
+      border-bottom: solid var( --cta-banner-l9-link-border-width ) var( --cta-banner-l9-link-border-color );
+    }
+  }
+
+  &__image {
+    // Mixins
+    @include mixin.transform(
+      translate( -50%, -50% )
+    );
+
+    // Styles
+    width: 20vw;
+    height: 20vw;
+    position: fixed;
+    border-radius: var( --cta-banner-l9-link-image-border-radius );
+    opacity: 1;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 2;
+
+    // Children
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

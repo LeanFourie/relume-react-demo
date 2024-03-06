@@ -1,0 +1,137 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.content-group {
+  // Children
+  &__tagline {
+    // Styles
+    margin: 0 0 size.rem( 16 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 8 );
+    }
+  }
+
+  &__paragraph {
+    // Styles
+    margin: 0 0 size.rem( 40 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 32 );
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-auto-columns( 16, flex-start );
+  }
+
+  &__form {
+    &-row {
+      // Mixins
+      @include mixin.flex-center( flex-start );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+
+  &__input {
+    flex: 1;
+  }
+
+  &__action {
+    // Styles
+    margin: 0 0 0 size.rem( 16 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 8 ) 0 0;
+    }
+
+    // Children
+    @include mixin.children-styles( content-group, ( action-element-host, action-element ) ) {
+      @include mixin.max-width( sm ) {
+        width: 100%;
+      }
+    }
+  }
+
+  &__message {
+    margin: size.rem( 16 ) 0 0;
+  }
+
+  @include mixin.child-styles( content-group, message ) {
+    * {
+      font-size: size.rem( 12 );
+    }
+  }
+
+  // Stack...
+  &--stack {
+    &-vertical {
+      @include mixin.child-styles( content-group, title ) {
+        // Styles
+        margin: 0 0 size.rem( 24 );
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+    }
+
+    &-horizontal {
+      // Styles
+      display: grid;
+      grid-template-columns: repeat( 2, 1fr );
+      gap: size.rem( 80 );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        gap: size.rem( 48 );
+      }
+
+      @include mixin.max-width( sm ) {
+        grid-template-columns: 1fr;
+        gap: size.rem( 0 );
+      }
+
+      // Children
+      @include mixin.child-styles( content-group, title ) {
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+
+      @include mixin.child-styles( content-group, form ) {
+        @include mixin.min-width( md ) {
+          max-width: size.rem( 512 );
+        }
+      }
+    }
+  }
+
+  &--align {
+    &-center {
+      @include mixin.children-styles( content-group, ( actions, form-row ) ) {
+        justify-content: center;
+      }
+
+      @include mixin.child-styles( content-group, message ) {
+        * {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

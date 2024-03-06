@@ -1,0 +1,49 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.vab {
+  // Variables
+  --vab-l6-bg-color: #{ color.get( neutral-transparent ) };
+
+  --vab-l6-border-size: #{ size.rem( 1 ) };
+  --vab-l6-border-color: #{ color.get( grey-500 ) };
+
+  // Mixins
+  @include mixin.full-width();
+  @include mixin.transform(
+    translateX( -50% )
+  );
+  @include mixin.transition(
+    all
+    transition.duration( extraSlow )
+    transition.easing( easeInDrastic )
+  );
+
+  // Styles
+  position: fixed;
+  top: 0;
+  left: 50%;
+  padding: size.rem( 12 ) size.rem( 16 );
+  background: var( --vab-l6-bg-color );
+  border-bottom: solid var( --vab-l6-border-size ) var( --vab-l6-border-color );
+  overflow: hidden;
+
+  // Children
+  &__inner {
+    width: 200vw;
+    display: flex;
+  }
+
+  &__messages {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+  }
+}

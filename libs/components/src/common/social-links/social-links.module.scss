@@ -1,0 +1,92 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.socials {
+  // Variables
+  --social-links-link-border-radius: #{ border.radius( round ) };
+
+  // Mixins
+  @include mixin.grid-auto-columns( 12, flex-start );
+
+  // Children
+  &__item {
+    // Styles
+    position: relative;
+
+    // Pseudo Elements
+    &::before {
+      // Mixins
+      @include mixin.transition-style( base );
+      @include mixin.transform(
+        translate( -50%, -50% )
+        scale( 0 )
+      );
+
+      // Styles
+      content: '';
+      width: calc( 100% + #{ size.rem( 8 ) } );
+      height: calc( 100% + #{ size.rem( 8 ) } );
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: var( --social-links-link-border-radius );
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    // Children
+    &-icon {
+      *:not([ fill="none" ]) {
+        // Mixins
+        @include mixin.transition-style( base );
+
+        // Styles
+        fill: color.get( invert-0 );
+      }
+    }
+
+    @include mixin.child-styles( socials, item-icon ) {
+      width: size.rem( 24 );
+      height: size.rem( 24 );
+    }
+
+    // Type...
+    &--type {
+      @each $key, $value in list.$socials {
+        &-#{ $key } {
+          // Pseudo Elements
+          &::before {
+            // Mixins
+            @include mixin.transform(
+              translate( -50%, -50% )
+            );
+
+            // Styles
+            background: color.social-color( $value );
+          }
+
+          // States
+          @include mixin.hover-styles() {
+            // Pseudo Elements
+            &::before {
+              opacity: .2;
+            }
+
+            // Children
+            @include mixin.child-styles( socials, item-icon ) {
+              *:not([ fill="none" ]) {
+                fill: color.social-color( $value );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

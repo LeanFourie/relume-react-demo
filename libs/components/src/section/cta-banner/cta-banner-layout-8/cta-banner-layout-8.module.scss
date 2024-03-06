@@ -1,0 +1,141 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l8-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l8-link-color: #{ color.get( invert-0 ) };
+  --cta-banner-l8-link-color-hover: #{ color.get( base-0 ) };
+  --cta-banner-l8-link-color-pressed: #{ color.get( base-50 ) };
+
+  --cta-banner-l8-link-underline-size: #{ size.rem( 4 ) };
+
+  --cta-banner-l8-link-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l8-bg-color );
+  overflow: hidden;
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__tagline {
+    // Styles
+    margin: 0 0 size.rem( 32 );
+
+    /// Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 24 );
+    }
+  }
+
+  &__links {
+    // Mixins
+    @include mixin.flex-center();
+
+    // Styles
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__link {
+    // Styles
+    position: relative;
+    padding: size.rem( 16 ) 0;
+    color: var( --cta-banner-l8-link-color );
+    mix-blend-mode: exclusion;
+    text-decoration: none;
+
+    // Pseudo Elements
+    &::before {
+      // Mixins
+      @include mixin.transform( scaleX( 0 ) );
+      @include mixin.transition-style( base, transform );
+      
+      // Styles
+      content: '';
+      width: 100%;
+      height: var( --cta-banner-l8-link-underline-size );
+      position: absolute;
+      bottom: size.rem( 12 );
+      left: 0;
+      background: var( --cta-banner-l8-link-color );
+      transform-origin: bottom right;
+      z-index: 9;
+    }
+
+    // States
+    @include mixin.hover-styles() {
+      // Styles
+      color: var( --cta-banner-l8-link-color-hover );
+
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transform( scaleX( 1 ) );
+        
+        // Styles
+        background: var( --cta-banner-l8-link-color-hover );
+        transform-origin: bottom left;
+      }
+    }
+
+    @include mixin.active-styles() {
+      // Styles
+      color: var( --cta-banner-l8-link-color-pressed );
+
+      // Pseudo Elements
+      &::before {
+        background: var( --cta-banner-l8-link-color-pressed );
+      }
+    }
+  }
+
+  &__image {
+    // Mixins
+    @include mixin.transform(
+      translate( -50%, -50% )
+    );
+
+    // Styles
+    width: 40vw;
+    height: 40vw;
+    position: fixed;
+    border-radius: var( --cta-banner-l8-link-image-border-radius );
+    opacity: 1;
+    pointer-events: none;
+    overflow: hidden;
+
+    // Children
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

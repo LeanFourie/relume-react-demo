@@ -1,0 +1,202 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin link-color-style-scoped(
+  $color-resting,
+  $color-hover,
+  $color-active
+) {
+  // Pseudo Elements
+  &::before {
+    background-color: $color-resting;
+  }
+  
+  // Children
+  @include mixin.children-styles( link, ( text-element, icon-element ) ) {
+    color: $color-resting;
+  }
+  
+  // States
+  @include mixin.hover-styles() {
+    // Pseudo Elements
+    &::before {
+      background-color: $color-hover;
+    }
+    
+    // Children
+    @include mixin.children-styles( link, ( text-element, icon-element ) ) {
+      color: $color-hover;
+    }
+  }
+  
+  // States
+  @include mixin.active-styles() {
+    // Pseudo Elements
+    &::before {
+      background-color: $color-active;
+    }
+    
+    // Children
+    @include mixin.children-styles( link, ( text-element, icon-element ) ) {
+      color: $color-active;
+    }
+  }
+}
+
+// STYLES
+.link {
+  // Mixins
+  @include mixin.inline-flex-center( flex-start );
+  @include mixin.transition-style( base );
+  
+  // Styles
+  position: relative;
+  padding: 0;
+  background: color.get( neutral-transparent );
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+
+  // Pseudo Elements
+  &::before {
+    // Mixins
+    @include mixin.transform( scaleX( 0 ) );
+    @include mixin.transition-style( base, transform );
+    
+    // Styles
+    content: '';
+    width: 100%;
+    height: size.rem( 1 );
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom right;
+  }
+  
+  // Children
+  &__icon {
+    @include mixin.transition-style( base, transform );
+
+    margin: 0 0 0 size.rem( 4 );
+    font-size: size.rem( 20 );
+    font-weight: 400;
+
+    span {
+      @include mixin.font-weight( 300 );
+    }
+  }
+  
+  // Icon Type...
+  &--icon {
+    &-arrow {
+      @include mixin.hover-styles() {
+        @include mixin.child-styles( link, icon ) {
+          @include mixin.transform(
+            translateX( size.rem( 4 ) )
+          );
+        }
+      }
+    }
+  }
+  
+  // Color...
+  &--color {
+    &-primary {
+      @include link-color-style-scoped(
+        color.get( primary-500 ),
+        color.get( primary-600 ),
+        color.get( primary-700 )
+      );
+    }
+    
+    &-black {
+      @include link-color-style-scoped(
+        color.get( neutral-black ),
+        color.get( primary-500 ),
+        color.get( primary-400 )
+      );
+    }
+    
+    &-white {
+      @include link-color-style-scoped(
+        color.get( neutral-white ),
+        color.get( primary-500 ),
+        color.get( primary-600 )
+      );
+    }
+    
+    &-grey {
+      @include link-color-style-scoped(
+        color.get( grey-500 ),
+        color.get( primary-500 ),
+        color.get( primary-600 )
+      );
+    }
+    
+    &-base {
+      @include link-color-style-scoped(
+        color.get( base-0 ),
+        color.get( primary-500 ),
+        color.get( primary-600 )
+      );
+    }
+    
+    &-invert {
+      @include link-color-style-scoped(
+        color.get( invert-0 ),
+        color.get( primary-500 ),
+        color.get( primary-600 )
+      );
+    }
+  }
+  
+  // Is...
+  &--is {
+    &-disabled {
+      @include link-color-style-scoped(
+        color.get( grey-300 ),
+        color.get( grey-300 ),
+        color.get( grey-300 )
+      );
+      
+      &::before {
+        display: none;
+      }
+    }
+    
+    &-skeleton {
+      // Mixins
+      @include mixin.skeleton-loader();
+      
+      // Styles
+      border-radius: border.radius( sm );
+    }
+  }
+  
+  // States
+  &:focus {
+    &:not(
+    :active,
+    :hover
+  ) {
+      border-radius: border.radius( min );
+      outline: solid size.rem( 3 ) color.get( primary-200 );
+      outline-offset: size.rem( 2 );
+    }
+  }
+
+  @include mixin.hover-styles() {
+    &::before {
+      // Mixins
+      @include mixin.transform( scaleX( 1 ) );
+      
+      // Styles
+      transform-origin: bottom left;
+    }
+  }
+}

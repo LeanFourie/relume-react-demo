@@ -1,0 +1,80 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l8-bg-color: #{ color.get( neutral-transparent ) };
+
+  --hero-l8-media-border-radius: #{ border.radius( none ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --hero-l8-bg-color );
+
+  // Children
+  &__inner {
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 92 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__content {
+    // Styles
+    margin: 0 0 size.rem( 80 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      margin: 0 0 size.rem( 72 );
+    }
+
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 48 );
+    }
+  }
+
+  &__image,
+  &__video,
+  &__background {
+    position: relative;
+    padding: 56.25% 0 0;
+    border-radius: var( --hero-l8-media-border-radius );
+    overflow: hidden;
+  }
+
+  @include mixin.children-styles( section, ( image, video ) ) {
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &--text {
+    &-align {
+      &-center {
+        @include mixin.variant-styles( section, text-stack-direction, vertical ) {
+          @include mixin.child-styles( section, content ) {
+            max-width: size.rem( 768 );
+            margin-right: auto;
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+}

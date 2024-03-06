@@ -1,0 +1,77 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.team {
+  // Variables
+  --team-l3-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --team-l3-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+      gap: size.rem( 72 );
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+      gap: size.rem( 48 );
+    }
+  }
+
+  &__employees {
+    // Styles
+    display: grid;
+    row-gap: size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      row-gap: size.rem( 48 );
+    }
+
+    // Columns...
+    &--columns {
+      &-3 {
+        @include mixin.min-width( md ) {
+          grid-template-columns: repeat( 2, 1fr );
+          column-gap: size.rem( 48 );
+        }
+      }
+    }
+  }
+
+  // Columns
+  &--columns {
+    &-2 {
+      @include mixin.child-styles( team, inner ) {
+        @include mixin.min-width( md ) {
+          grid-template-columns: repeat( 2, 1fr );
+        }
+      }
+    }
+
+    &-3 {
+      @include mixin.child-styles( team, inner ) {
+        @include mixin.min-width( md ) {
+          grid-template-columns: .5fr 1fr;
+        }
+      }
+    }
+  }
+}

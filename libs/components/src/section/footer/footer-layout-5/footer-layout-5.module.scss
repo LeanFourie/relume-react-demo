@@ -1,0 +1,209 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.footer {
+  // Variables
+  --footer-l5-bg-color: #{ color.get( neutral-transparent ) };
+
+  --footer-l5-separator-color: #{ color.get( grey-100 ) };
+  --footer-l5-separator-width: #{ size.rem( 1 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --footer-l5-bg-color );
+
+  // Children
+  &__inner {
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 80 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      gap: size.rem( 64 );
+      padding: size.rem( 72 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 48 );
+      padding: size.rem( 48 ) 0;
+    }
+  }
+
+  &__top {
+    // Styles
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      flex-direction: column;
+    }
+  }
+
+  &__newsletter {
+    &-form {
+      // Styles
+      max-width: size.rem( 400 );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        max-width: size.rem( 560 );
+        margin: size.rem( 20 ) 0 0;
+      }
+
+      @include mixin.max-width( sm ) {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  &__center {
+    // Styles
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: size.rem( 32 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-auto-flow: row;
+      gap: size.rem( 48 );
+    }
+  }
+
+  &__logo {
+    // Styles
+    height: size.rem( 28 );
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Children
+    &-element {
+      * {
+        object-position: center left;
+      }
+    }
+  }
+
+  &__links {
+    // Styles
+    display: contents;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      display: grid;
+      grid-template-columns: repeat( 3, 1fr );
+      row-gap: size.rem( 48 );
+      column-gap: size.rem( 32 );
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+    }
+
+    // Children
+    &-group {
+      &-title {
+        margin: 0 0 size.rem( 20 );
+
+        @include mixin.max-width( sm ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+    }
+  }
+
+  &__link {
+    // Styles
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Selectors
+    &:not( :last-child ) {
+      margin: 0 0 size.rem( 12 );
+    }
+
+    &-element {
+      // Mixins
+      @include mixin.flex-center( flex-start );
+
+      // Styles
+      position: relative;
+      text-decoration: none;
+    }
+  }
+
+  &__bottom {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: size.rem( 32 ) 0 0;
+    border-top: solid var( --footer-l5-separator-width ) var( --footer-l5-separator-color );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__copy-and-legal {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      margin: size.rem( 28 ) 0 0;
+      order: 2;
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      gap: size.rem( 24 );
+    }
+  }
+
+  &__copyright {
+    @include mixin.max-width( sm ) {
+      order: 2;
+    }
+  }
+
+  &__legal {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+      gap: size.rem( 12 );
+      justify-content: flex-start;
+    }
+
+    // Children
+    &-link {
+      @include mixin.child-styles( footer, legal-link-element ) {
+        * {
+          font-size: size.rem( 14 );
+        }
+      }
+    }
+  }
+}

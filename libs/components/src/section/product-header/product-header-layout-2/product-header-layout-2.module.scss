@@ -1,0 +1,273 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/shadows' as shadow;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --product-header-l2-bg-color: #{ color.get( neutral-transparent ) };
+
+  --product-header-l2-image-lg-border-radius: #{ border.radius( none ) };
+  --product-header-l2-image-sm-border-radius: #{ border.radius( none ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --product-header-l2-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 24 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 20 );
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__product {
+    // Styles
+    display: grid;
+    row-gap: size.rem( 48 );
+  }
+
+  &__images {
+    // Styles
+    position: relative;
+
+    // Children
+    &-listing {
+      // Styles
+      display: grid;
+      grid-template-columns: repeat( 4, 1fr );
+      gap: size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        grid-template-columns: repeat( 2, 1fr );
+      }
+    }
+
+    &-item {
+      // Styles
+      padding: 100% 0 0;
+      position: relative;
+      overflow: hidden;
+
+      // Selectors
+      &:first-child {
+        grid-row: 1 / span 2;
+        grid-column: 1 / span 2;
+        border-radius: var( --product-header-l2-image-lg-border-radius );
+      }
+
+      &:not( :first-child ) {
+        border-radius: var( --product-header-l2-image-sm-border-radius );
+      }
+    }
+
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-badges,
+    &-action {
+      position: absolute;
+      z-index: 2;
+    }
+
+    &-badges {
+      // Mixins
+      @include mixin.flex-center( flex-end );
+
+      // Styles
+      top: size.rem( 12 );
+      left: size.rem( 12 );
+    }
+
+    &-badge {
+      &:not( :last-child ) {
+        margin: 0 size.rem( -4 ) 0 0;
+      }
+    }
+
+    &-action {
+      bottom: size.rem( 12 );
+      right: size.rem( 12 );
+    }
+  }
+
+  &__details {
+    // Styles
+    display: grid;
+
+    // Media Queries
+    @include mixin.min-width( sm ) {
+      grid-template-columns: 1.25fr .75fr;
+      gap: size.rem( 80 );
+    }
+  }
+
+  &__text {
+    @include mixin.max-width( sm ) {
+      display: contents;
+    }
+  }
+
+  &__name {
+    margin: 0 0 size.rem( 16 );
+  }
+
+  &__description {
+    margin: 0 0 size.rem( 32 );
+  }
+
+  &__tabs {
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 32 ) 0 0;
+      order: 3;
+    }
+  }
+
+  &__price {
+    // Mixins
+    @include mixin.grid-centered-columns( 16 );
+
+    // Styles
+    margin: 0 0 size.rem( 8 );
+    justify-content: flex-start;
+
+    // Children
+    @include mixin.child-styles( section, price-element ) {
+      // Variants
+      &--sale {
+        color: color.get( danger-500 );
+      }
+
+      // Is...
+      &--is {
+        &-disabled {
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  &__rating {
+    // Mixins
+    @include mixin.flex-center( flex-start );
+
+    // Styles
+    margin: 0 0 size.rem( 24 );
+
+    // Children
+    &-stars {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      margin: 0 size.rem( 8 ) 0 0;
+    }
+
+    &-star {
+      // Variables
+      $icon-size: 24;
+  
+      // Styles
+      width: size.rem( $icon-size );
+      height: size.rem( $icon-size );
+      color: color.get( warning-500 );
+  
+      // Children
+      &-element {
+        * {
+          font-size: size.rem( $icon-size );
+          font-weight: 300;
+        }
+      }
+  
+      // Is...
+      &--is {
+        &-filled {
+          @include mixin.child-styles( section, rating-star-element ) {
+            font-variation-settings: 'FILL' 1;
+          }
+        }
+      }
+    }
+
+    &-text {
+      &-element {
+        &--has {
+          &-rating {
+            // Styles
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: auto;
+            gap: size.rem( 8 );
+            align-items: center;
+            justify-content: flex-start;
+
+            // Children
+            span {
+              // Mixins
+              @include mixin.flex-center();
+
+              // Pseudo Elements
+              &::before {
+                content: '';
+                width: size.rem( 3 );
+                height: size.rem( 3 );
+                margin: 0 size.rem( 8 ) 0 0;
+                background: color.get( grey-300 );
+                border-radius: border.radius( round );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__variants {
+    display: grid;
+    gap: size.rem( 24 );
+    margin: 0 0 size.rem( 24 );
+  }
+
+  &__quantity {
+    // Styles
+    margin: 0 0 size.rem( 32 );
+
+    // Media Queries
+    @include mixin.min-width( sm ) {
+      max-width: size.rem( 140 );
+    }
+  }
+
+  &__actions {
+    display: grid;
+    gap: size.rem( 16 );
+  }
+
+  &__note {
+    margin: size.rem( 24 ) 0 0;
+  }
+}

@@ -1,0 +1,132 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.feature-content {
+  // Variables
+  --feature-content-l2-image-border-radius: #{ border.radius( none ) };
+
+  // Children
+  &__blocks {
+    // Styles
+    display: grid;
+    row-gap: size.rem( 32 );
+    column-gap: size.rem( 24 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+    }
+
+    // Stack...
+    &--stack {
+      &-horizontal {
+        &:not( .feature-content__blocks--has-max-columns ) {
+          @include mixin.min-width( md ) {
+            grid-auto-flow: column;
+            grid-auto-columns: 1fr;
+          }
+        }
+
+        &.feature-content {
+          &__blocks {
+            &--has {
+              &-max-columns {
+                @include mixin.min-width( md ) {
+                  grid-template-columns: repeat( 2, 1fr );
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__block {
+    // Children
+    &-title {
+      margin: 0 0 size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        margin: 0 0 size.rem( 12 );
+      }
+
+      @include mixin.max-width( sm ) {
+        margin: 0 0 size.rem( 8 );
+      }
+    }
+
+    &-icon {
+      @include mixin.icon-size-styles( 40 );
+    }
+
+    &-image {
+      // Mixins
+      @include mixin.cover-image-styles();
+
+      // Styles
+      margin: 0 0 size.rem( 32 );
+      border-radius: var( --feature-content-l2-image-border-radius );
+
+      // Media Queries
+      @include mixin.max-width( md ) {
+        margin: 0 0 size.rem( 20 );
+      }
+    }
+
+    &-action {
+      margin: size.rem( 12 ) 0 0 size.rem( -8 );
+    }
+
+    @include mixin.child-styles( feature-content, block-action ) {
+      @include mixin.child-styles( feature-content, block-action-element ) {
+        padding: 0 size.rem( 8 );
+      }
+    }
+
+    // Stack...
+    &--stack {
+      &-vertical {
+        @include mixin.child-styles( feature-content, block-icon ) {
+          margin: 0 0 size.rem( 16 );
+        }
+      }
+
+      &-horizontal {
+        @include mixin.grid-styles(
+          auto 1fr,
+          16,
+          unset,
+          unset
+        );
+      }
+    }
+  }
+
+  &__actions {
+    // Mixins
+    @include mixin.grid-centered-columns( 24 );
+
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+    padding: size.rem( 16 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 20 ) 0 0;
+    }
+
+    // Align...
+    &--align {
+      &-left {
+        justify-content: flex-start;
+      }
+    }
+  }
+}

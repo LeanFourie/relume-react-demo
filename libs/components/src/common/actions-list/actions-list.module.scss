@@ -1,0 +1,27 @@
+// INPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/shadows' as shadow;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.actions-list {
+  // Variables
+  --actions-list-bg-color: #{ color.get( base-0 ) };
+  --actions-list-border-radius: #{ border.radius( lg ) };
+  --actions-list-shadow: #{ shadow.get( sm ) color.alpha( invert-0, .1 ) };
+
+  // Mixins
+  @include mixin.box-shadow(
+    var( --actions-list-shadow )
+  );
+
+  // Styles
+  width: 100%;
+  display: grid;
+  padding: size.rem( 4 );
+  background: var( --actions-list-bg-color );
+  border-radius: var( --actions-list-border-radius );
+}

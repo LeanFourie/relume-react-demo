@@ -1,0 +1,68 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.card {
+  // Variables
+  --employee-card-image-radius: #{ border.radius( none ) };
+
+  // Children
+  &__image {
+    // Mixins
+    @include mixin.cover-image-styles( 100% );
+
+    // Styles
+    width: 100%;
+    border-radius: var( --employee-card-image-radius );
+  }
+
+  &__text {
+    margin: size.rem( 24 ) 0 0;
+  }
+  
+  &__description {
+    margin: size.rem( 16 ) 0 size.rem( 24 );
+  }
+
+  &__socials {
+    @include mixin.flex-center();
+  }
+
+  // Align...
+  &--align {
+    &-left {
+      @include mixin.child-styles( card, socials ) {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  // Stack...
+  &--stack {
+    &-horizontal {
+      // Mixins
+      @include mixin.grid-styles(
+        .75fr 1.25fr,
+        32
+      );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        column-gap: size.rem( 24 );
+      }
+
+      // Children
+      @include mixin.child-styles( card, text ) {
+        margin: 0;
+      }
+
+      @include mixin.child-styles( card, socials ) {
+        grid-column-start: 2;
+      }
+    }
+  }
+}

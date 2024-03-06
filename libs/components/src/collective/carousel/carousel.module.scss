@@ -1,0 +1,145 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.carousel {
+  // Variables
+  --carousel-dot-border-radius: #{ border.radius( round ) };
+
+  --carousel-dot-color: #{ color.alpha( primary-500, 0 ) };
+  --carousel-dot-color-hover: #{ color.alpha( primary-500, .2 ) };
+  --carousel-dot-color-pressed: #{ color.alpha( primary-500, .3 ) };
+
+  --carousel-dot-indicator-color: #{ color.get( primary-200 ) };
+  --carousel-dot-indicator-color-hover: #{ color.get( primary-300 ) };
+  --carousel-dot-indicator-color-pressed: #{ color.get( primary-400 ) };
+  --carousel-dot-indicator-color-selected: #{ color.get( primary-500 ) };
+
+  // Styles
+  width: 100%;
+
+  // Children
+  &__inner {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__list {
+    // Styes
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax( 0, 1fr );
+    position: relative;
+    z-index: 2;
+
+    // Variants
+    &--sudo {
+      // Mixins
+      @include mixin.transform(
+        translateX( -25% )
+      );
+
+      // Styles
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      z-index: 1;
+    }
+  }
+
+  &__controls {
+    // Mixins
+    @include mixin.flex-center( space-between );
+    @include mixin.transform(
+      translateX( -50% )
+    );
+
+    // Styles
+    width: 100%;
+    position: absolute;
+    bottom: size.rem( 32 );
+    left: 50%;
+    padding: 0 size.rem( 32 );
+
+    // Children
+    &-dots {
+      @include mixin.flex-center();
+    }
+    
+    &-dot {
+      // Mixins
+      @include mixin.flex-center();
+      @include mixin.transition-style( base );
+
+      // Styles
+      width: size.rem( 16 );
+      height: size.rem( 16 );
+      background: var( --carousel-dot-color );
+      padding: 0;
+      border: none;
+      border-radius: border.radius( round );
+      cursor: pointer;
+
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transition-style( base );
+
+        // Children
+        content: '';
+        width: size.rem( 8 );
+        height: size.rem( 8 );
+        background: var( --carousel-dot-indicator-color );
+        border-radius: var( --carousel-dot-border-radius );
+      }
+
+      // States
+      @include mixin.hover-styles() {
+        // Styles
+        background: var( --carousel-dot-color-hover );
+
+        // Pseudo Elements
+        &::before {
+          background: var( --carousel-dot-indicator-color-hover );
+        }
+      }
+
+      @include mixin.active-styles() {
+        // Styles
+        background: var( --carousel-dot-color-pressed );
+
+        // Pseudo Elements
+        &::before {
+          background: var( --carousel-dot-indicator-color-pressed );
+        }
+      }
+
+      // Is...
+      &--is {
+        &-active {
+          // Styles
+          pointer-events: none;
+
+          // Pseudo Elements
+          &::before {
+            background: var( --carousel-dot-indicator-color-selected );
+          }
+        }
+      }
+    }
+
+    &-navigation {
+      @include mixin.grid-centered-columns( 20 );
+    }
+  }
+
+  img {
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,289 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.nav {
+  // Variables
+  --nav-l1-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Mixins
+  @include mixin.flex-center( space-between );
+
+  // Styles
+  position: relative;
+  background: var( --nav-l1-bg-color );
+
+  // Children
+  &__logo {
+    // Styles
+    height: size.rem( 40 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      height: size.rem( 28 );
+    }
+  }
+
+  &__links {
+    // Mixins
+    @include mixin.grid-centered-columns( 32 );
+
+    // Children
+    &-item {
+      // Styles
+      position: relative;
+      z-index: 2;
+
+      // Pseudo Elements
+      &::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      // States
+      @include mixin.hover-styles() {
+        // Pseudo Elements
+        &::after {
+          pointer-events: all;
+        }
+
+        // Children
+        @include mixin.child-styles( nav, links-sub-links ) {
+          // Mixins
+          @include mixin.transform(
+            translate( -50%, size.rem( 8 ) )
+          );
+
+          // Styles
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+
+    &-trigger {
+      // Mixins
+      @include mixin.transform(
+        translate( size.rem( 7.5 ), size.rem( -7.5 ) )
+      );
+
+      // Styles
+      width: size.rem( 40 );
+      height: size.rem( 40 );
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    &-sub-links {
+      // Mixins
+      @include mixin.transform(
+        translate( -50%, 0 )
+        scale( .95 )
+      );
+      @include mixin.transition-style( common );
+
+      // Styles
+      min-width: size.rem( 400 );
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      opacity: 0;
+      transform-origin: top center;
+      pointer-events: none;
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-centered-columns( 16 );
+  }
+
+  &__content {
+    // Mixins
+    @include mixin.full-width();
+    @include mixin.transition-style( collective );
+
+    // Styles
+    height: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    overflow: hidden;
+
+    // Children
+    &-inner {
+      // Styles
+      height: calc( 100vh - #{ size.rem( 44 ) });
+      padding: size.rem( 20 ) size.rem( 64 );
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        padding: size.rem( 20 );
+      }
+
+      // Children
+      @include mixin.child-styles( nav, links ) {
+        grid-auto-flow: row;
+        grid-template-columns: minmax( 0, 1fr );
+        gap: size.rem( 20 );
+        align-items: flex-start;
+        justify-content: stretch;
+      }
+
+      @include mixin.child-styles( nav, links-item ) {
+        // Children
+        a {
+          justify-content: space-between;
+        }
+
+        // States
+        @include mixin.hover-styles() {
+          @include mixin.child-styles( nav, links-sub-links ) {
+            @include mixin.transform( none );
+          }
+        }
+      }
+
+      @include mixin.child-styles( nav, links-sub-links ) {
+        // Mixins
+        @include mixin.transform( none );
+
+        // Styles
+        height: 0;
+        position: relative;
+        top: unset;
+        left: unset;
+        opacity: 1;
+        overflow: hidden;
+        pointer-events: all;
+      }
+
+      @include mixin.child-styles( nav, actions ) {
+        // Styles
+        margin: size.rem( 36 ) 0 0;
+
+        // Mixins
+        @include mixin.max-width( sm ) {
+          grid-auto-flow: row;
+          align-items: flex-start;
+          justify-content: stretch;
+        }
+      }
+    }
+
+    // Is...
+    &--is {
+      &-open {
+        height: calc( 100vh - #{ size.rem( 44 ) });
+      }
+    }
+  }
+
+  // Links Position...
+  &--links-position {
+    &-right {
+      @include mixin.child-styles( nav, links ) {
+        margin: 0 size.rem( 32 ) 0 auto;
+      }
+
+      @include mixin.child-styles( nav, content ) {
+        @include mixin.child-styles( nav, links ) {
+          margin: 0;
+        }
+      }
+
+      @include mixin.variant-styles( nav, float, full ) {
+        @include mixin.child-styles( nav, links ) {
+          margin: 0 size.rem( 32 );
+        }
+
+        @include mixin.child-styles( nav, content ) {
+          @include mixin.child-styles( nav, links ) {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    &-center {
+      @include mixin.variant-styles( nav, float, full ) {
+        @include mixin.child-styles( nav, links ) {
+          margin: 0 size.rem( 32 );
+        }
+
+        @include mixin.child-styles( nav, content ) {
+          @include mixin.child-styles( nav, links ) {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    &-left {
+      // Children
+      @include mixin.child-styles( nav, links ) {
+        order: 1;
+      }
+
+      @include mixin.child-styles( nav, logo ) {
+        order: 2;
+      }
+
+      @include mixin.child-styles( nav, actions ) {
+        order: 3;
+      }
+
+      // Variants
+      @include mixin.variant-styles( nav, float, full ) {
+        @include mixin.children-styles( nav, ( links, logo ) ) {
+          margin: 0 size.rem( 32 ) 0 0;
+        }
+
+        @include mixin.child-styles( nav, content ) {
+          @include mixin.children-styles( nav, ( links, logo ) ) {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+
+  // Float
+  &--float {
+    &-none {
+      // Mixins
+      @include mixin.full-width();
+
+      // Styles
+      padding: size.rem( 16 ) size.rem( 64 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        padding: size.rem( 8 ) size.rem( 20 );
+      }
+    }
+
+    &-half {
+      margin: size.rem( 24 ) size.rem( 64 ) 0;
+      padding: size.rem( 16 ) size.rem( 32 );
+    }
+
+    &-full {
+      width: auto;
+      justify-content: center;
+      margin: size.rem( 24 ) 0 0;
+    }
+  }
+}

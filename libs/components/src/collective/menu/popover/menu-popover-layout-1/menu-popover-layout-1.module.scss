@@ -1,0 +1,185 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/theming/shadows' as shadow;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-pop-l1-bg-color: #{ color.get( base-0 ) };
+  --menu-pop-l1-border-radius: #{ border.radius( lg ) };
+  --menu-pop-l1-shadow: #{ shadow.get( md ) color.alpha( invert-0, .12 ) };
+
+  --menu-pop-l1-link-border-radius: #{ border.radius( sm ) };
+
+  --menu-pop-l1-link-color: #{ color.get( invert-0 ) };
+  --menu-pop-l1-link-color-hover: #{ color.get( primary-500 ) };
+  --menu-pop-l1-link-color-pressed: #{ color.get( primary-600 ) };
+
+  --menu-pop-l1-link-bg-color-hover: #{ color.get( primary-50) };
+  --menu-pop-l1-link-bg-color-pressed: #{ color.get( primary-100 ) };
+
+  // Styles
+  padding: size.rem( 16 ) size.rem( 24 );
+  background: var( --menu-pop-l1-bg-color );
+  border-radius: var( --menu-pop-l1-border-radius );
+  box-shadow: var( --menu-pop-l1-shadow );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    box-shadow: none;
+  }
+
+  @include mixin.max-width( sm ) {
+    padding: size.rem( 16 );
+  }
+
+  // Children
+  &__groups {
+    // Styles
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    gap: size.rem( 32 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-auto-flow: row;
+    }
+  }
+
+  &__group {
+    &-title {
+      // Styles
+      margin: 0 0 size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: 0 0 size.rem( 8 );
+      }
+    }
+
+    &-links {
+      // Styles
+      width: 100%;
+      display: grid;
+      gap: size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        gap: size.rem( 4 );
+      }
+    }
+  }
+
+  &__link {
+    // Mixins
+    @include mixin.transition-style( base );
+
+    // Styles
+    width: 100%;
+    display: grid;
+    grid-template-columns: size.rem( 24 ) 1fr;
+    gap: size.rem( 12 );
+    align-items: flex-start;
+    position: relative;
+    padding: size.rem( 8 ) 0;
+    color: var( --menu-pop-l1-link-color );
+    text-decoration: none;
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+
+    // Pseudo Elements
+    &::before {
+      // Mixins
+      @include mixin.transition-style( base );
+      @include mixin.transform(
+        translate( -50%, -50% )
+        scale( .95 )
+      );
+
+      // Styles
+      content: '';
+      width: calc( 100% + #{ size.rem( 24 ) } );
+      height: calc( 100% + #{ size.rem( 8 ) } );
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: var( --menu-pop-l1-link-bg-color-hover );
+      border-radius: var( --menu-pop-l1-link-border-radius );
+      transform-origin: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    // Children
+    &-icon,
+    &-text {
+      position: relative;
+      color: inherit;
+      z-index: 2;
+    }
+
+    &-description {
+      @include mixin.max-width( sm ) {
+        display: none;
+      }
+    }
+
+    &-icon {
+      // Mixins
+      @include mixin.icon-size-styles( 24 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        display: none;
+      }
+    }
+
+    @include mixin.child-styles( menu, link-title ) {
+      @include mixin.max-width( sm ) {
+        // Mixins
+        @include mixin.font-weight( 400 );
+
+        // Styles
+        font-size: size.rem( 18 );
+      }
+    }
+
+    // States
+    @include mixin.hover-styles() {
+      // Styles
+      color: var( --menu-pop-l1-link-color-hover );
+
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transform(
+          translate( -50%, -50% )
+          scale( 1 )
+        );
+
+        // Styles
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      // Styles
+      color: var( --menu-pop-l1-link-color-pressed );
+
+      // Pseudo Elements
+      &::before {
+        background: var( --menu-pop-l1-link-bg-color-pressed );
+      }
+    }
+  }
+}

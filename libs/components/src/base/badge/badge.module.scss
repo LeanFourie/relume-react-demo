@@ -1,0 +1,397 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin badge-size-style-scoped(
+  $block-padding,
+  $inline-padding,
+  $border-radius,
+  $icon-size,
+  $icon-margin
+) {
+  // Styles
+  padding: size.rem( $block-padding ) size.rem( $inline-padding );
+  border-radius: border.radius( $border-radius );
+
+  // Children
+  @include mixin.child-styles( badge, icon ) {
+    width: size.rem( $icon-size );
+    height: size.rem( $icon-size );
+  }
+
+  @include mixin.child-styles( badge, icon ) {
+    margin: 0 size.rem( $icon-margin ) 0 0;
+  }
+
+  @include mixin.child-styles( badge, icon-element ) {
+    span {
+      font-size: size.rem( $icon-size );
+      font-weight: 500;
+    }
+  }
+
+  @include mixin.child-styles( badge, label ) {
+    height: size.rem( $icon-size );
+    margin: size.rem( -2 ) 0 0;
+  }
+}
+
+@mixin badge-background-style-scoped( $background-color ) {
+  background: $background-color;
+}
+
+@mixin badge-stroke-style-scoped( $stroke-color ) {
+  border-color: $stroke-color;
+}
+
+@mixin badge-text-style-scoped( $text-color ) {
+  @include mixin.children-styles( badge, ( icon-element, label-element ) ) {
+    color: $text-color;
+  }
+}
+
+@mixin badge-fill-style-scoped(
+  $background-style,
+  $text-style
+) {
+  @include badge-background-style-scoped( $background-style );
+  @include badge-text-style-scoped( $text-style );
+}
+
+@mixin badge-outline-style-scoped(
+  $background-style,
+  $strokeStyle,
+  $text-style
+) {
+  @include badge-background-style-scoped( $background-style );
+  @include badge-stroke-style-scoped( $strokeStyle );
+  @include badge-text-style-scoped( $text-style );
+}
+
+@mixin badge-ghost-style-scoped(
+  $background-style,
+  $text-style
+) {
+  @include badge-background-style-scoped( $background-style );
+  @include badge-text-style-scoped( $text-style );
+}
+
+@mixin badge-variant-style-scoped(
+  $filled-style,
+  $outline-style,
+  $ghost-style
+) {
+  // Filled
+  @include mixin.variant-styles( badge, variant, filled ) {
+    @include badge-fill-style-scoped( $filled-style... );
+  }
+
+  // Outlines
+  @include mixin.variant-styles( badge, variant, outlined ) {
+    @include badge-outline-style-scoped( $outline-style... );
+  }
+
+  // Ghost
+  @include mixin.variant-styles( badge, variant, ghost ) {
+    @include badge-ghost-style-scoped( $ghost-style... );
+  }
+}
+
+@mixin badge-shade-style-scoped(
+  $light-shade,
+  $dark-shade
+) {
+  // Light
+  @include mixin.variant-styles( badge, shade, light ) {
+    @include badge-variant-style-scoped( $light-shade... );
+  }
+
+  // Dark
+  @include mixin.variant-styles( badge, shade, dark ) {
+    @include badge-variant-style-scoped( $dark-shade... );
+  }
+}
+
+@mixin badge-color-style-scoped( $color ) {
+  // Mixins
+  @include badge-shade-style-scoped(
+    // Light Shade
+    (
+      // Fill Button
+      (
+        // Background
+        color.get( #{ $color }-100 ),
+        // Text
+        color.get( #{ $color }-500 )
+      ),
+      // Outline Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Border
+        color.get( #{ $color }-100 ),
+        // Text
+        color.get( #{ $color }-300 )
+      ),
+      // Ghost Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Text
+        color.get( #{ $color }-200 )
+      )
+    ),
+    // Dark Shade
+    (
+      // Fill Button
+      (
+        // Background
+        color.get( #{ $color }-500 ),
+        // Text
+        color.get( neutral-white )
+      ),
+      // Outline Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Border
+        color.get( #{ $color }-300 ),
+        // Text
+        color.get( #{ $color }-500 )
+      ),
+      // Ghost Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Text
+        color.get( #{ $color }-500 )
+      )
+    )
+  );
+}
+
+@mixin badge-neutral-color-style-scoped(
+  $base,
+  $invert
+) {
+  @include badge-shade-style-scoped(
+    // Light Shade
+    (
+      // Fill Button
+      (
+        // Background
+        color.alpha( $base, .1 ),
+        // Text
+        color.get( $base )
+      ),
+      // Outline Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Border
+        color.alpha( $base, .2 ),
+        // Text
+        color.get( $base )
+      ),
+      // Ghost Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Text
+        color.get( $base )
+      )
+    ),
+    // Dark Shade
+    (
+      // Fill Button
+      (
+        // Background
+        color.alpha( $base, 1 ),
+        // Text
+        color.get( $invert )
+      ),
+      // Outline Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Border
+        color.alpha( $base, 1 ),
+        // Text
+        color.get( $invert )
+      ),
+      // Ghost Button
+      (
+        // Background
+        color.get( neutral-transparent ),
+        // Text
+        color.get( $base )
+      )
+    )
+  );
+}
+
+// STYLES
+.badge {
+  // Mixins
+  @include mixin.inline-flex-center();
+
+  // Styles
+  position: relative;
+
+  // Children
+  &__icon {
+    @include mixin.child-styles( badge, icon-element ) {
+      span {
+        font-weight: 300;
+      }
+    }
+  }
+
+  &__label {
+    // Mixins
+    @include mixin.inline-flex-center();
+
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.inline-flex-center();
+
+      // Styles
+      white-space: nowrap;
+    }
+  }
+
+  // Color...
+  &--color {
+    &-primary {
+      @include badge-color-style-scoped( primary );
+    }
+
+    &-secondary {
+      @include badge-color-style-scoped( secondary );
+    }
+
+    &-info {
+      @include badge-color-style-scoped( info );
+    }
+
+    &-success {
+      @include badge-color-style-scoped( success );
+    }
+
+    &-warning {
+      @include badge-color-style-scoped( warning );
+    }
+
+    &-danger {
+      @include badge-color-style-scoped( danger );
+    }
+
+    &-black {
+      @include badge-neutral-color-style-scoped(
+        neutral-black,
+        neutral-white
+      );
+    }
+
+    &-white {
+      @include badge-neutral-color-style-scoped(
+        neutral-white,
+        neutral-black
+      );
+    }
+
+    &-base {
+      @include badge-neutral-color-style-scoped(
+        base-0,
+        invert-0
+      );
+    }
+
+    &-invert {
+      @include badge-neutral-color-style-scoped(
+        invert-0,
+        base-0
+      );
+    }
+
+    &-grey {
+      @include badge-neutral-color-style-scoped(
+        grey-400,
+        base-0
+      );
+    }
+  }
+
+  // Size...
+  &--size {
+    &-sm {
+      @include badge-size-style-scoped(
+        // Block Padding
+        4,
+        // Inline Padding
+        6,
+        // Border Radius
+        xs,
+        // Icon Size
+        16,
+        // Icon Margin
+        4
+      );
+    }
+
+    &-md {
+      @include badge-size-style-scoped(
+        // Block Padding
+        4,
+        // Inline Padding
+        8,
+        // Border Radius
+        xs,
+        // Icon Size
+        18,
+        // Icon Margin
+        6
+      );
+    }
+
+    &-lg {
+      @include badge-size-style-scoped(
+        // Block Padding
+        8,
+        // Inline Padding
+        12,
+        // Border Radius
+        sm,
+        // Icon Size
+        24,
+        // Icon Margin
+        8
+      );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-skeleton {
+      // Mixins
+      @include badge-neutral-color-style-scoped(
+        grey-100,
+        grey-100
+      );
+      @include mixin.skeleton-loader();
+
+      // Styles
+      border: none;
+    }
+  }
+
+  // Not...
+  &:not( .badge--is-skeleton ) {
+    border: solid size.rem( 1 ) color.get( neutral-transparent );
+  }
+}

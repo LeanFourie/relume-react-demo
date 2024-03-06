@@ -1,0 +1,105 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.team {
+  // Variables
+  --team-l2-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  padding: 0 5%;
+  background: var( --team-l2-bg-color );
+  overflow: hidden;
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+      gap: size.rem( 72 );
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+      gap: size.rem( 48 );
+    }
+  }
+
+  &__carousel {
+    @include mixin.child-styles( team, carousel-inner ) {
+      width: calc( 100% + #{ size.rem( 32 ) });
+      margin: 0 size.rem( -16 );
+      overflow: visible;
+    }
+
+    @include mixin.child-styles( team, carousel-controls ) {
+      // Mixins
+      @include mixin.transform( none );
+
+      // Styles
+      position: unset;
+      bottom: unset;
+      left: unset;
+      margin: size.rem( 32 ) 0 0;
+      padding: 0;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        position: relative;
+      }
+    }
+  }
+
+  &__employee {
+    padding: 0 size.rem( 16 );
+  }
+
+  &__trailing-content {
+    // Styles
+    display: flex;
+    flex-direction: column;
+    margin: size.rem( 16 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      margin: size.rem( 8 ) 0 0;
+
+    }
+
+    // Children
+    &-paragraph {
+      // Styles
+      margin: size.rem( 16 ) 0 size.rem( 32 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 12 ) 0 size.rem( 24 );
+      }
+    }
+
+    // Align...
+    &--align {
+      &-center {
+        align-items: center;
+      }
+
+      &-left {
+        align-items: flex-start;
+      }
+    }
+  }
+}

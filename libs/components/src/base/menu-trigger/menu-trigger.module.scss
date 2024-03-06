@@ -1,0 +1,161 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.trigger {
+  // Variables
+  --menu-trigger-bg-color: #{ color.get( neutral-transparent ) };
+  --menu-trigger-bg-color-hover: #{ color.get( primary-50 ) };
+  --menu-trigger-bg-color-press: #{ color.get( primary-100 ) };
+
+  --menu-trigger-border-radius: #{ border.radius( round ) };
+
+  --menu-trigger-handle-color: #{ color.get( invert-0 ) };
+  --menu-trigger-handle-color-hover: #{ color.get( primary-500 ) };
+  --menu-trigger-handle-color-pressed: #{ color.get( primary-600 ) };
+
+  // Mixins
+  @include mixin.flex-center();
+  @include mixin.transition-style( base );
+
+  // Styles
+  width: size.rem( 48 );
+  height: size.rem( 48 );
+  flex-direction: column;
+  background: var( --menu-trigger-bg-color );
+  border: none;
+  border-radius: var( --menu-trigger-border-radius );
+  cursor: pointer;
+
+  // Children
+  &__handle {
+    // Mixins
+    @include mixin.transition-style( base );
+
+    // Styles
+    width: size.rem( 20 );
+    height: size.rem( 2 );
+
+    // Children
+    &-inner {
+      // Mixins
+      @include mixin.transition-style( base );
+
+      // Styles
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: var( --menu-trigger-handle-color );
+      transform-style: preserve-3d;
+    }
+
+    // Position...
+    &--position {
+      &-1 {
+        // Styles
+        transition-delay: .1s;
+
+        // Children
+        @include mixin.child-styles( trigger, handle-inner ) {
+          transition-delay: 0s;
+        }
+      }
+
+      &-2 {
+        margin: size.rem( 4 ) 0;
+        transition-delay: .2s;
+      }
+
+      &-3 {
+        // Styles
+        transition-delay: .1s;
+
+        // Children
+        @include mixin.child-styles( trigger, handle-inner ) {
+          transition-delay: 0s;
+        }
+      }
+    }
+  }
+
+  // States
+  @include mixin.hover-styles() {
+    // Styles
+    background: var( --menu-trigger-bg-color-hover );
+
+    // Children
+    @include mixin.child-styles( trigger, handle-inner ) {
+      background: var( --menu-trigger-handle-color-hover );
+    }
+  }
+
+  @include mixin.active-styles() {
+    // Styles
+    background: var( --menu-trigger-bg-color-pressed );
+
+    // Children
+    @include mixin.child-styles( trigger, handle-inner ) {
+      background: var( --menu-trigger-handle-color-pressed );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-open {
+      @include mixin.child-styles( trigger, handle ) {
+        &--position {
+          &-1 {
+            // Mixins
+            @include mixin.transform(
+              translateY( size.rem( 6 ) )
+            );
+
+            // Styles
+            transition-delay: 0s;
+
+            // Children
+            @include mixin.child-styles( trigger, handle-inner ) {
+              // Mixins
+              @include mixin.transform(
+                rotate( -45deg )
+              );
+
+              // Styles
+              transition-delay: .1s;
+            }
+          }
+    
+          &-2 {
+            width: 0;
+            transition-delay: 0s;
+          }
+    
+          &-3 {
+            // Mixins
+            @include mixin.transform(
+              translateY( size.rem( -6 ) )
+            );
+
+            // Styles
+            transition-delay: 0s;
+
+            // Children
+            @include mixin.child-styles( trigger, handle-inner ) {
+              // Mixins
+              @include mixin.transform(
+                rotate( 45deg )
+              );
+
+              // Styles
+              transition-delay: .1s;
+            }
+          }
+        }
+      }
+    }
+  }
+}

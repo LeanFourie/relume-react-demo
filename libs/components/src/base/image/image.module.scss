@@ -1,0 +1,27 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin image-fit-style-scoped( $fit ) {
+  // Mixins
+  @include mixin.fit-image( $fit );
+  
+  // Children
+  @include mixin.child-styles( image, element ) {
+    @include mixin.fit-image( $fit );
+  }
+}
+
+// STYLES
+.image {
+  &--fit {
+    &-cover {
+      @include image-fit-style-scoped( cover );
+    }
+    
+    &-contain {
+      @include image-fit-style-scoped( contain );
+    }
+  }
+}

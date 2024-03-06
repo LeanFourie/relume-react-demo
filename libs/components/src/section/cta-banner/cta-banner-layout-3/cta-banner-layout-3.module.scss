@@ -1,0 +1,161 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l3-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l3-media-overlay-color: #{ color.alpha( invert-0, .5 ) };
+
+  // Styles
+  position: relative;
+  padding: 0 5%;
+  background: var( --cta-banner-l3-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__container {
+    // Has...
+    &--has {
+      &-media {
+        @include mixin.children-styles( section, ( title, paragraph ) ) {
+          color: color.get( base-0 );
+        }
+      }
+    }
+  }
+
+  &__content {
+    // Styles
+    display: grid;
+    gap: 0;
+    position: relative;
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      grid-template-columns: repeat( 2, 1fr );
+      gap: size.rem( 80 );
+    }
+  }
+
+  &__title {
+    max-width: size.rem( 768 );
+    margin: 0 0 size.rem( 12 );
+  }
+
+  &__paragraph {
+    // Styles
+    margin: 0 0 size.rem( 20 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: size.rem( 768 );
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-auto-columns( 16, flex-start );
+  }
+
+  &__form {
+    &-row {
+      // Styles
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    &-input {
+      flex: 1;
+    }
+
+    &-submit {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+  
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 8 ) 0 0;
+      }
+  
+      // Children
+      @include mixin.children-styles( section, ( form-submit-host, form-submit-element ) ) {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-message {
+      width: 100%;
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__media {
+    // Styles
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    // Pseudo Elements
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var( --cta-banner-l3-media-overlay-color );
+    }
+  }
+
+  &__image,
+  &__video,
+  &__background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__image,
+  &__video {
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

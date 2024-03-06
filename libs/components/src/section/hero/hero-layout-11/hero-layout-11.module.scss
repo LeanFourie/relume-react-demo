@@ -1,0 +1,199 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l11-bg-color-1: #{ color.get( neutral-transparent ) };
+  --hero-l11-bg-color-2: #{ color.get( grey-50 ) };
+
+  --hero-l11-image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat( 2, 1fr );
+  align-items: center;
+  background: var( --hero-l11-bg-color-1 );
+
+  // Media Queries
+  @include mixin.max-width( md ) {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: size.rem( 64 );
+  }
+
+  // Children
+  &__images {
+    // Styles
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap: size.rem( 16 );
+    padding: 0 5vw 0 0;
+    overflow: hidden;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      height: 80vh;
+      padding: 0 5vw;
+    }
+
+    @include mixin.max-width( sm ) {
+      height: size.rem( 480 );
+    }
+
+    // Children
+    &-group {
+      // Styles
+      width: 100%;
+      height: 100%;
+      display: grid;
+      gap: size.rem( 16 );
+      position: relative;
+      will-change: transform;
+
+      // Children
+      &-inner {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        gap: size.rem( 16 );
+      }
+
+      // Is...
+      &--is {
+        &-odd {
+          // Styles
+          margin: -185% 0 0;
+
+          // Children
+          @include mixin.child-styles( section, images-group-inner ) {
+            &:last-child {
+              height: 50%;
+              position: absolute;
+              top: calc( 100% + #{ size.rem( 16 ) } );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__image {
+    @include mixin.cover-image-styles( 120% );
+
+    // Styles
+    width: 100%;
+    border-radius: var( --hero-l11-image-border-radius );
+  }
+
+  &__content {
+    // Styles
+    max-width: size.rem( 640 );
+    justify-self: end;
+    margin: 0 size.rem( 80 ) 0 5vw;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: 100%;
+      padding: size.rem( 96 ) 0 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      margin: 0 5vw;
+      padding: size.rem( 64 ) 0 0;
+    }
+  }
+
+  // Stack...
+  &--stack {
+    &-horizontal {
+      // Styles
+      position: relative;
+
+      // Pseudo Elements
+      &::before {
+        // Styles
+        content: '';
+        width: calc( 50vw - ( 50vw - 50% ) );
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: var( --hero-l11-bg-color-2 );
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          display: none;
+        }
+      }
+
+      // Children
+      @include mixin.child-styles( section, images ) {
+        // Styles
+        height: auto;
+        grid-template-columns: 1fr;
+        padding: size.rem( 64 ) 0;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          background: color.get( grey-50 );
+        }
+
+        @include mixin.max-width( sm ) {
+          padding: size.rem( 32 ) 0;
+        }
+      }
+
+      @include mixin.child-styles( section, images-group ) {
+        // Styles
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+
+        // Is...
+        &--is {
+          &-odd {
+            // Styles
+            margin: 0 0 0 -8.5%;
+
+            // Children
+            @include mixin.child-styles( section, images-group-inner ) {
+              &:last-child {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      @include mixin.child-styles( section, images-group-inner ) {
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        align-self: center;
+      }
+
+      @include mixin.child-styles( section, image ) {
+        // Styles
+        width: size.rem( 416 );
+        padding: 75% 0 0;
+
+        // Media Queries
+        @include mixin.max-width( md ) {
+          width: size.rem( 416 );
+        }
+
+        @include mixin.max-width( sm ) {
+          width: 60vw;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.form {
+  // Styles
+  display: grid;
+  gap: size.rem( 12 );
+
+  // Children
+  &__row {
+    display: flex;
+    align-items: center;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      flex-direction: column;
+    }
+
+    // Children
+    &-action {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        width: 100%;
+        margin: size.rem( 8 ) 0 0 0;
+      }
+
+      // Children
+      &-host {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  @include mixin.child-styles( form, row-conditions ) {
+    // Styles
+    font-size: size.rem( 12 );
+
+    // Children
+    * {
+      font-size: size.rem( 12 );
+    }
+  }
+}

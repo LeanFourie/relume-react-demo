@@ -1,0 +1,151 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l1-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l1-image-border-radius: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l1-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      gap: size.rem( 72 );
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 40 );
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__content {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 768 );
+    display: grid;
+
+    // Align
+    &--align {
+      &-center {
+        margin: 0 auto;
+      }
+    }
+
+    // Is...
+    &--is {
+      &-split {
+        @include mixin.min-width( md ) {
+          max-width: 100%;
+          grid-template-columns: repeat( 2, 1fr );
+          gap: size.rem( 80 );
+        }
+      }
+    }
+  }
+
+  &__title {
+    // Styles
+    margin: 0 0 size.rem( 16 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 12 );
+    }
+  }
+
+  &__actions,
+  &__form {
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 20 ) 0 0;
+    }
+  }
+
+  &__actions {
+    // Mixins
+    @include mixin.grid-auto-columns( 16, flex-start );
+
+    // Align...
+    &--align {
+      &-left {
+        justify-content: flex-start;
+      }
+
+      &-center {
+        justify-content: center;
+      }
+    }
+  }
+
+  &__form {
+    &-row {
+      // Styles
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    &-input {
+      flex: 1;
+    }
+
+    &-submit {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+  
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 8 ) 0 0;
+      }
+  
+      // Children
+      @include mixin.children-styles( section, ( form-submit-host, form-submit-element ) ) {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-message {
+      width: 100%;
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__image {
+    // Mixins
+    @include mixin.cover-image-styles();
+
+    // Styles
+    border-radius: var( --cta-banner-l1-image-border-radius );
+  }
+}

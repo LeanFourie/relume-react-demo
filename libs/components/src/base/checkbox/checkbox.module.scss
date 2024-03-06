@@ -1,0 +1,204 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin size-style-scoped(
+  $size,
+  $border-radius
+) {
+  @include mixin.child-styles( checkbox, input ) {
+    border-radius: $border-radius;
+  }
+
+  @include mixin.children-styles( checkbox, ( input-element, icon ) ) {
+    width: $size;
+    height: $size;
+  }
+
+  @include mixin.child-styles( checkbox, input-element ) {
+    border-radius: $border-radius;
+  }
+
+  @include mixin.child-styles( checkbox, icon-element ) {
+    span {
+      font-size: $size;
+    }
+  }
+
+  @include mixin.child-styles( checkbox, label-element ) {
+    line-height: $size;
+  }
+}
+
+// STYLES
+.checkbox {
+  // Mixins
+  @include mixin.inline-flex-center( flex-start );
+  
+  // Styles
+  position: relative;
+  
+  // Children
+  &__input {
+    // Styles
+    display: flex;
+    
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.transition-style( base );
+      
+      // Styles
+      border: solid size.rem( 1 ) color.get( grey-200 );
+      margin: 0;
+      appearance: unset;
+      -webkit-appearance: unset;
+      cursor: pointer;
+      
+      // States
+      @include mixin.hover-active-styles() {
+        outline: none;
+      }
+      
+      &:focus,
+      &:focus-visible {
+        &:not(
+        :hover,
+        :active
+      ) {
+          outline: solid size.rem( 3 ) color.get( primary-200 );
+          outline-offset: 0;
+        }
+      }
+    }
+  }
+  
+  &__label {
+    // Mixins
+    @include mixin.inline-flex-center();
+    
+    // Styles
+    margin: 0 0 0 size.rem( 8 );
+    cursor: pointer;
+    
+    // Children
+    &-element {
+      pointer-events: none;
+    }
+  }
+  
+  &__icon {
+    // Mixins
+    @include mixin.inline-flex-center();
+    @include mixin.transform( scale( .8 ) );
+    @include mixin.transition-style( base );
+    
+    // Styles
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    
+    // Children
+    &-element {
+      color: color.get( base-0 );
+    }
+  }
+  
+  &__link {
+    margin: 0 0 0 size.rem( 4 );
+    pointer-events: none;
+  }
+
+  @include mixin.child-styles( checkbox, link ) {
+    * {
+      line-height: 1;
+    }
+
+    a {
+      pointer-events: all;
+    }
+  }
+  
+  // Size...
+  &--size {
+    &-sm {
+      @include size-style-scoped(
+        size.rem( 16 ),
+        size.rem( 4 )
+      );
+    }
+    
+    &-md {
+      @include size-style-scoped(
+        size.rem( 20 ),
+        size.rem( 5 )
+      );
+    }
+    
+    &-lg {
+      @include size-style-scoped(
+        size.rem( 24 ),
+        size.rem( 6 )
+      );
+    }
+  }
+  
+  // Is...
+  &--is {
+    &-checked {
+      @include mixin.child-styles( checkbox, input-element ) {
+        background: color.get( primary-500 );
+        border-color: color.get( primary-500 );
+      }
+
+      @include mixin.child-styles( checkbox, icon ) {
+        // Mixins
+        @include mixin.transform( none );
+        
+        // Styles
+        opacity: 1;
+      }
+    }
+    
+    &-disabled {
+      // Styles
+      pointer-events: none;
+      
+      // Children
+      @include mixin.child-styles( checkbox, input-element ) {
+        // Styles
+        border-color: color.get( grey-100 );
+        
+        // States
+        &:checked {
+          background: color.get( grey-100 );
+          border-color: color.get( grey-100 );
+        }
+      }
+
+      @include mixin.child-styles( checkbox, label-element ) {
+        color: color.get( grey-400 );
+      }
+
+      @include mixin.child-styles( checkbox, icon-element ) {
+        color: color.get( grey-300 );
+      }
+    }
+    
+    &-skeleton {
+      @include mixin.children-styles( checkbox, ( input, label ) ) {
+        @include mixin.skeleton-loader();
+      }
+
+      @include mixin.child-styles( checkbox, label ) {
+        border-radius: border.radius( md );
+      }
+    }
+  }
+}

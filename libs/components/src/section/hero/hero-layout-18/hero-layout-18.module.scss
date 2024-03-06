@@ -1,0 +1,167 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/ui/transitions' as transition;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l18-overlay-color: #{ color.alpha( invert-0, .5 ) };
+  --hero-l18-text-color: #{ color.get( base-0 ) };
+
+  --hero-l18-tab-bar-color: #{ color.get( base-0 ) };
+  --hero-l18-tab-bar-bg-color: #{ color.alpha( base-0, .2 ) };
+
+  --hero-l18-tab-bar-border-radius: #{ border.radius( none ) };
+  --hero-l18-tab-bar-size: #{ size.rem( 4 ) };
+
+  // Mixins
+  @include mixin.flex-center();
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  position: relative;
+
+  // Children
+  &__image {
+    // Styles
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    // Pseudo Elements
+    &::after {
+      // Mixins
+      @include mixin.absolute-center();
+
+      // Styles
+      width: 100%;
+      height: 100%;
+      content: '';
+      background: var( --hero-l18-overlay-color );
+    }
+  }
+
+  &__content {
+    // Styles
+    max-width: size.rem( 768 );
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: 0 5%;
+    }
+  }
+
+  &__text {
+    position: relative;
+  }
+
+  &__title,
+  &__paragraph {
+    // Styles
+    color: var( --hero-l18-text-color );
+
+    // Children
+    @include mixin.children-styles( section, ( title-element, paragraph-element ) ) {
+      text-align: center;
+    }
+  }
+
+  &__title {
+    // Styles
+    margin: 0 0 size.rem( 24 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 16 );
+    }
+  }
+
+  &__paragraph {
+    // Styles
+    margin: 0 0 size.rem( 40 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 32 );
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-centered-columns( 16 );
+  }
+
+  &__tabs {
+    // Mixins
+    @include mixin.grid-centered-columns( 16 );
+    @include mixin.transform(
+      translateX( -50% )
+    );
+
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1024 );
+    grid-auto-columns: 1fr;
+    position: absolute;
+    bottom: size.rem( 80 );
+    left: 50%;
+    padding: 0 5vw;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20 );
+    }
+  }
+
+  &__tab {
+    // Styles
+    width: 100%;
+    position: relative;
+    padding: size.rem( 16 ) size.rem( 32 );
+    background: color.get( neutral-transparent );
+    border: none;
+    color: var( --hero-l18-text-color );
+    cursor: pointer;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 16 );
+    }
+
+    // Children
+    &-progress {
+      // Styles
+      width: 100%;
+      height: var( --hero-l18-tab-bar-size );
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: var( --hero-l18-tab-bar-bg-color );
+      border-radius: var( --hero-l18-tab-bar-border-radius );
+
+      // Children
+      &-bar {
+        // Mixins
+        @include mixin.transform(
+          scaleX( 0 )
+        );
+
+        // Styles
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: var( --hero-l18-tab-bar-color );
+        transform-origin: bottom right;
+      }
+    }
+  }
+}

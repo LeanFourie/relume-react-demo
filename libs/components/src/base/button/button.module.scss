@@ -1,0 +1,608 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin button-size-style-scoped(
+  $height,
+  $inline-padding,
+  $border-radius,
+  $icon-size,
+  $icon-margin
+) {
+  // Styles
+  height: size.rem( $height );
+  
+  // Children
+  @include mixin.child-styles( button, icon ) {
+    width: size.rem( $icon-size );
+    height: size.rem( $icon-size );
+  }
+
+  @include mixin.child-styles( button, icon-element ) {
+    span {
+      font-size: size.rem( $icon-size );
+    }
+  }
+
+  @include mixin.child-styles( button, icon--leading ) {
+    margin: 0 size.rem( $icon-margin ) 0 0;
+  }
+
+  @include mixin.child-styles( button, icon--trailing ) {
+    margin: 0 0 0 size.rem( $icon-margin );
+  }
+
+  @include mixin.child-styles( button, label ) {
+    height: size.rem( $icon-size );
+    margin: size.rem( -2 ) 0 0;
+  }
+  
+  // Type...
+  @include mixin.variant-styles( button, type, text ) {
+    padding: 0 size.rem( $inline-padding );
+    border-radius: border.radius( $border-radius );
+  }
+
+  @include mixin.variant-styles( button, type, icon ) {
+    width: size.rem( $height );
+    border-radius: border.radius( round );
+  }
+
+  // Is...
+  @include mixin.variant-styles( button, is, skeleton ) {
+    height: calc( #{ size.rem( $height ) } + size.rem( 2 ) );
+  }
+}
+
+@mixin button-background-style-scoped(
+  $background-color-resting,
+  $background-color-hover,
+  $background-color-active
+) {
+  // Styles
+  background: $background-color-resting;
+  
+  // States
+  @include mixin.hover-styles() {
+    background: $background-color-hover;
+  }
+
+  @include mixin.active-styles() {
+    background: $background-color-active;
+  }
+}
+
+@mixin button-stroke-style-scoped(
+  $stroke-color-resting,
+  $stroke-color-hover,
+  $stroke-color-active
+) {
+  // Styles
+  border-color: $stroke-color-resting;
+  
+  // States
+  @include mixin.hover-styles() {
+    border-color: $stroke-color-hover;
+  }
+
+  @include mixin.active-styles() {
+    border-color: $stroke-color-active;
+  }
+}
+
+@mixin button-text-style-scoped(
+  $text-color-resting,
+  $text-color-hover,
+  $text-color-active
+) {
+  // Children
+  @include mixin.children-styles( button, ( icon-element, label-element ) ) {
+    color: $text-color-resting;
+  }
+  
+  // States
+  @include mixin.hover-styles() {
+    @include mixin.children-styles( button, ( icon-element, label-element ) ) {
+      color: $text-color-hover;
+    }
+  }
+
+  @include mixin.active-styles() {
+    @include mixin.children-styles( button, ( icon-element, label-element ) ) {
+      color: $text-color-active;
+    }
+  }
+}
+
+@mixin button-fill-style-scoped(
+  $background-style,
+  $text-style
+) {
+  // Mixins
+  @include button-background-style-scoped( $background-style... );
+  @include button-text-style-scoped( $text-style... );
+
+  // Is...
+  @include mixin.variant-styles( button, is, selected ) {
+    border-color: nth( $background-style, 3 );
+  }
+}
+
+@mixin button-outline-style-scoped(
+  $background-style,
+  $strokeStyle,
+  $text-style
+) {
+  @include button-background-style-scoped( $background-style... );
+  @include button-stroke-style-scoped( $strokeStyle... );
+  @include button-text-style-scoped( $text-style... );
+}
+
+@mixin button-ghost-style-scoped(
+  $background-style,
+  $text-style
+) {
+  @include button-background-style-scoped( $background-style... );
+  @include button-text-style-scoped( $text-style... );
+}
+
+@mixin button-variant-style-scoped(
+  $filled-style,
+  $outline-style,
+  $ghost-style
+) {
+  @include mixin.variant-styles( button, variant, filled ) {
+    @include button-fill-style-scoped( $filled-style... );
+  }
+
+  @include mixin.variant-styles( button, variant, outlined ) {
+    @include button-outline-style-scoped( $outline-style... );
+
+    @include mixin.variant-styles( button, is, selected ) {
+      @include button-fill-style-scoped( $filled-style... );
+    }
+  }
+
+  @include mixin.variant-styles( button, variant, ghost ) {
+    @include button-ghost-style-scoped( $ghost-style... );
+
+    @include mixin.variant-styles( button, is, selected ) {
+      @include button-fill-style-scoped( $filled-style... );
+    }
+  }
+}
+
+@mixin button-shade-style-scoped(
+  $light-shade,
+  $dark-shade
+) {
+  @include mixin.variant-styles( button, shade, light ) {
+    @include button-variant-style-scoped( $light-shade... );
+  }
+
+  @include mixin.variant-styles( button, shade, dark ) {
+    @include button-variant-style-scoped( $dark-shade... );
+
+    @include mixin.variant-styles( button, is, selected ) {
+      @include button-variant-style-scoped( $light-shade... );
+    }
+  }
+}
+
+@mixin button-color-style-scoped( $color ) {
+  // Mixins
+  @include button-shade-style-scoped(
+    // Light Shade
+    (
+      // Fill Button
+      (
+        (
+          color.get( #{ $color }-100 ),
+          color.get( #{ $color }-200 ),
+          color.get( #{ $color }-300 )
+        ),
+        (
+          color.get( #{ $color }-500 ),
+          color.get( #{ $color }-600 ),
+          color.get( #{ $color }-700 )
+        )
+      ),
+      // Outline Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.get( #{ $color }-50 ),
+          color.get( #{ $color }-100 )
+        ),
+        (
+          color.get( #{ $color }-100 ),
+          color.get( #{ $color }-200 ),
+          color.get( #{ $color }-300 )
+        ),
+        (
+          color.get( #{ $color }-300 ),
+          color.get( #{ $color }-400 ),
+          color.get( #{ $color }-500 )
+        )
+      ),
+      // Ghost Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.get( #{ $color }-50 ),
+          color.get( #{ $color }-100 )
+        ),
+        (
+          color.get( #{ $color }-200 ),
+          color.get( #{ $color }-300 ),
+          color.get( #{ $color }-400 )
+        )
+      )
+    ),
+    // Dark Shade
+    (
+      // Fill Button
+      (
+        (
+          color.get( #{ $color }-500 ),
+          color.get( #{ $color }-600 ),
+          color.get( #{ $color }-700 )
+        ),
+        (
+          color.get( neutral-white ),
+          color.get( neutral-white ),
+          color.get( neutral-white )
+        )
+      ),
+      // Outline Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.get( #{ $color }-50 ),
+          color.get( #{ $color }-100 )
+        ),
+        (
+          color.get( #{ $color }-300 ),
+          color.get( #{ $color }-400 ),
+          color.get( #{ $color }-500 )
+        ),
+        (
+          color.get( #{ $color }-500 ),
+          color.get( #{ $color }-600 ),
+          color.get( #{ $color }-700 )
+        )
+      ),
+      // Ghost Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.get( #{ $color }-50 ),
+          color.get( #{ $color }-100 )
+        ),
+        (
+          color.get( #{ $color }-500 ),
+          color.get( #{ $color }-600 ),
+          color.get( #{ $color }-700 )
+        )
+      )
+    )
+  );
+  
+  // States
+  &:focus {
+    &:not(
+    :active,
+    :hover
+    ) {
+      outline: solid size.rem( 3 ) color.get( #{ $color }-200 );
+    }
+  }
+}
+
+@mixin button-neutral-color-style-scoped(
+  $base,
+  $invert
+) {
+  @include button-shade-style-scoped(
+    // Light Shade
+    (
+      // Fill Button
+      (
+        (
+          color.alpha( $base, .1 ),
+          color.alpha( $base, .2 ),
+          color.alpha( $base, .3 )
+        ),
+        (
+          color.get( $base ),
+          color.get( $base ),
+          color.get( $base )
+        )
+      ),
+      // Outline Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.alpha( $base, .1 ),
+          color.alpha( $base, .2 )
+        ),
+        (
+          color.alpha( $base, .2 ),
+          color.alpha( $base, .3 ),
+          color.alpha( $base, .4 )
+        ),
+        (
+          color.get( $base ),
+          color.get( $base ),
+          color.get( $base )
+        )
+      ),
+      // Ghost Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.alpha( $base, .1 ),
+          color.alpha( $base, .2 )
+        ),
+        (
+          color.get( $base ),
+          color.get( $base ),
+          color.get( $base )
+        )
+      )
+    ),
+    // Dark Shade
+    (
+      // Fill Button
+      (
+        (
+          color.alpha( $base, 1 ),
+          color.alpha( $base, .9 ),
+          color.alpha( $base, .8 )
+        ),
+        (
+          color.get( $invert ),
+          color.get( $invert ),
+          color.get( $invert )
+        )
+      ),
+      // Outline Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.alpha( $base, .1 ),
+          color.alpha( $base, .2 )
+        ),
+        (
+          color.alpha( $base, 1 ),
+          color.alpha( $base, .9 ),
+          color.alpha( $base, .8 )
+        ),
+        (
+          color.get( $invert ),
+          color.get( $invert ),
+          color.get( $invert )
+        )
+      ),
+      // Ghost Button
+      (
+        (
+          color.get( neutral-transparent ),
+          color.alpha( $base, .1 ),
+          color.alpha( $base, .2 )
+        ),
+        (
+          color.get( $base ),
+          color.get( $base ),
+          color.get( $base )
+        )
+      )
+    )
+  );
+}
+
+// STYLES
+.button {
+  // Mixins
+  @include mixin.inline-flex-center();
+  @include mixin.transition-style( base );
+
+  // Styles
+  position: relative;
+  cursor: pointer;
+
+  // Children
+  &__icon,
+  &__label {
+    pointer-events: none
+  }
+
+  &__icon {
+    &--leading,
+    &--trailing {
+      @include mixin.child-styles( button, icon-element ) {
+        span {
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  &__label {
+    // Mixins
+    @include mixin.inline-flex-center();
+
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.inline-flex-center();
+    }
+  }
+
+  &__loader {
+    // Mixins
+    @include mixin.transform( translate( -50%, -50% ) );
+
+    // Styles
+    display: inline-block;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+  }
+
+  // Color...
+  &--color {
+    &-primary {
+      @include button-color-style-scoped( primary );
+    }
+
+    &-secondary {
+      @include button-color-style-scoped( secondary );
+    }
+
+    &-info {
+      @include button-color-style-scoped( info );
+    }
+
+    &-success {
+      @include button-color-style-scoped( success );
+    }
+
+    &-warning {
+      @include button-color-style-scoped( warning );
+    }
+
+    &-danger {
+      @include button-color-style-scoped( danger );
+    }
+
+    &-black {
+      @include button-neutral-color-style-scoped(
+        neutral-black,
+        neutral-white
+      );
+    }
+
+    &-white {
+      @include button-neutral-color-style-scoped(
+        neutral-white,
+        neutral-black
+      );
+    }
+
+    &-base {
+      @include button-neutral-color-style-scoped(
+        base-0,
+        invert-0
+      );
+    }
+
+    &-invert {
+      @include button-neutral-color-style-scoped(
+        invert-0,
+        base-0
+      );
+    }
+
+    &-grey {
+      @include button-neutral-color-style-scoped(
+        grey-400,
+        base-0
+      );
+    }
+  }
+
+  // Size...
+  &--size {
+    &-sm {
+      @include button-size-style-scoped(
+        // Height
+        36,
+        // Inline Padding
+        20,
+        // Border Radius
+        sm,
+        // Icon Size
+        20,
+        // Icon Margin
+        4
+      );
+    }
+
+    &-md {
+      @include button-size-style-scoped(
+        // Height
+        44,
+        // Inline Padding
+        24,
+        // Border Radius
+        sm,
+        // Icon Size
+        22,
+        // Icon Margin
+        6
+      );
+    }
+
+    &-lg {
+      @include button-size-style-scoped(
+        // Height
+        52,
+        // Inline Padding
+        28,
+        // Border Radius
+        md,
+        // Icon Size
+        28,
+        // Icon Margin
+        8
+      );
+    }
+  }
+
+  // Is...
+  &--is {
+    &-disabled {
+      @include button-neutral-color-style-scoped(
+        grey-100,
+        grey-300
+      );
+    }
+
+    &-full-width {
+      width: 100%;
+    }
+
+    &-loading {
+      @include mixin.children-styles( button, ( icon, label ) ) {
+        opacity: 0;
+      }
+    }
+
+    &-skeleton {
+      // Mixins
+      @include button-neutral-color-style-scoped(
+        grey-100,
+        grey-100
+      );
+      @include mixin.skeleton-loader();
+
+      // Styles
+      border: none;
+    }
+  }
+
+  // Not...
+  &:not( .button--is-skeleton ) {
+    border: solid size.rem( 1 ) color.get( neutral-transparent );
+  }
+
+  // States
+  @include mixin.hover-active-styles() {
+    outline: none;
+  }
+}

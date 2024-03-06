@@ -1,0 +1,176 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.card {
+  // Variables
+  --post-card-text-color: #{ color.get( invert-0 ) };
+  --post-card-border-radius: #{ border.radius( none ) };
+  --post-card-border-color: #{ color.get( grey-100 ) };
+  --post-card-border-width: #{ size.rem( 1 ) };
+
+  --post-card-image-border-radius: #{ border.radius( none ) };
+  --post-card-image-hover-scale: #{ 1.1 };
+
+  --post-card-author-image-border-radius: #{ border.radius( round ) };
+
+  --post-card-date-separator-color:#{ color.get( grey-300 ) };
+  --post-card-date-separator-border-radius: #{ border.radius( round ) };
+
+  // Styles
+  display: block;
+  border-radius: var( --post-card-border-radius );
+  text-decoration: none;
+  color: var( --post-card-text-color );
+
+  // Children
+  &__image {
+    // Mixins
+    @include mixin.cover-image-styles( 66% );
+
+    // Styles
+    border-radius: var( --post-card-image-border-radius );
+
+    // Children
+    &-element {
+      @include mixin.transition-style( base );
+    }
+  }
+
+  &__content {
+    &-header,
+    &-footer {
+      margin: size.rem( 24 ) 0 0;
+    }
+
+    &-header {
+      // Mixins
+      @include mixin.grid-centered-columns( 16 );
+
+      // Styles
+      justify-content: flex-start;
+      margin-bottom: size.rem( 12 );
+
+      // Has...
+      &--has {
+        &-time {
+          margin-bottom: size.rem( 16 );
+        }
+      }
+    }
+  }
+
+  &__excerpt {
+    margin: size.rem( 4 ) 0 0;
+  }
+
+  &__author {
+    // Styles
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: size.rem( 16 );
+    align-items: center;
+
+    // Children
+    &-image {
+      // Styles
+      width: size.rem( 48 );
+      height: size.rem( 48 );
+      position: relative;
+      border-radius: var( --post-card-author-image-border-radius );
+      overflow: hidden;
+
+      // Children
+      &-element {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    &-date {
+      &-element {
+        // Mixins
+        @include mixin.grid-centered-columns( 9 );
+
+        // Styles
+        align-items: center;
+        justify-content: flex-start;
+
+        // Children
+        span {
+          // Mixins
+          @include mixin.flex-center();
+
+          // Pseudo Elements
+          &::before {
+            content: '';
+            width: size.rem( 3 );
+            height: size.rem( 3 );
+            margin: 0 size.rem( 8 ) 0 0;
+            background: var( --post-card-date-separator-color );
+            border-radius: var( --post-card-date-separator-border-radius );
+          }
+        }
+      }
+    }
+  }
+
+  // Is...
+  &--is {
+    &-outlined {
+      // Styles
+      border: solid var( --post-card-border-width ) var( --post-card-border-color );
+
+      // Children
+      @include mixin.child-styles( card, content ) {
+        padding: 0 size.rem( 24 ) size.rem( 24 );
+      }
+    }
+  }
+
+  // Tag...
+  &--tag {
+    &-a {
+      // Styles
+      cursor: pointer;
+
+      // States
+      @include mixin.hover-styles() {
+        @include mixin.child-styles( card, image-element ) {
+          @include mixin.transform(
+            scale(
+              var( --post-card-image-hover-scale )
+            )
+          );
+        }
+      }
+    }
+  }
+
+  // Stack
+  &--stack {
+    &-horizontal {
+      // Media Queries
+      @include mixin.min-width( sm ) {
+        @include mixin.grid-styles(
+          minmax( 0, 1fr ) 1fr,
+          48,
+          center,
+          unset
+        );
+      }
+
+      // Children
+      @include mixin.child-styles( card, content-header ) {
+        @include mixin.min-width( sm ) {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

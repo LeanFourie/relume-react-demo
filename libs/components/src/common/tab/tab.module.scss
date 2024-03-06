@@ -1,0 +1,37 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.tab {
+  // Mixins
+  @include mixin.flex-center();
+
+  // Styles
+  padding: size.rem( 8 ) size.rem( 16 );
+  background: color.get( neutral-transparent );
+  border: none;
+  cursor: pointer;
+
+  // Children
+  &__icon {
+    // Mixins
+    @include mixin.icon-size-styles( 24 );
+
+    // Styles
+    margin: 0 size.rem( 8 ) 0 0;
+  }
+
+  &__badge {
+    margin: 0 0 0 size.rem( 8 );
+  }
+
+  // Is...
+  &--is {
+    &-selected {
+      pointer-events: none;
+    }
+  }
+}

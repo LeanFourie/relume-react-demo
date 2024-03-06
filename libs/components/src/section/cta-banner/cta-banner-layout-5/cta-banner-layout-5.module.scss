@@ -1,0 +1,157 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l5-bg-color: #{ color.get( neutral-transparent ) };
+
+  --cta-banner-l5-bg-color-inner: #{ color.get( neutral-transparent ) };
+  --cta-banner-l5-border-color-inner: #{ color.get( grey-50 ) };
+  --cta-banner-l5-border-width-inner: #{ size.rem( 1 ) };
+  --cta-banner-l5-border-radius-inner: #{ border.radius( none ) };
+
+  --cta-banner-l5-image-border-radius: #{ border.radius( none ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l5-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    margin: size.rem( 112 ) auto;
+
+    // Media Queries
+    @include mixin.min-width( md ) {
+      grid-template-columns: repeat( 2, 1fr );
+    }
+
+    @include mixin.max-width( md ) {
+      gap: size.rem( 72 );
+      margin: size.rem( 96 ) auto;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 40 );
+      margin: size.rem( 64 ) auto;
+    }
+
+    // Is...
+    &--is {
+      &-outlined {
+        // Styles
+        background: var( --cta-banner-l5-bg-color-inner );
+        border: solid var( --cta-banner-l5-border-width-inner ) var( --cta-banner-l5-border-color-inner );
+        border-radius: var( --cta-banner-l5-border-radius-inner );
+
+        // Children
+        @include mixin.child-styles( section, content ) {
+          // Styles
+          padding-left: size.rem( 48 );
+
+          // Media Queries
+          @include mixin.max-width( md ) {
+            padding-top: size.rem( 32 );
+            padding-right: size.rem( 32 );
+            padding-left: size.rem( 32 );
+          }
+
+          @include mixin.max-width( sm ) {
+            padding-top: size.rem( 24 );
+            padding-right: size.rem( 24 );
+            padding-left: size.rem( 24 );
+          }
+        }
+      }
+    }
+  }
+
+  &__content {
+    @include mixin.min-width( md ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__title {
+    // Styles
+    margin: 0 0 size.rem( 16 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 12 );
+    }
+  }
+
+  &__actions,
+  &__form {
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 20 ) 0 0;
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-auto-columns( 16, flex-start );
+  }
+
+  &__form {
+    &-row {
+      // Styles
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    &-input {
+      flex: 1;
+    }
+
+    &-submit {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+  
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 8 ) 0 0;
+      }
+  
+      // Children
+      @include mixin.children-styles( section, ( form-submit-host, form-submit-element ) ) {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-message {
+      width: 100%;
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__image {
+    // Mixins
+    @include mixin.cover-image-styles();
+
+    // Styles
+    border-radius: var( --cta-banner-l5-image-border-radius );
+  }
+}

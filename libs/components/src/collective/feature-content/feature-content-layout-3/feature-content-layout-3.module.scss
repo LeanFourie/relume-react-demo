@@ -1,0 +1,42 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.feature-content {
+  // Variables
+  --feature-content-l3-indicator-width: #{ size.rem( 2 ) };
+  --feature-content-l3-indicator-color: #{ color.get( primary-500 ) };
+  --feature-content-l3-indicator-border-radius: #{ border.radius( none ) };
+
+  // Styles
+  position: relative;
+  padding: 0 0 0 size.rem( 32 );
+
+  // Children
+  &__indicator {
+    width: var( --feature-content-l3-indicator-width );
+    position: absolute;
+    left: 0;
+    background: var( --feature-content-l3-indicator-color );
+    border-radius: var( --feature-content-l3-indicator-border-radius );
+  }
+
+  &__tabs {
+    display: grid;
+    gap: size.rem( 40 );
+  }
+
+  &__tab {
+    // Styles
+    cursor: pointer;
+
+    // Children
+    &-title {
+      margin: 0 0 size.rem( 16 );
+    }
+  }
+}

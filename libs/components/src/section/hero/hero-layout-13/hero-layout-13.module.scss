@@ -1,0 +1,138 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --hero-l13-overlay-color: #{ color.alpha( invert-0, .5 ) };
+  --hero-l13-text-color: #{ color.get( base-0 ) };
+
+  // Mixins
+  @include mixin.flex-center();
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  position: relative;
+
+  // Pseudo Elements
+  &::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var( --hero-l13-overlay-color );
+  }
+
+  // Children
+  &__images {
+    // Styles
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat( 5, 1fr );
+    gap: size.rem( 16 );
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: size.rem( 16 );
+    overflow: hidden;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: repeat( 3, 1fr );
+    }
+
+    @include mixin.max-width( sm ) {
+      grid-template-columns: repeat( 2, 1fr );
+    }
+
+    // Children
+    &-group {
+      // Styles
+      width: 100%;
+      height: 100%;
+      display: grid;
+      gap: size.rem( 16 );
+      position: relative;
+      will-change: transform;
+
+      // Children
+      &-inner {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        gap: size.rem( 16 );
+      }
+
+      // Is...
+      &--is {
+        &-odd {
+          // Styles
+          margin: -185% 0 0;
+
+          // Children
+          @include mixin.child-styles( section, images-group-inner ) {
+            &:last-child {
+              height: 50%;
+              position: absolute;
+              top: calc( 100% + #{ size.rem( 16 ) } );
+            }
+          }
+        }
+
+        &-even {
+          @include mixin.child-styles( section, images-group-inner ) {
+            &:last-child {
+              @include mixin.max-width( sm ) {
+                height: 50%;
+                position: absolute;
+                top: calc( 100% + #{ size.rem( 16 ) } );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__image {
+    // Styles
+    width: 100%;
+    position: relative;
+    padding: 120% 0 0;
+
+    // Children
+    &-element {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__content {
+    // Styles
+    max-width: size.rem( 768 );
+    position: relative;
+    color: var( --hero-l13-text-color );
+    z-index: 2;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      max-width: 100%;
+      padding: 0 5vw;
+    }
+  }
+
+  @include mixin.child-styles( section, content ) {
+    * {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,142 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.card {
+  // Variables
+  --product-card-bg-color: #{ color.get( neutral-transparent ) };
+  --product-card-border-width: #{ size.rem( 1 ) };
+  --product-card-border-color: #{ color.get( grey-100 ) };
+
+  --product-card-separator-border-width: #{ size.rem( 1 ) };
+  --product-card-separator-border-color: #{ color.get( grey-100 ) };
+
+  // Styles
+  padding: size.rem( 32 );
+  background: var( --product-card-bg-color );
+  border: solid var( --product-card-border-width ) var( --product-card-border-color );
+
+  // Children
+  &__details {
+    margin: 0 0 size.rem( 32 );
+  }
+
+  &__info {
+    &-icon {
+      @include mixin.icon-size-styles( 48 );
+    }
+
+    &-name {
+      margin: 0 0 size.rem( 8 );
+    }
+  }
+
+  &__price {
+    &-note {
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__features {
+    display: grid;
+    gap: size.rem( 16 );
+  }
+
+  &__feature {
+    // Mixins
+    @include mixin.grid-styles(
+      auto 1fr,
+      16,
+      center,
+      unset
+    );
+
+    // Children
+    &-icon {
+      // Mixins
+      @include mixin.icon-size-styles( 20 );
+
+      // Is...
+      &--is {
+        &-included {
+          color: color.get( success-500 );
+        }
+
+        &-excluded {
+          color: color.get( grey-500 );
+        }
+      }
+    }
+  }
+
+  &__cta {
+    margin: size.rem( 32 ) 0 0;
+  }
+
+  // Layout...
+  &--layout {
+    &-1,
+    &-2 {
+      @include mixin.child-styles( card, details ) {
+        // Mixins
+        @include mixin.flex-center();
+
+        // Styles
+        flex-direction: column;
+      }
+    }
+
+    &-3,
+    &-4 {
+      @include mixin.child-styles( card, info-icon ) {
+        margin: 0 0 size.rem( 32 ) auto;
+      }
+    }
+
+    &-3,
+    &-4,
+    &-5,
+    &-6,
+    &-7,
+    &-8 {
+      @include mixin.child-styles( card, details ) {
+        padding: 0 0 size.rem( 32 );
+        border-bottom: solid var( --product-card-separator-border-width ) var( --product-card-separator-border-color );
+      }
+    }
+
+    &-5,
+    &-6 {
+      @include mixin.child-styles( card, info ) {
+        margin: 0 0 size.rem( 32 );
+        padding: 0 0 size.rem( 32 );
+        border-bottom: solid var( --product-card-separator-border-width ) var( --product-card-separator-border-color );
+      }
+    }
+
+    &-7,
+    &-8 {
+      @include mixin.child-styles( card, details ) {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+
+      @include mixin.child-styles( card, features ) {
+        @include mixin.min-width( md ) {
+          grid-template-columns: repeat( 2, 1fr );
+          column-gap: size.rem( 24 );
+        }
+      }
+    }
+
+    &-8 {
+      @include mixin.child-styles( card, info-icon ) {
+        margin: 0 0 size.rem( 16 );
+      }
+    }
+  }
+}

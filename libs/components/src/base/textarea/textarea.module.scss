@@ -1,0 +1,548 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin textarea-size-style-scoped(
+  $padding-block,
+  $padding-inline,
+  $border-radius,
+  $font-size
+) {
+  // Children
+  @include mixin.child-styles( textarea, textarea-element ) {
+    // Styles
+    padding: size.rem( $padding-block ) size.rem( $padding-inline );
+    border-radius: border.radius( $border-radius );
+    font-size: size.rem( $font-size );
+    
+    // Placeholder
+    @include mixin.placeholder-style() {
+      font-size: size.rem( $font-size );
+    }
+    
+    // States
+    &:focus {
+      @include mixin.placeholder-style() {
+        font-size: calc( #{ size.rem( $font-size ) } - #{ size.rem( 2 ) } );
+      }
+    }
+  }
+}
+
+@mixin textarea-background-style-scoped(
+  $background-color-resting,
+  $background-color-hover,
+  $background-color-focus
+) {
+  // Children
+  @include mixin.child-styles( textarea, textarea-element ) {
+    // Styles
+    background: $background-color-resting;
+    
+    // States
+    @include mixin.hover-styles() {
+      background: $background-color-hover;
+    }
+    
+    &:focus {
+      background: $background-color-focus;
+    }
+  }
+
+  // Is...
+  @include mixin.variant-styles( textarea, is, disabled ) {
+    @include mixin.child-styles( textarea, textarea-element ) {
+      background: color.get( grey-100 );
+    }
+  }
+}
+
+@mixin textarea-stroke-style-scoped(
+  $stroke-color-resting,
+  $stroke-color-hover,
+  $stroke-color-focus
+) {
+  // Children
+  @include mixin.child-styles( textarea, textarea-element ) {
+    // Styles
+    border-color: $stroke-color-resting;
+    
+    // States
+    @include mixin.hover-styles() {
+      border-color: $stroke-color-hover;
+    }
+    
+    &:focus {
+      border-color: $stroke-color-focus;
+    }
+  }
+  
+  // Is...
+  @include mixin.variant-styles( textarea, is, disabled ) {
+    @include mixin.child-styles( textarea, textarea-element ) {
+      border-color: color.get( grey-100 );
+    }
+  }
+
+  @include mixin.variant-styles( textarea, is, read-only ) {
+    @include mixin.child-styles( textarea, textarea-element ) {
+      // Styles
+      border-color: $stroke-color-resting;
+      
+      // States
+      @include mixin.hover-styles() {
+        border-color: $stroke-color-resting;
+      }
+      
+      &:focus {
+        border-color: $stroke-color-resting;
+      }
+    }
+  }
+}
+
+@mixin textarea-fill-style-scoped(
+  $background-style,
+  $stroke-style
+) {
+  @include textarea-background-style-scoped( $background-style... );
+  @include textarea-stroke-style-scoped( $stroke-style... );
+}
+
+@mixin textarea-outline-style-scoped( $stroke-style ) {
+  @include textarea-stroke-style-scoped( $stroke-style... );
+}
+
+@mixin textarea-variant-style-scoped(
+  $filled-style,
+  $outline-style
+) {
+  @include mixin.variant-styles( textarea, variant, filled ) {
+    @include textarea-fill-style-scoped( $filled-style... );
+  }
+
+  @include mixin.variant-styles( textarea, variant, outlined ) {
+    @include textarea-outline-style-scoped( $outline-style );
+  }
+}
+
+@mixin textarea-state-style-scoped(
+  $filled-background-color-light,
+  $filled-border-color-light,
+  $outlined-border-color-light,
+
+  $filled-background-color-dark,
+  $filled-border-color-dark,
+  $outlined-border-color-dark,
+
+  $outline-color
+) {
+  // Children
+  @include mixin.child-styles( textarea, textarea-element ) {
+    &:focus {
+      &:not( :hover ) {
+        outline: solid size.rem( 3 ) $outline-color;
+      }
+    }
+  }
+  
+  // Shade...
+  @include mixin.variant-styles( textarea, shade, light ) {
+    @include textarea-variant-style-scoped(
+      // Filled
+      (
+        // Background
+        (
+          $filled-background-color-light,
+          $filled-background-color-light,
+          $filled-background-color-light
+        ),
+        // Border
+        $filled-border-color-light
+      ),
+      // Outlined
+      (
+        // Border
+        $outlined-border-color-dark
+      )
+    );
+  }
+
+  @include mixin.variant-styles( textarea, shade, dark ) {
+    @include textarea-variant-style-scoped(
+      // Filled
+      (
+        // Background
+        (
+          $filled-background-color-dark,
+          $filled-background-color-dark,
+          $filled-background-color-dark
+        ),
+        // Border
+        $filled-border-color-dark
+      ),
+      // Outlined
+      (
+        // Border
+        $outlined-border-color-dark
+      )
+    );
+  }
+}
+
+// STYLES
+.textarea {
+  // Mixins
+  @include mixin.inline-flex-center( flex-start );
+  
+  // Styles
+  width: 100%;
+  flex-wrap: wrap;
+  
+  // Children
+  &__label {
+    // Mixins
+    @include mixin.inline-flex-center( space-between );
+    
+    // Styles
+    width: 100%;
+    margin: 0 0 size.rem( 8 );
+    
+    // Children
+    &-text {
+      &-sup {
+        color: color.get( danger-500 );
+      }
+    }
+  }
+
+  @include mixin.child-styles( textarea, label ) {
+    * {
+      line-height: 1;
+    }
+  }
+  
+  &__textarea {
+    // Style
+    width: 100%;
+    position: relative;
+    
+    // Children
+    &-element {
+      // Mixins
+      @include mixin.font-weight( 500 );
+      @include mixin.transition-style( base );
+      
+      // Styles
+      width: 100%;
+      border: solid size.rem( 1 ) color.get( neutral-transparent );
+      
+      // Placeholder
+      @include mixin.placeholder-style() {
+        // Mixins
+        @include mixin.font-weight( 400 );
+        @include mixin.transition-style( base );
+        
+        // Styles
+        color: color.get( grey-300 );
+      }
+      
+      // States
+      @include mixin.hover-styles() {
+        outline: none;
+      }
+      
+      &:focus {
+        @include mixin.placeholder-style() {
+          opacity: .5;
+        }
+      }
+    }
+  }
+  
+  &__helper {
+    // Styles
+    margin: size.rem( 8 ) 0 0;
+    
+    // Children
+    &-item {
+      margin: size.rem( 4 ) 0 0;
+      
+      // Selectors
+      &:not( :last-child ) {
+        margin-bottom: 0 0 size.rem( 4 );
+      }
+    }
+  }
+  
+  // Size...
+  &--size {
+    &-sm {
+      @include textarea-size-style-scoped(
+        // Padding Block
+        8,
+        // Padding Inline
+        12,
+        // Border Radius
+        sm,
+        // Font Size
+        14
+      );
+    }
+    
+    &-md {
+      @include textarea-size-style-scoped(
+        // Padding Block
+        16,
+        // Padding Inline
+        20,
+        // Border Radius
+        sm,
+        // Font Size
+        16
+      );
+    }
+    
+    &-lg {
+      @include textarea-size-style-scoped(
+        // Padding Block
+        20,
+        // Padding Inline
+        24,
+        // Border Radius
+        md,
+        // Font Size
+        18
+      );
+    }
+  }
+  
+  // State...
+  &--state {
+    &-default {
+      @include textarea-state-style-scoped(
+        // Filled Light Background
+        color.get( base-0 ),
+        // Filled Light Border
+        (
+          color.get( grey-50 ),
+          color.get( grey-100 ),
+          color.get( primary-300 )
+        ),
+        // Outlined Light Border
+        (
+          color.get( grey-50 ),
+          color.get( grey-100 ),
+          color.get( primary-300 )
+        ),
+        // Filled Dark Background
+        color.get( base-25 ),
+        // Filled Dark Border
+        (
+          color.get( grey-100 ),
+          color.get( grey-200 ),
+          color.get( primary-300 )
+        ),
+        // Outlined Dark Border
+        (
+          color.get( grey-100 ),
+          color.get( grey-200 ),
+          color.get( primary-300 )
+        ),
+        // Focus Outline Color
+        color.get( primary-200 )
+      );
+    }
+    
+    &-info {
+      @include textarea-state-style-scoped(
+        // Filled Light Background
+        color.get( base-0 ),
+        // Filled Light Border
+        (
+          color.get( info-200 ),
+          color.get( info-300 ),
+          color.get( info-500 )
+        ),
+        // Outlined Light Border
+        (
+          color.get( info-300 ),
+          color.get( info-400 ),
+          color.get( info-500 )
+        ),
+        // Filled Dark Background
+        color.get( base-25 ),
+        // Filled Dark Border
+        (
+          color.get( info-500 ),
+          color.get( info-600 ),
+          color.get( info-700 )
+        ),
+        // Outlined Dark Border
+        (
+          color.get( info-500 ),
+          color.get( info-600 ),
+          color.get( info-700 )
+        ),
+        // Focus Outline Color
+        color.get( info-200 )
+      );
+    }
+    
+    &-success {
+      @include textarea-state-style-scoped(
+        // Filled Light Background
+        color.get( base-0 ),
+        // Filled Light Border
+        (
+          color.get( success-200 ),
+          color.get( success-300 ),
+          color.get( success-500 )
+        ),
+        // Outlined Light Border
+        (
+          color.get( success-300 ),
+          color.get( success-400 ),
+          color.get( success-500 )
+        ),
+        // Filled Dark Background
+        color.get( base-25 ),
+        // Filled Dark Border
+        (
+          color.get( success-500 ),
+          color.get( success-600 ),
+          color.get( success-700 )
+        ),
+        // Outlined Dark Border
+        (
+          color.get( success-500 ),
+          color.get( success-600 ),
+          color.get( success-700 )
+        ),
+        // Focus Outline Color
+        color.get( success-200 )
+      );
+    }
+    
+    &-warning {
+      @include textarea-state-style-scoped(
+        // Filled Light Background
+        color.get( base-0 ),
+        // Filled Light Border
+        (
+          color.get( warning-200 ),
+          color.get( warning-300 ),
+          color.get( warning-500 )
+        ),
+        // Outlined Light Border
+        (
+          color.get( warning-300 ),
+          color.get( warning-400 ),
+          color.get( warning-500 )
+        ),
+        // Filled Dark Background
+        color.get( base-25 ),
+        // Filled Dark Border
+        (
+          color.get( warning-500 ),
+          color.get( warning-600 ),
+          color.get( warning-700 )
+        ),
+        // Outlined Dark Border
+        (
+          color.get( warning-500 ),
+          color.get( warning-600 ),
+          color.get( warning-700 )
+        ),
+        // Focus Outline Color
+        color.get( warning-200 )
+      );
+    }
+    
+    &-danger {
+      @include textarea-state-style-scoped(
+        // Filled Light Background
+        color.get( base-0 ),
+        // Filled Light Border
+        (
+          color.get( danger-200 ),
+          color.get( danger-300 ),
+          color.get( danger-500 )
+        ),
+        // Outlined Light Border
+        (
+          color.get( danger-300 ),
+          color.get( danger-400 ),
+          color.get( danger-500 )
+        ),
+        // Filled Dark Background
+        color.get( base-25 ),
+        // Filled Dark Border
+        (
+          color.get( danger-500 ),
+          color.get( danger-600 ),
+          color.get( danger-700 )
+        ),
+        // Outlined Dark Border
+        (
+          color.get( danger-500 ),
+          color.get( danger-600 ),
+          color.get( danger-700 )
+        ),
+        // Focus Outline Color
+        color.get( danger-200 )
+      );
+    }
+  }
+  
+  // Is...
+  &--is {
+    &-disabled {
+      @include mixin.children-styles( textarea, ( label-text, textarea-element ) ) {
+        color: color.get( grey-300 );
+      }
+
+      @include mixin.child-styles( textarea, helper-item ) {
+        span {
+          span {
+            color: color.get( grey-300 );
+          }
+        }
+      }
+    }
+    
+    &-read-only {
+      // Styles
+      cursor: help;
+      
+      // Children
+      * {
+        cursor: help;
+      }
+
+      @include mixin.child-styles( textarea, textarea-element ) {
+        &:focus,
+        &:focus-visible,
+        &:focus-within {
+          &:not( :hover ) {
+            outline: none;
+          }
+        }
+      }
+    }
+    
+    &-skeleton {
+      @include mixin.child-styles( textarea, textarea ) {
+        // Mixins
+        @include mixin.skeleton-loader();
+        
+        // Styles
+        border-radius: border.radius( lg );
+      }
+    }
+  }
+}

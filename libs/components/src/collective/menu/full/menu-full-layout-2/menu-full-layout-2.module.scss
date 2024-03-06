@@ -1,0 +1,144 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-full-l2-bg-color: #{ color.get( base-0 ) };
+
+  --menu-full-l2-link-color: #{ color.get( invert-0 ) };
+  --menu-full-l2-link-color-hover: #{ color.get( base-0 ) };
+  --menu-full-l2-link-color-hover-bg: #{ color.get( primary-500 ) };
+
+  --menu-full-l2-link-border-style: solid;
+  --menu-full-l2-link-border-width: #{ size.rem( 1 ) };
+  --menu-full-l2-link-border-color: #{ color.get( grey-200  ) };
+
+  --image-border-radius: #{ border.radius( none ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr size.rem( 72 );
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var( --menu-full-l2-bg-color );
+
+  // Children
+  &__links {
+    display: grid;
+  }
+
+  &__link {
+    // Styles
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    padding: 0 size.rem( 64 );
+    color: var( --menu-full-l2-link-color );
+    text-decoration: none;
+    border-bottom: var( --menu-full-l2-link-border-style )
+                   var( --menu-full-l2-link-border-width )
+                   var( --menu-full-l2-link-border-color );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20 );
+    }
+
+    // Pseudo Elements
+    &::after {
+      // Mixins
+      @include mixin.transition-style( base );
+
+      // Styles
+      content: '';
+      width: 100%;
+      height: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var( --menu-full-l2-link-color-hover-bg );
+      mix-blend-mode: difference;
+    }
+
+    &-image {
+      // Mixins
+      @include mixin.transition-styles(
+        base,
+        ( opacity, transform )
+      );
+      @include mixin.transform(
+        translate( calc( -100% - #{ size.rem( 20 ) }), -50% )
+        scale( .9 )
+      );
+
+      // Styles
+      width: size.rem( 240 );
+      height: size.rem( 140 );
+      position: fixed;
+      border-radius: var( --image-border-radius );
+      opacity: 0;
+      transition-delay: 0s;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 3;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        display: none;
+      }
+    }
+
+    @include mixin.child-styles( menu, link-label ) {
+      line-height: 1;
+    }
+
+    @include mixin.hover-styles() {
+      // Styles
+      color: var( -menu-full-l2-link-color-hover );
+
+      // Pseudo Elements
+      &::after {
+        height: 100%;
+      }
+
+      // Children
+      @include mixin.child-styles( menu, link-image ) {
+        // Mixins
+        @include mixin.transform(
+          translate( calc( -100% - #{ size.rem( 20 ) }), -50% )
+          scale( 1 )
+        );
+
+        // Styles
+        opacity: 1;
+        transition-delay: .2s;
+      }
+    }
+  }
+
+  &__footer {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: 0 size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20);
+    }
+  }
+}

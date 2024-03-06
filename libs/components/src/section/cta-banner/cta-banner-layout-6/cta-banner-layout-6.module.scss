@@ -1,0 +1,138 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.section {
+  // Variables
+  --cta-banner-l6-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --cta-banner-l6-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 48 );
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      gap: size.rem( 32 );
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__content {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 768 );
+    display: grid;
+    margin: 0 auto;
+  }
+
+  &__title {
+    // Styles
+    margin: 0 0 size.rem( 16 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: 0 0 size.rem( 12 );
+    }
+  }
+
+  &__actions,
+  &__form {
+    // Styles
+    margin: size.rem( 24 ) 0 0;
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 20 ) 0 0;
+    }
+  }
+
+  &__actions {
+    @include mixin.grid-centered-columns( 16 );
+  }
+
+  &__form {
+    &-row {
+      // Styles
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    &-input {
+      flex: 1;
+    }
+
+    &-submit {
+      // Styles
+      margin: 0 0 0 size.rem( 16 );
+  
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 8 ) 0 0;
+      }
+  
+      // Children
+      @include mixin.children-styles( section, ( form-submit-host, form-submit-element ) ) {
+        @include mixin.max-width( sm ) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-message {
+      width: 100%;
+      margin: size.rem( 8 ) 0 0;
+    }
+  }
+
+  &__logos {
+    // Mixins
+    @include mixin.flex-center();
+
+    // Styles
+    flex-wrap: wrap;
+    row-gap: size.rem( 12 );
+    column-gap: size.rem( 48 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      row-gap: size.rem( 12 );
+      column-gap: size.rem( 32 );
+    }
+  }
+
+  &__logo {
+    // Styles
+    width: size.rem( 140 );
+    height: size.rem( 56 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      width: size.rem( 120 );
+      height: size.rem( 48 );
+    }
+  }
+}

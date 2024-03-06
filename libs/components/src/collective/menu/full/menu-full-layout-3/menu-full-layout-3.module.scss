@@ -1,0 +1,147 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/lists' as list;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.menu {
+  // Variables
+  --menu-full-l3-bg-color: #{ color.get( base-0 ) };
+
+  --menu-full-l3-link-color: #{ color.get( invert-0 ) };
+  --menu-full-l3-link-color-hover: #{ color.get( primary-500 ) };
+
+  // Mixins
+  @include mixin.full-width();
+
+  // Styles
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto size.rem( 72 );
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: color.get( --menu-full-l3-bg-color );
+
+  // Children
+  &__links {
+    // Mixins
+    @include mixin.content-align();
+
+    // Styles
+    display: grid;
+    grid-template-columns: repeat( 2, 33% );
+    gap: size.rem( 32 );
+    margin: auto 0;
+    padding: size.rem( 36 ) size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      grid-template-columns: 1fr;
+      padding: size.rem( 20 );
+    }
+  }
+
+  &__link {
+    // Styles
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // Children
+    &-inner {
+      // Mixins
+      @include mixin.transition-style( base );
+
+      // Styles
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: relative;
+      color: var( --menu-full-l3-link-color );
+      text-decoration: none;
+  
+      // Pseudo Elements
+      &::before {
+        // Mixins
+        @include mixin.transform( scaleX( 0 ) );
+        @include mixin.transition-style( base, transform );
+        
+        // Styles
+        content: '';
+        width: 100%;
+        height: size.rem( 2 );
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: var( --menu-full-l3-link-color-hover );
+        transform-origin: bottom right;
+      }
+
+      // States
+      @include mixin.hover-styles() {
+        // Styles
+        color: var( --menu-full-l3-link-color-hover );
+
+        // Pseudo Elements
+        &::before {
+          // Mixins
+          @include mixin.transform( scaleX( 1 ) );
+          
+          // Styles
+          transform-origin: bottom left;
+        }
+
+        // Children
+        @include mixin.child-styles( menu, link-icon ) {
+          // Mixins
+          @include mixin.transform(
+            translate( size.rem( 8 ), size.rem( 4 ) )
+            scale( 1 )
+          );
+
+          // Styles
+          opacity: 1;
+        }
+      }
+    }
+
+    &-icon {
+      // Mixins
+      @include mixin.transform(
+        translate( size.rem( 0 ), size.rem( 12 ) )
+        scale( .8 )
+      );
+      @include mixin.transition-styles(
+        base,
+        ( opacity, transform )
+      );
+
+      // Styles
+      width: size.rem( 24 );
+      height: size.rem( 24 );
+      display: inline-block;
+      opacity: 0;
+    }
+
+    @include mixin.child-styles( menu, link-label ) {
+      line-height: 1;
+    }
+  }
+
+  &__footer {
+    // Mixins
+    @include mixin.flex-center( space-between );
+
+    // Styles
+    padding: 0 size.rem( 64 );
+
+    // Media Queries
+    @include mixin.max-width( sm ) {
+      padding: 0 size.rem( 20 );
+    }
+  }
+}

@@ -1,0 +1,150 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/borders' as border;
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.pricing {
+  // Variables
+  --pricing-l3-bg-color: #{ color.get( neutral-transparent ) };
+
+  --pricing-l3-tabs-bg-color: #{ color.get( primary-50 ) };
+  --pricing-l3-tabs-border-radius: #{ border.radius( md ) };
+  --pricing-l3-tabs-border-width: #{ size.rem( 2 ) };
+
+  --pricing-l3-tabs-indicator-color: #{ color.get( primary-500 ) };
+  --pricing-l3-tabs-indicator-border-radius: #{ border.radius( sm-plus ) };
+
+  --pricing-l3-tab-color: #{ color.get( invert-0 ) };
+  --pricing-l3-tab-color-hover: #{ color.get( invert-0 ) };
+  --pricing-l3-tab-color-pressed: #{ color.get( invert-0 ) };
+  --pricing-l3-tab-color-active: #{ color.get( base-0 ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --pricing-l3-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    gap: size.rem( 80 );
+    align-items: center;
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 72 );
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 40 ) 0;
+    }
+  }
+
+  &__pricing {
+    &-tabs {
+      // Mixins
+      @include mixin.flex-center();
+
+      // Styles
+      margin: size.rem( -32 ) 0 size.rem( 80 );
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: 0 0 size.rem( 80 );
+      }
+
+      // Children
+      &-inner {
+        // Styles
+        display: grid;
+        grid-template-columns: repeat( 2, #{ size.rem( 240 ) } );
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: var( --pricing-l3-tabs-bg-color );
+        border: solid var( --pricing-l3-tabs-border-width ) var( --pricing-l3-tabs-bg-color );
+        border-radius: var( --pricing-l3-tabs-border-radius );
+        overflow: hidden;
+
+        // Media Queries
+        @include mixin.max-width( sm ) {
+          width: 100%;
+          grid-template-columns: repeat( 2, 1fr );
+        }
+
+        // Pseudo Elements
+        &::before {
+          // Mixins
+          @include mixin.transition-style( base );
+
+          // Styles
+          content: '';
+          width: 50%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          background: var( --pricing-l3-tabs-indicator-color );
+          border-radius: var( --pricing-l3-tabs-indicator-border-radius );
+        }
+      }
+
+      // Current...
+      &--current {
+        &-1 {
+          @include mixin.child-styles( pricing, pricing-tabs-inner ) {
+            &::before {
+              left: 0
+            }
+          }
+        }
+
+        &-2 {
+          @include mixin.child-styles( pricing, pricing-tabs-inner ) {
+            &::before {
+              left: 50%
+            }
+          }
+        }
+      }
+    }
+
+    &-tab {
+      // Mixins
+      @include mixin.flex-center();
+      @include mixin.transition-style( base );
+
+      // Styles
+      position: relative;
+      padding: size.rem( 12 ) size.rem( 24 );
+      color: var( --pricing-l3-tab-color );
+      cursor: pointer;
+      z-index: 2;
+
+      // States
+      @include mixin.hover-styles() {
+        color: var( --pricing-l3-tab-color-hover );
+      }
+
+      @include mixin.active-styles() {
+        color: var( --pricing-l3-tab-color-pressed );
+      }
+
+      // Is...
+      &--is {
+        &-active {
+          color: var( --pricing-l3-tab-color-active );
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}

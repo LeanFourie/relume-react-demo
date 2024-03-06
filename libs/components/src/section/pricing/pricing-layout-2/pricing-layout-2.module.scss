@@ -1,0 +1,85 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// STYLES
+.pricing {
+  // Variables
+  --pricing-l2-bg-color: #{ color.get( neutral-transparent ) };
+
+  // Styles
+  padding: 0 5%;
+  background: var( --pricing-l2-bg-color );
+
+  // Children
+  &__inner {
+    // Styles
+    width: 100%;
+    max-width: size.rem( 1280 );
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap: size.rem( 80 );
+    align-items: center;
+    margin: 0 auto;
+    padding: size.rem( 112 ) 0;
+
+    // Media Queries
+    @include mixin.max-width( md ) {
+      grid-template-columns: 1fr;
+      gap: size.rem( 32 );
+      padding: size.rem( 96 ) 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      padding: size.rem( 64 ) 0;
+    }
+  }
+
+  &__content {
+    @include mixin.min-width( md ) {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  &__features {
+    display: grid;
+    gap: size.rem( 32 );
+  }
+
+  &__feature {
+    // Mixins
+    @include mixin.grid-styles(
+      auto 1fr,
+      24,
+      flex-start,
+      unset
+    );
+
+    // Children
+    &-icon {
+      @include mixin.icon-size-styles( 32 );
+    }
+
+    &-paragraph {
+      // Styles
+      margin: size.rem( 16 ) 0 0;
+
+      // Media Queries
+      @include mixin.max-width( sm ) {
+        margin: size.rem( 12 ) 0 0;
+      }
+    }
+  }
+
+  &__pricing {
+    @include mixin.max-width( md ) {
+      margin: size.rem( 32 ) 0 0;
+    }
+
+    @include mixin.max-width( sm ) {
+      margin: size.rem( 16 ) 0 0;
+    }
+  }
+}

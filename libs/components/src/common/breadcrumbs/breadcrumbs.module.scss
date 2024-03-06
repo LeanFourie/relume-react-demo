@@ -1,0 +1,31 @@
+// IMPORTS
+// Use
+@use '@relume-demo/styles/theming/colors' as color;
+@use '@relume-demo/styles/ui/sizes' as size;
+@use '@relume-demo/styles/utils/mixins' as mixin;
+
+// MIXINS
+@mixin breadcrumbs-grid-scoped() {
+  @include mixin.grid-auto-columns( 8, flex-start );
+}
+
+// STYLES
+.breadcrumbs {
+  // Mixins
+  @include breadcrumbs-grid-scoped();
+
+  // Children
+  &__link {
+    // Mixins
+    @include breadcrumbs-grid-scoped();
+
+    // Selectors
+    &:not( :last-child ) {
+      &::after {
+        content: '/';
+        color: color.get( grey-300 );
+        pointer-events: none;
+      }
+    }
+  }
+}
