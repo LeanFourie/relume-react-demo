@@ -24,8 +24,18 @@
   &__background {
     position: relative;
     flex: 1;
+  }
 
-    &-element {
+  &__image {
+    @include mixin.child-styles( section, image-element ) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__video {
+    @include mixin.child-styles( section, video-element ) {
       position: absolute;
       top: 0;
       left: 0;

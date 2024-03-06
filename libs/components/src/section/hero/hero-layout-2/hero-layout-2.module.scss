@@ -39,9 +39,16 @@
     position: relative;
   }
 
-  &__image,
+  &__image {
+    @include mixin.child-styles( section, image-element ) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
   &__video {
-    &-element {
+    @include mixin.child-styles( section, video-element ) {
       position: absolute;
       top: 0;
       left: 0;

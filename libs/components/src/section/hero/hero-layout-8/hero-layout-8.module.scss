@@ -56,8 +56,16 @@
     overflow: hidden;
   }
 
-  @include mixin.children-styles( section, ( image, video ) ) {
-    &-element {
+  &__image {
+    @include mixin.child-styles( section, image-element ) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__video {
+    @include mixin.child-styles( section, video-element ) {
       position: absolute;
       top: 0;
       left: 0;

@@ -126,6 +126,7 @@ export const HeroLayout2 = ( props: THeroLayout2Props ): JSX.Element => {
         {( videoUri ) && (
           <div className={ styles[ `${ baseClass }__video` ] }>
             <Video
+              className={ styles[ `${ baseClass }__video-element` ] }
               coverImageUri={ coverImageUri }
               fit={ 'cover' }
               videoUri={ videoUri }
