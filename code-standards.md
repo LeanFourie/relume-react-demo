@@ -1,4 +1,4 @@
-# Code Standards ( Web Apps - 2023 )
+# Code Standards
 
 ## General Rules
 
